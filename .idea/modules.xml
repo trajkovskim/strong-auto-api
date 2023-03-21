@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/StrongAutoApp.iml" filepath="$PROJECT_DIR$/StrongAutoApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StrongAutoCore.iml" filepath="$PROJECT_DIR$/StrongAutoCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StrongAutoPersistence.iml" filepath="$PROJECT_DIR$/StrongAutoPersistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StrongAutoRest.iml" filepath="$PROJECT_DIR$/StrongAutoRest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StrongAutoRestApi.iml" filepath="$PROJECT_DIR$/StrongAutoRestApi.iml" />
+    </modules>
+  </component>
+</project>
