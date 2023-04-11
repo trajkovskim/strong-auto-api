@@ -5,6 +5,7 @@ import com.example.rest.model.Vehicle;
 import com.example.rest.model.VehiclesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.PageInfo;
+import org.example.strongauto.core.model.VehicleDto;
 import org.example.strongauto.core.service.VehicleService;
 import org.example.strongauto.rest.converter.VehicleRestConverter;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class VehiclesController implements VehiclesApi {
 
   @Override
   public ResponseEntity<Vehicle> getVehicleEntry(String id, String acceptLanguage) {
-    final org.example.strongauto.core.model.Vehicle vehicle = vehicleService.findById(id);
+    final VehicleDto vehicle = vehicleService.findById(id);
 
     final Vehicle response = vehicleRestConverter.convertVehicle(vehicle);
 
@@ -31,7 +32,7 @@ public class VehiclesController implements VehiclesApi {
 
   @Override
   public ResponseEntity<VehiclesResponse> getVehicleEntries(String acceptLanguage, Integer page, Integer size, List<String> sortBy) {
-    PageInfo<org.example.strongauto.core.model.Vehicle> pageInfo = vehicleService.findAllPageable(page, size, sortBy);
+    PageInfo<VehicleDto> pageInfo = vehicleService.findAllPageable(page, size, sortBy);
 
     final VehiclesResponse response = vehicleRestConverter.convertToResponse(pageInfo);
 
