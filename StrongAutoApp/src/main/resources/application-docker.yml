@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://strong-auto-postgres:5432/
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

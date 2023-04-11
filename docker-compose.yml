@@ -1,5 +1,13 @@
 version: '3'
 services:
+  strong-auto-api:
+    build: .
+    container_name: strong-auto-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - strong-auto-postgres
+
   strong-auto-postgres:
     image: postgres:15.1-alpine
     container_name: strong-auto-postgres
