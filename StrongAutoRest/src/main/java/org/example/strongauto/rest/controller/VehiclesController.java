@@ -2,6 +2,7 @@ package org.example.strongauto.rest.controller;
 
 import com.example.rest.api.VehiclesApi;
 import com.example.rest.model.Vehicle;
+import com.example.rest.model.VehicleFilters;
 import com.example.rest.model.VehiclesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.PageInfo;
@@ -23,6 +24,7 @@ public class VehiclesController implements VehiclesApi {
 
   @Override
   public ResponseEntity<Vehicle> getVehicleEntry(String id, String acceptLanguage) {
+
     final VehicleDto vehicle = vehicleService.findById(id);
 
     final Vehicle response = vehicleRestConverter.convertVehicle(vehicle);
@@ -31,7 +33,9 @@ public class VehiclesController implements VehiclesApi {
   }
 
   @Override
-  public ResponseEntity<VehiclesResponse> getVehicleEntries(String acceptLanguage, Integer page, Integer size, List<String> sortBy) {
+  public ResponseEntity<VehiclesResponse> searchVehicleEntries(
+      VehicleFilters body, String acceptLanguage, Integer page, Integer size, List<String> sortBy) {
+
     PageInfo<VehicleDto> pageInfo = vehicleService.findAllPageable(page, size, sortBy);
 
     final VehiclesResponse response = vehicleRestConverter.convertToResponse(pageInfo);

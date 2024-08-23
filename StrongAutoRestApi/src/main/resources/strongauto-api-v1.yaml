@@ -1,0 +1,358 @@
+openapi: 3.0.1
+info:
+  title: "StrongAUTO api v1"
+  version: 1.0.0
+
+servers:
+  - url: localhost:3000/api/v1
+    description: Open API specification
+  - url: strongauto.mk/api/v1
+    description: Open API specification
+
+paths:
+  /vehicles/search:
+    post:
+      operationId: searchVehicleEntries
+      tags:
+        - Vehicle
+      description: Get all vehicles pageable
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - $ref: "#/components/parameters/Sort"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleFilters'
+      responses:
+        200:
+          $ref: "#/components/responses/VehiclesResponse"
+
+  /vehicles/{id}:
+    get:
+      operationId: getVehicleEntry
+      tags:
+        - Vehicle
+      description: Get vehicle info
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleResponse"
+
+components:
+  schemas:
+    Decimal:
+      type: string
+      format: decimal
+      description: Decimal value
+      example: '5.25'
+    Year:
+      type: integer
+      format: int64
+      description: year
+      example: 2010
+
+    Currency:
+      type: string
+      enum:
+        - MKD
+        - EUR
+      example: "MKD"
+
+    Amount:
+      type: object
+      properties:
+        currency:
+          $ref: "#/components/schemas/Currency"
+
+    Id:
+      type: string
+      description: Primary key
+      example: "0"
+
+    VehicleCondition:
+      type: string
+      enum:
+        - NEW
+        - USED
+      example: "NEW"
+    VehicleBodyType:
+      type: string
+      enum:
+        - SEDAN
+        - COUPE
+        - SUV
+      example: "SEDAN"
+    VehicleTransmission:
+      type: string
+      enum:
+        - AUTOMATIC
+        - MANUAL
+      example: "AUTOMATIC"
+    VehicleDriveType:
+      type: string
+      enum:
+        - AWD_4WD
+        - 2WD_FWD
+        - 2WD_RWD
+      example: "AWD_4WD"
+    VehicleFuelType:
+      type: string
+      enum:
+        - DIESEL
+        - PETROL
+        - ELECTRIC
+      example: "DIESEL"
+    VehicleColor:
+      type: string
+      enum:
+        - BLACK
+        - WHITE
+        - BLUE
+        - GREEN
+      example: "BLACK"
+
+
+    VehicleFilters:
+      type: object
+      properties:
+        make:
+          type: string
+          example: "Audi"
+        model:
+          type: string
+          example: "B8"
+        price:
+          type: string
+          example: "0-1000"
+        sold:
+          type: boolean
+          example: false
+        featured:
+          type: boolean
+          example: true
+        condition:
+          $ref: "#/components/schemas/VehicleCondition"
+        bodyType:
+          $ref: "#/components/schemas/VehicleBodyType"
+        transmission:
+          $ref: "#/components/schemas/VehicleTransmission"
+        yearFrom:
+          $ref: "#/components/schemas/Year"
+        yearTo:
+          $ref: "#/components/schemas/Year"
+        mileageFrom:
+          type: integer
+          format: int64
+          example: 100000
+        mileageTo:
+          type: integer
+          format: int64
+          example: 200000
+        fuelType:
+          $ref: "#/components/schemas/VehicleFuelType"
+        color:
+          $ref: "#/components/schemas/VehicleColor"
+        features:
+          type: array
+          items:
+            type: string
+            example: "air_conditioner"
+
+    VehicleAmount:
+      allOf:
+        - $ref: "#/components/schemas/Amount"
+        - type: object
+          required:
+            - total
+          properties:
+            total:
+              $ref: "#/components/schemas/Decimal"
+            totalPromo:
+              $ref: "#/components/schemas/Decimal"
+            saving:
+              $ref: "#/components/schemas/Decimal"
+
+    VehicleState:
+      type: string
+      enum:
+        - FEATURED
+        - SOLD
+      example: "SOLD"
+
+    VehicleEmbedded:
+      type: object
+      description: Vehicle embedded data
+      required:
+        - id
+        - state
+        - amount
+        - title
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        state:
+          $ref: "#/components/schemas/VehicleState"
+        images:
+          type: array
+          items:
+            type: string
+            example: 'image'
+        amount:
+          $ref: "#/components/schemas/VehicleAmount"
+        title:
+          type: string
+          description: Vehicle title
+          example: "Audi RS7"
+        description:
+          type: string
+          description: Vehicle description
+          example: |
+            - 2.0 TDI
+            - 4 new tires
+        summary:
+          type: string
+          description: Vehicle summary
+          example: Audi A4 2.0TDI
+        transmission:
+          $ref: "#/components/schemas/VehicleTransmission"
+        fuelType:
+          $ref: "#/components/schemas/VehicleFuelType"
+        mileage:
+          type: integer
+          example: 250000
+        year:
+          $ref: "#/components/schemas/Year"
+        driveType:
+          $ref: "#/components/schemas/VehicleDriveType"
+
+    Vehicle:
+      description: Vehicle full data
+      allOf:
+        - $ref: "#/components/schemas/VehicleEmbedded"
+        - type: object
+          properties:
+            description:
+              type: string
+              description: Vehicle description
+              example: |
+                - 2.0 TDI
+                - 4 new tires
+            engineSize:
+              type: string
+              example: "2.0"
+            doors:
+              type: integer
+              example: 4
+            bodyType:
+              $ref: "#/components/schemas/VehicleBodyType"
+            condition:
+              $ref: "#/components/schemas/VehicleCondition"
+            color:
+              $ref: "#/components/schemas/VehicleColor"
+            features:
+              type: array
+              items:
+                type: string
+                example: "air_conditioner"
+
+    VehiclesResponse:
+      type: object
+      required:
+        - pageInfo
+        - vehicles
+      properties:
+        info:
+          $ref: "#/components/schemas/PageInfo"
+        vehicles:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleEmbedded"
+
+    VehicleResponse:
+      $ref: "#/components/schemas/Vehicle"
+
+    PageInfo:
+      type: object
+      description: Pagination info
+      required:
+        - totalPages
+        - pageSize
+        - pageNumber
+      properties:
+        totalPages:
+          type: number
+          example: 5
+        pageSize:
+          type: number
+          example: 10
+        pageNumber:
+          type: number
+          example: 10
+
+  responses:
+    VehiclesResponse:
+      description: A list of pageable vehicle entries
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehiclesResponse"
+
+    VehicleResponse:
+      description: Vehicle info
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehicleResponse"
+
+  parameters:
+    Page:
+      in: query
+      name: page
+      description: Page number
+      required: false
+      schema:
+        type: number
+        example: 1
+        default: 1
+    Size:
+      in: query
+      name: size
+      description: Page size
+      required: false
+      schema:
+        type: number
+        default: 10
+        example: 10
+    Sort:
+      in: query
+      name: sortBy
+      description: Sort by properties
+      required: false
+      schema:
+        type: array
+        default: [ ]
+        items:
+          type: string
+          example: "id=asc,title=desc"
+
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      description: Accept language header
+      example: "en"
+      required: false
+      schema:
+        type: string
+
+
+

@@ -59,7 +59,7 @@
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/src/main/resources/strong-auto-api.yaml</inputSpec>
+              <inputSpec>${project.basedir}/src/main/resources/strongauto-api-v1.yaml</inputSpec>
               <generatorName>spring</generatorName>
               <apiPackage>com.example.rest.api</apiPackage>
               <modelPackage>com.example.rest.model</modelPackage>
