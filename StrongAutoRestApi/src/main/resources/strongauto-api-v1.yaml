@@ -30,6 +30,8 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/VehiclesResponse"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
 
   /vehicles/{id}:
     get:
@@ -47,6 +49,38 @@ paths:
       responses:
         200:
           $ref: "#/components/responses/VehicleResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+
+  /vehicle-makes:
+    get:
+      operationId: getVehicleMakeEntries
+      tags:
+        - Vehicle
+      description: Get all vehicle makes
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleMakesResponse"
+  /vehicle-makes/{make}:
+    get:
+      operationId: getVehicleMakeEntry
+      tags:
+        - Vehicle
+      description: Get vehicle make with models
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+        - in: path
+          name: make
+          required: true
+          schema:
+            $ref: "#/components/schemas/VehicleMakeValue"
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleMakeResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
 
 components:
   schemas:
@@ -57,7 +91,6 @@ components:
       example: '5.25'
     Year:
       type: integer
-      format: int64
       description: year
       example: 2010
 
@@ -74,11 +107,18 @@ components:
         currency:
           $ref: "#/components/schemas/Currency"
 
-    Id:
+    VehicleMakeValue:
       type: string
-      description: Primary key
-      example: "0"
+      example: 'AUDI'
+    VehicleModelValue:
+      type: string
+      example: 'B8'
 
+    Id:
+      type: integer
+      format: int64
+      description: Primary key
+      example: 0
     VehicleCondition:
       type: string
       enum:
@@ -88,10 +128,14 @@ components:
     VehicleBodyType:
       type: string
       enum:
-        - SEDAN
         - COUPE
+        - HATCHBACK
+        - CONVERTIBLE
+        - SEDAN
         - SUV
-      example: "SEDAN"
+        - SALOON
+        - LIMOUSINE
+      example: "COUPE"
     VehicleTransmission:
       type: string
       enum:
@@ -116,21 +160,35 @@ components:
       type: string
       enum:
         - BLACK
+        - STEAL
+        - SILVER
+        - GRAY
+        - RED
+        - ORANGE
+        - GOLD
+        - YELLOW
+        - BRONZE
+        - LIME
+        - IVORY
+        - BROWN
+        - BEECHWOOD
+        - SAND
+        - ALUMINIUM
+        - CHROME
+        - PINK
+        - PURPLE
         - WHITE
         - BLUE
         - GREEN
       example: "BLACK"
 
-
     VehicleFilters:
       type: object
       properties:
         make:
-          type: string
-          example: "Audi"
+          $ref: "#/components/schemas/VehicleMakeValue"
         model:
-          type: string
-          example: "B8"
+          $ref: "#/components/schemas/VehicleModelValue"
         price:
           type: string
           example: "0-1000"
@@ -142,8 +200,10 @@ components:
           example: true
         condition:
           $ref: "#/components/schemas/VehicleCondition"
-        bodyType:
-          $ref: "#/components/schemas/VehicleBodyType"
+        bodyTypes:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleBodyType"
         transmission:
           $ref: "#/components/schemas/VehicleTransmission"
         yearFrom:
@@ -152,11 +212,9 @@ components:
           $ref: "#/components/schemas/Year"
         mileageFrom:
           type: integer
-          format: int64
           example: 100000
         mileageTo:
           type: integer
-          format: int64
           example: 200000
         fuelType:
           $ref: "#/components/schemas/VehicleFuelType"
@@ -194,7 +252,6 @@ components:
       description: Vehicle embedded data
       required:
         - id
-        - state
         - amount
         - title
       properties:
@@ -207,6 +264,12 @@ components:
           items:
             type: string
             example: 'image'
+        make:
+          type: string
+          example: "Audi"
+        model:
+          type: string
+          example: "B8"
         amount:
           $ref: "#/components/schemas/VehicleAmount"
         title:
@@ -265,6 +328,43 @@ components:
                 type: string
                 example: "air_conditioner"
 
+    VehicleModel:
+      type: object
+      required:
+        - model
+      properties:
+        model:
+          $ref: "#/components/schemas/VehicleModelValue"
+    VehicleMakeEmbedded:
+      type: object
+      required:
+        - make
+      properties:
+        make:
+          $ref: "#/components/schemas/VehicleMakeValue"
+    VehicleMake:
+      allOf:
+        - $ref: "#/components/schemas/VehicleMakeEmbedded"
+        - type: object
+          required:
+            - models
+          properties:
+            models:
+              type: array
+              items:
+                $ref: "#/components/schemas/VehicleModel"
+    VehicleMakesResponse:
+      type: object
+      required:
+        - makes
+      properties:
+        makes:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleMakeEmbedded"
+    VehicleMakeResponse:
+      $ref: '#/components/schemas/VehicleMake'
+
     VehiclesResponse:
       type: object
       required:
@@ -299,20 +399,61 @@ components:
           type: number
           example: 10
 
+    ErrorResponse:
+      type: object
+      description: Error response
+      required:
+        - code
+        - message
+        - status
+      properties:
+        code:
+          type: string
+          example: "STRONGAUTO:0001"
+        message:
+          type: string
+          example: "An error happened"
+        status:
+          type: integer
+          example: 404
+
   responses:
+    VehicleMakesResponse:
+      description: List of vehicle makes entries
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehicleMakesResponse"
+    VehicleMakeResponse:
+      description: Vehicle make info
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehicleMakeResponse"
     VehiclesResponse:
       description: A list of pageable vehicle entries
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/VehiclesResponse"
-
     VehicleResponse:
       description: Vehicle info
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/VehicleResponse"
+    BadRequestResponse:
+      description: Bad request error info
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFoundResponse:
+      description: Not found error info
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
 
   parameters:
     Page:

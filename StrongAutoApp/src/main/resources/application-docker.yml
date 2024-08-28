@@ -1,12 +1,26 @@
+server:
+  port: 3000
+
+  servlet:
+    context-path: /api/v1
+
 spring:
   datasource:
-    url: jdbc:postgresql://strong-auto-postgres:5432/
+    url: jdbc:postgresql://localhost:5432/
     username: postgres
     password: postgres
-
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+      dialect: org.hibernate.dialect.ProgressDialect
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+  show-actuator: true
+
+logging:
+  level:
+    org.springframework.web: DEBUG

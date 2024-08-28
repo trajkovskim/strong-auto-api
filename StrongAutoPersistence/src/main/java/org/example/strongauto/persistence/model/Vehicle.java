@@ -1,32 +1,112 @@
 package org.example.strongauto.persistence.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.strongauto.persistence.model.constants.RepositoryConstants;
+import org.example.strongauto.persistence.model.enums.Color;
+import org.example.strongauto.persistence.model.enums.Currency;
+import org.example.strongauto.persistence.model.enums.VehicleBodyType;
+import org.example.strongauto.persistence.model.enums.VehicleCondition;
+import org.example.strongauto.persistence.model.enums.VehicleDriveType;
+import org.example.strongauto.persistence.model.enums.VehicleFuelType;
+import org.example.strongauto.persistence.model.enums.VehicleState;
+import org.example.strongauto.persistence.model.enums.VehicleTransmission;
 
-import java.util.UUID;
-
+/**
+ * Vehicle persistence model.
+ */
 @Getter
 @Setter
 @Entity
-@Table(name = "vehicle")
+@Table(name = RepositoryConstants.VEHICLE_TABLE, schema = RepositoryConstants.SCHEMA)
 @NoArgsConstructor
 public class Vehicle {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private UUID id;
+  public static final String VEHICLE_TABLE_SEQUENCE = "vehicle_sequence_generator";
+  public static final String VEHICLE_TABLE_SEQUENCE_NAME = "vehicle_sequence";
 
+  @Id
+  @SequenceGenerator(
+      name = VEHICLE_TABLE_SEQUENCE,
+      sequenceName = VEHICLE_TABLE_SEQUENCE_NAME,
+      schema = RepositoryConstants.SCHEMA,
+      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = VEHICLE_TABLE_SEQUENCE)
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
+
+  @Column(name = "title", nullable = false)
   private String title;
 
+  @Column(name = "description")
   private String description;
+
+  @Column(name = "summary")
+  private String summary;
+
+  @JoinColumn(name = "id", referencedColumnName = "id")
+  @OneToOne
+  private VehicleMake make;
+
+  @JoinColumn(name = "id", referencedColumnName = "id")
+  @OneToOne
+  private VehicleModel model;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "state")
+  private VehicleState state;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "body_type", nullable = false)
+  private VehicleBodyType bodyType;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "condition", nullable = false)
+  private VehicleCondition condition;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "drive_type", nullable = false)
+  private VehicleDriveType driveType;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "fuel_type", nullable = false)
+  private VehicleFuelType fuelType;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "transmission", nullable = false)
+  private VehicleTransmission transmission;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "color", nullable = false)
+  private Color color;
+
+  @Column(name = "mileage")
+  private Integer mileage;
+
+  @Column(name = "year_built")
+  private Integer year;
+
+  @Column(name = "doors")
+  private Integer doors;
+
+  @Column(name = "engine_size")
+  private String engineSize;
 
   private Double amount;
 
-  private String currency;
+  @Enumerated(EnumType.STRING)
+  private Currency currency;
 }

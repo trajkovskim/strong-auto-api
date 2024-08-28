@@ -5,8 +5,10 @@ import com.example.rest.model.Vehicle;
 import com.example.rest.model.VehicleFilters;
 import com.example.rest.model.VehiclesResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.strongauto.core.model.PageInfo;
+import org.example.strongauto.core.model.PageInfoDto;
 import org.example.strongauto.core.model.VehicleDto;
+import org.example.strongauto.core.model.VehicleEmbeddedDto;
+import org.example.strongauto.core.model.VehicleFiltersDto;
 import org.example.strongauto.core.service.VehicleService;
 import org.example.strongauto.rest.converter.VehicleRestConverter;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class VehiclesController implements VehiclesApi {
   private final VehicleRestConverter vehicleRestConverter;
 
   @Override
-  public ResponseEntity<Vehicle> getVehicleEntry(String id, String acceptLanguage) {
+  public ResponseEntity<Vehicle> getVehicleEntry(Long id, String acceptLanguage) {
 
     final VehicleDto vehicle = vehicleService.findById(id);
 
@@ -36,9 +38,11 @@ public class VehiclesController implements VehiclesApi {
   public ResponseEntity<VehiclesResponse> searchVehicleEntries(
       VehicleFilters body, String acceptLanguage, Integer page, Integer size, List<String> sortBy) {
 
-    PageInfo<VehicleDto> pageInfo = vehicleService.findAllPageable(page, size, sortBy);
+    VehicleFiltersDto filtersDto = vehicleRestConverter.convertVehicleFilters(body);
 
-    final VehiclesResponse response = vehicleRestConverter.convertToResponse(pageInfo);
+    PageInfoDto<VehicleEmbeddedDto> pageInfoDto = vehicleService.findAllPageable(filtersDto, page, size, sortBy);
+
+    final VehiclesResponse response = vehicleRestConverter.convertToResponse(pageInfoDto);
 
     return ResponseEntity.ok(response);
   }

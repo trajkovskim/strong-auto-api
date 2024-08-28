@@ -7,7 +7,8 @@ import java.util.Collection;
 
 @Builder
 @Value
-public class PageInfo<T> {
+public class PageInfoDto<T> {
+
   int totalPages;
   int pageSize;
   int pageNumber;

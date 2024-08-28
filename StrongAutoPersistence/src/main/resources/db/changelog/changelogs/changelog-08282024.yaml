@@ -1,0 +1,162 @@
+databaseChangeLog:
+  - changeSet:
+      id: changelog-08282024
+      author: legendmt25
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS strongauto;
+            stripComments: true
+        - createSequence:
+            sequenceName:  vehicle_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
+            sequenceName: vehicle_make_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
+            sequenceName: vehicle_model_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: make_id
+                  type: bigint
+              - column:
+                  name: model_id
+                  type: bigint
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: summary
+                  type: varchar(255)
+              - column:
+                  name: state
+                  type: varchar(255)
+              - column:
+                  name: body_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: condition
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: drive_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: fuel_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: transmission
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: color
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: mileage
+                  type: integer
+              - column:
+                  name: year_built
+                  type: integer
+              - column:
+                  name: doors
+                  type: integer
+              - column:
+                  name: engine_size
+                  type: varchar(255)
+              - column:
+                  name: amount
+                  type: float(53)
+              - column:
+                  name: currency
+                  type: varchar(255)
+            schemaName: strongauto
+            tableName: vehicle
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: make
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+            schemaName: strongauto
+            tableName: vehicle_make
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: model
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: make_id
+                  type: bigint
+            schemaName: strongauto
+            tableName: vehicle_model
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_model_vehicle_make
+            baseColumnNames: make_id
+            baseTableName:  vehicle_model
+            baseTableSchemaName: strongauto
+            referencedTableName: vehicle_make
+            referencedColumnNames: id
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_vehicle_make
+            baseColumnNames: make_id
+            baseTableName: vehicle
+            baseTableSchemaName: strongauto
+            referencedTableName: vehicle_make
+            referencedColumnNames: id
+            referencedTableSchemaName: strongauto
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_vehicle_model
+            baseColumnNames: model_id
+            baseTableName: vehicle
+            baseTableSchemaName: strongauto
+            referencedTableName: vehicle_model
+            referencedColumnNames: id
+            referencedTableSchemaName: strongauto
+            onDelete: RESTRICT
+            onUpdate: CASCADE
