@@ -15,4 +15,6 @@ public interface VehicleMakeRepository extends JpaRepository<VehicleMake, Long> 
 
   @EntityGraph(attributePaths = {"models"})
   Optional<VehicleMake> findByMake(String make);
+
+  void deleteByMake(String make);
 }

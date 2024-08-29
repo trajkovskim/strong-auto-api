@@ -14,7 +14,7 @@ paths:
     post:
       operationId: searchVehicleEntries
       tags:
-        - Vehicle
+        - vehicle
       description: Get all vehicles pageable
       parameters:
         - $ref: "#/components/parameters/Accept-Language"
@@ -32,12 +32,28 @@ paths:
           $ref: "#/components/responses/VehiclesResponse"
         400:
           $ref: "#/components/responses/BadRequestResponse"
-
+  /vehicles:
+    post:
+      operationId: createVehicleEntry
+      tags:
+        - vehicle
+      description: Creates and saves vehicle entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleRequest"
+      responses:
+        201:
+          $ref: "#/components/responses/CreatedResponse"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
   /vehicles/{id}:
     get:
       operationId: getVehicleEntry
       tags:
-        - Vehicle
+        - vehicle
       description: Get vehicle info
       parameters:
         - $ref: "#/components/parameters/Accept-Language"
@@ -51,23 +67,77 @@ paths:
           $ref: "#/components/responses/VehicleResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
-
+    put:
+      operationId: updateVehicleEntry
+      tags:
+        - vehicle
+      description: Updates saved vehicle entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleRequest"
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+    delete:
+      operationId: deleteVehicleEntry
+      tags:
+        - vehicle
+      description: Deletes saved vehicle entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
   /vehicle-makes:
     get:
       operationId: getVehicleMakeEntries
       tags:
-        - Vehicle
+        - vehicle-make
       description: Get all vehicle makes
       parameters:
         - $ref: "#/components/parameters/Accept-Language"
       responses:
         200:
           $ref: "#/components/responses/VehicleMakesResponse"
+    post:
+      operationId: createVehicleMakeEntry
+      tags:
+        - vehicle-make
+      description: Creates and saves vehicle make entry
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleMakeRequest"
+      responses:
+        201:
+          $ref: "#/components/responses/CreatedResponse"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
   /vehicle-makes/{make}:
     get:
       operationId: getVehicleMakeEntry
       tags:
-        - Vehicle
+        - vehicle-make
       description: Get vehicle make with models
       parameters:
         - $ref: "#/components/parameters/Accept-Language"
@@ -81,7 +151,45 @@ paths:
           $ref: "#/components/responses/VehicleMakeResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
-
+    put:
+      operationId: updateVehicleMakeEntry
+      tags:
+        - vehicle-make
+      description: Updates saved vehicle make entry
+      parameters:
+        - in: path
+          name: make
+          required: true
+          schema:
+            $ref: "#/components/schemas/VehicleMakeValue"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleMakeRequest"
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
+    delete:
+      operationId: deleteVehicleMakeEntry
+      tags:
+        - vehicle-make
+      description: Delete saved vehicle make entry
+      parameters:
+        - in: path
+          name: make
+          required: true
+          schema:
+            $ref: "#/components/schemas/VehicleMakeValue"
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
 components:
   schemas:
     Decimal:
@@ -238,6 +346,80 @@ components:
               $ref: "#/components/schemas/Decimal"
             saving:
               $ref: "#/components/schemas/Decimal"
+
+    VehicleRequest:
+      type: object
+      properties:
+        state:
+          $ref: "#/components/schemas/VehicleState"
+        images:
+          type: array
+          items:
+            type: string
+            example: 'image'
+        make:
+          type: string
+          example: "Audi"
+        model:
+          type: string
+          example: "B8"
+        amount:
+          $ref: "#/components/schemas/VehicleAmount"
+        title:
+          type: string
+          description: Vehicle title
+          example: "Audi RS7"
+        summary:
+          type: string
+          description: Vehicle summary
+          example: Audi A4 2.0TDI
+        transmission:
+          $ref: "#/components/schemas/VehicleTransmission"
+        fuelType:
+          $ref: "#/components/schemas/VehicleFuelType"
+        mileage:
+          type: integer
+          example: 250000
+        year:
+          $ref: "#/components/schemas/Year"
+        driveType:
+          $ref: "#/components/schemas/VehicleDriveType"
+        description:
+          type: string
+          description: Vehicle description
+          example: |
+            - 2.0 TDI
+            - 4 new tires
+        engineSize:
+          type: string
+          example: "2.0"
+        doors:
+          type: integer
+          example: 4
+        bodyType:
+          $ref: "#/components/schemas/VehicleBodyType"
+        condition:
+          $ref: "#/components/schemas/VehicleCondition"
+        color:
+          $ref: "#/components/schemas/VehicleColor"
+        features:
+          type: array
+          items:
+            type: string
+            example: "air_conditioner"
+
+    VehicleMakeRequest:
+      type: object
+      required:
+        - make
+      properties:
+        make:
+          $ref: "#/components/schemas/VehicleMakeValue"
+        models:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleModel"
+
 
     VehicleEmbedded:
       type: object
@@ -464,6 +646,14 @@ components:
           type: integer
           example: 404
 
+    CreatedResponse:
+      type: object
+      description: Self links response
+      required:
+        - links
+      properties:
+        links:
+          $ref: "#/components/schemas/SelfLink"
   responses:
     VehicleMakesResponse:
       description: List of vehicle makes entries
@@ -501,6 +691,14 @@ components:
         application/problem+json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
+    CreatedResponse:
+      description: Created response
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/CreatedResponse"
+    NoContentResponse:
+      description: No content response.
 
   parameters:
     Page:

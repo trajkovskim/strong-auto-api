@@ -1,8 +1,8 @@
 package org.example.strongauto.core.converter;
 
-import org.example.strongauto.core.model.VehicleDto;
-import org.example.strongauto.core.model.VehicleEmbeddedDto;
-import org.example.strongauto.core.model.VehicleFiltersDto;
+import org.example.strongauto.core.model.dto.VehicleDto;
+import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
+import org.example.strongauto.core.model.dto.VehicleFiltersDto;
 import org.example.strongauto.core.model.enums.ColorEnum;
 import org.example.strongauto.core.model.enums.VehicleBodyTypeEnum;
 import org.example.strongauto.persistence.model.Vehicle;
@@ -18,13 +18,19 @@ import org.mapstruct.ValueMapping;
 @Mapper
 public interface VehicleConverter {
 
-  @Mapping(target = "amount", source = ".")
+  @Mapping(target = "amount.total", source = "totalAmount")
+  @Mapping(target = "amount.totalPromo", source = "totalPromoAmount")
+  @Mapping(target = "amount.currency", source = "currency")
   VehicleDto convertVehicle(Vehicle vehicle);
 
-  @Mapping(target = ".", source = "amount")
+  @Mapping(target = "totalAmount", source = "amount.total")
+  @Mapping(target = "totalPromoAmount", source = "amount.totalPromo")
+  @Mapping(target = "currency", source = "amount.currency")
   Vehicle convertVehicle(VehicleDto vehicle);
 
-  @Mapping(target = "amount", source = ".")
+  @Mapping(target = "amount.total", source = "totalAmount")
+  @Mapping(target = "amount.totalPromo", source = "totalPromoAmount")
+  @Mapping(target = "amount.currency", source = "currency")
   VehicleEmbeddedDto convertVehicle(VehicleEmbeddedProjection vehicle);
 
   VehicleFilters convertVehicleFilters(VehicleFiltersDto vehicle);

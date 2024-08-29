@@ -5,12 +5,13 @@ import org.example.strongauto.core.converter.VehicleConverter;
 import org.example.strongauto.core.converter.VehicleMakeConverter;
 import org.example.strongauto.core.exception.VehicleMakeNotFoundException;
 import org.example.strongauto.core.exception.VehicleNotFoundException;
-import org.example.strongauto.core.model.PageInfoDto;
-import org.example.strongauto.core.model.VehicleDto;
-import org.example.strongauto.core.model.VehicleEmbeddedDto;
-import org.example.strongauto.core.model.VehicleFiltersDto;
-import org.example.strongauto.core.model.VehicleMakeDto;
-import org.example.strongauto.core.model.VehicleMakeEmbeddedDto;
+import org.example.strongauto.core.model.dto.PageInfoDto;
+import org.example.strongauto.core.model.dto.VehicleDto;
+import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
+import org.example.strongauto.core.model.dto.VehicleFiltersDto;
+import org.example.strongauto.core.model.dto.VehicleMakeDto;
+import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
+import org.example.strongauto.core.utils.PageUtils;
 import org.example.strongauto.persistence.model.Vehicle;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.example.strongauto.persistence.model.filters.VehicleFilters;
@@ -18,9 +19,7 @@ import org.example.strongauto.persistence.model.projections.VehicleEmbeddedProje
 import org.example.strongauto.persistence.repository.VehicleMakeRepository;
 import org.example.strongauto.persistence.repository.VehicleRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -47,16 +46,10 @@ public class VehicleService {
   public PageInfoDto<VehicleEmbeddedDto> findAllPageable(
       VehicleFiltersDto vehicleFiltersDto, Integer pageNumber, Integer pageSize, List<String> sortBy) {
 
-    List<Sort.Order> orders = sortBy.stream().map(sorter -> {
-      final String[] x = sorter.split("=");
-      return x[1] != null && x[1].equals("desc") ? Sort.Order.desc(x[0]) : Sort.Order.asc(x[0]);
-    }).toList();
-
-    final Sort sort = Sort.by(orders);
-    final Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-
     VehicleFilters vehicleFilters = vehicleConverter.convertVehicleFilters(vehicleFiltersDto);
-    final Page<VehicleEmbeddedProjection> page = vehicleRepository.findAllBy(vehicleFilters, pageable);
+    Pageable pageRequest = PageUtils.createPageRequest(pageNumber, pageSize, sortBy);
+
+    final Page<VehicleEmbeddedProjection> page = vehicleRepository.findAllBy(vehicleFilters, pageRequest);
 
     Collection<VehicleEmbeddedDto> items = page
         .get()
@@ -70,6 +63,33 @@ public class VehicleService {
         .build();
   }
 
+  public Long createVehicle(VehicleDto vehicleDto) {
+
+    Vehicle vehicle = vehicleConverter.convertVehicle(vehicleDto);
+
+    Vehicle savedVehicle = vehicleRepository.save(vehicle);
+
+    return savedVehicle.getId();
+  }
+
+  public Long updateVehicle(Long id, VehicleDto vehicleDto) {
+
+    VehicleDto foundVehicle = findById(id);
+
+    VehicleDto vehicleDtoWithId = vehicleDto.toBuilder().id(foundVehicle.getId()).build();
+
+    Vehicle vehicle = vehicleConverter.convertVehicle(vehicleDtoWithId);
+
+    Vehicle savedVehicle = vehicleRepository.save(vehicle);
+
+    return savedVehicle.getId();
+  }
+
+  public void deleteVehicle(Long id) {
+
+    vehicleRepository.deleteById(id);
+  }
+
   public VehicleMakeDto findVehicleMakeByMake(String make) {
 
     VehicleMake foundVehicleMake = vehicleMakeRepository
@@ -77,6 +97,35 @@ public class VehicleService {
         .orElseThrow(() -> new VehicleMakeNotFoundException("Vehicle make not found: " + make));
 
     return vehicleMakeConverter.convertVehicleMake(foundVehicleMake);
+  }
+
+  public String createVehicleMake(VehicleMakeDto vehicleMakeDto) {
+
+    VehicleMake vehicleMake = vehicleMakeConverter.convertVehicleMake(vehicleMakeDto);
+
+    VehicleMake savedVehicleMake = vehicleMakeRepository.save(vehicleMake);
+
+    return savedVehicleMake.getMake();
+  }
+
+  public String updateVehicleMake(String make, VehicleMakeDto vehicleMakeDto) {
+
+    VehicleMakeDto foundVehicleMake = findVehicleMakeByMake(make);
+
+    VehicleMakeDto vehicleMakeDtoWithId = vehicleMakeDto.toBuilder()
+        .id(foundVehicleMake.getId())
+        .build();
+
+    VehicleMake vehicleMake = vehicleMakeConverter.convertVehicleMake(vehicleMakeDtoWithId);
+
+    VehicleMake savedVehicleMake = vehicleMakeRepository.save(vehicleMake);
+
+    return savedVehicleMake.getMake();
+  }
+
+  public void deleteVehicleMake(String make) {
+
+    vehicleMakeRepository.deleteByMake(make);
   }
 
   public List<VehicleMakeEmbeddedDto> findVehicleMakes() {

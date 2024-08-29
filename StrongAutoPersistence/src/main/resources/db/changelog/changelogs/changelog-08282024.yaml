@@ -95,7 +95,10 @@ databaseChangeLog:
                   name: engine_size
                   type: varchar(255)
               - column:
-                  name: amount
+                  name: total_amount
+                  type: float(53)
+              - column:
+                  name: total_promo_amount
                   type: float(53)
               - column:
                   name: currency

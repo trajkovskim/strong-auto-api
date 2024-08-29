@@ -3,7 +3,7 @@ package org.example.strongauto.rest.factory;
 import com.example.rest.model.Link;
 import com.example.rest.model.PaginationLinks;
 import com.example.rest.model.SelfLink;
-import org.example.strongauto.core.model.PageInfoDto;
+import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.springframework.stereotype.Component;
 
 import java.util.function.BiFunction;

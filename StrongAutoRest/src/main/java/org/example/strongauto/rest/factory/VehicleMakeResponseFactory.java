@@ -1,12 +1,13 @@
 package org.example.strongauto.rest.factory;
 
+import com.example.rest.model.CreatedResponse;
 import com.example.rest.model.SelfLink;
 import com.example.rest.model.VehicleMakeEmbeddedResponse;
 import com.example.rest.model.VehicleMakeResponse;
 import com.example.rest.model.VehicleMakesResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.strongauto.core.model.VehicleMakeDto;
-import org.example.strongauto.core.model.VehicleMakeEmbeddedDto;
+import org.example.strongauto.core.model.dto.VehicleMakeDto;
+import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
 import org.example.strongauto.rest.controller.VehicleMakesController;
 import org.example.strongauto.rest.converter.VehicleMakeRestConverter;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,11 @@ public class VehicleMakeResponseFactory {
     return linksFactory.createSelfLink(
         methodOn(VehicleMakesController.class)
             .getVehicleMakeEntry(make, acceptLanguage));
+  }
+
+  public CreatedResponse createVehicleMakeCreatedResponse(String make) {
+
+    return new CreatedResponse().links(createVehicleMakeSelfLink(make, null));
   }
 
   public VehicleMakesResponse createVehicleMakesResponse(

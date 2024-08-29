@@ -2,13 +2,13 @@ package org.example.strongauto.rest.converter;
 
 import com.example.rest.model.VehicleEmbeddedResponse;
 import com.example.rest.model.VehicleFilters;
+import com.example.rest.model.VehicleRequest;
 import com.example.rest.model.VehicleResponse;
 import com.example.rest.model.VehiclesResponse;
-import org.example.strongauto.core.model.PageInfoDto;
-import org.example.strongauto.core.model.VehicleDto;
-import org.example.strongauto.core.model.VehicleEmbeddedDto;
-import org.example.strongauto.core.model.VehicleFiltersDto;
-import org.mapstruct.AfterMapping;
+import org.example.strongauto.core.model.dto.PageInfoDto;
+import org.example.strongauto.core.model.dto.VehicleDto;
+import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
+import org.example.strongauto.core.model.dto.VehicleFiltersDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -34,4 +34,8 @@ public interface VehicleRestConverter {
   @Mapping(target = "make", source = "make.make")
   @Mapping(target = "model", source = "model.model")
   VehicleResponse convertVehicle(VehicleDto vehicle);
+
+  @Mapping(target = "make.make", source = "make")
+  @Mapping(target = "model.model", source = "model")
+  VehicleDto convertVehicle(VehicleRequest vehicleRequest);
 }

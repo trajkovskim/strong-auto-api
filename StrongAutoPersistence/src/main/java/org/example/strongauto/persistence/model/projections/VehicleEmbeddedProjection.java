@@ -28,13 +28,16 @@ public interface VehicleEmbeddedProjection {
   VehicleTransmission getTransmission();
 
   VehicleDriveType getDriveType();
+
   VehicleFuelType getFuelType();
 
   Integer getMileage();
 
   Integer getYear();
 
-  Double getAmount();
+  Double getTotalAmount();
+
+  Double getTotalPromoAmount();
 
   Currency getCurrency();
 }

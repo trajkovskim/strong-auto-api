@@ -105,7 +105,11 @@ public class Vehicle {
   @Column(name = "engine_size")
   private String engineSize;
 
-  private Double amount;
+  @Column(name = "total_amount")
+  private Double totalAmount;
+
+  @Column(name = "total_promo_amount")
+  private Double totalPromoAmount;
 
   @Enumerated(EnumType.STRING)
   private Currency currency;

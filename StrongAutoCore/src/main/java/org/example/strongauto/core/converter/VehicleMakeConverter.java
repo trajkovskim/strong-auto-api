@@ -1,7 +1,7 @@
 package org.example.strongauto.core.converter;
 
-import org.example.strongauto.core.model.VehicleMakeDto;
-import org.example.strongauto.core.model.VehicleMakeEmbeddedDto;
+import org.example.strongauto.core.model.dto.VehicleMakeDto;
+import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.mapstruct.Mapper;
 

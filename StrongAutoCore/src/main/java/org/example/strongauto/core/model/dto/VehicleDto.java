@@ -1,7 +1,8 @@
-package org.example.strongauto.core.model;
+package org.example.strongauto.core.model.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.example.strongauto.core.model.VehicleAmount;
 import org.example.strongauto.core.model.enums.ColorEnum;
 import org.example.strongauto.core.model.enums.VehicleBodyTypeEnum;
 import org.example.strongauto.core.model.enums.VehicleConditionEnum;
@@ -13,7 +14,7 @@ import org.example.strongauto.core.model.enums.VehicleTransmissionEnum;
 import java.util.List;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 public class VehicleDto {
 
   private Long id;
@@ -33,7 +34,7 @@ public class VehicleDto {
   private String engineSize;
   private VehicleTransmissionEnum transmission;
   private ColorEnum color;
-  private AmountDto amount;
+  private VehicleAmount amount;
   private List<String> images;
   private List<String> features;
 }

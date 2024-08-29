@@ -1,14 +1,15 @@
 package org.example.strongauto.rest.factory;
 
+import com.example.rest.model.CreatedResponse;
 import com.example.rest.model.PaginationLinks;
 import com.example.rest.model.SelfLink;
 import com.example.rest.model.VehicleFilters;
 import com.example.rest.model.VehicleResponse;
 import com.example.rest.model.VehiclesResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.strongauto.core.model.PageInfoDto;
-import org.example.strongauto.core.model.VehicleDto;
-import org.example.strongauto.core.model.VehicleEmbeddedDto;
+import org.example.strongauto.core.model.dto.PageInfoDto;
+import org.example.strongauto.core.model.dto.VehicleDto;
+import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
 import org.example.strongauto.rest.controller.VehiclesController;
 import org.example.strongauto.rest.converter.VehicleRestConverter;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,11 @@ public class VehicleResponseFactory {
     return linksFactory.createSelfLink(
         methodOn(VehiclesController.class)
             .getVehicleEntry(id, acceptLanguage));
+  }
+
+  public CreatedResponse createVehicleMakeCreatedResponse(Long id) {
+
+    return new CreatedResponse().links(createVehicleSelfLink(id, null));
   }
 
   public VehiclesResponse createVehiclesResponse(

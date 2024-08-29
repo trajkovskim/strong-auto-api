@@ -1,4 +1,4 @@
-package org.example.strongauto.core.model;
+package org.example.strongauto.core.model.dto;
 
 import lombok.Builder;
 import lombok.Value;

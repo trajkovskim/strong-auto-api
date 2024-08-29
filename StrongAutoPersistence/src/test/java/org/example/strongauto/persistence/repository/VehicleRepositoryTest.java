@@ -143,7 +143,7 @@ public class VehicleRepositoryTest {
     vehicle1.setYear(2010);
     vehicle1.setMileage(150000);
     vehicle1.setDoors(4);
-    vehicle1.setAmount(10000.0);
+    vehicle1.setTotalAmount(10000.0);
     vehicle1.setCurrency(Currency.EUR);
     vehicle1.setColor(Color.BLACK);
 
@@ -163,7 +163,7 @@ public class VehicleRepositoryTest {
     vehicle2.setYear(2014);
     vehicle2.setMileage(150000);
     vehicle2.setDoors(4);
-    vehicle2.setAmount(10000.0);
+    vehicle2.setTotalAmount(10000.0);
     vehicle2.setCurrency(Currency.EUR);
     vehicle2.setColor(Color.BLACK);
 
@@ -183,7 +183,7 @@ public class VehicleRepositoryTest {
     vehicle3.setYear(2023);
     vehicle3.setMileage(150000);
     vehicle3.setDoors(4);
-    vehicle3.setAmount(10000.0);
+    vehicle3.setTotalAmount(10000.0);
     vehicle3.setCurrency(Currency.EUR);
     vehicle3.setColor(Color.BLACK);
 

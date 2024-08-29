@@ -15,10 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
-  /**
-
-
-   */
   @Query("""
       select vehicle from Vehicle vehicle
       where
@@ -34,8 +30,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
         (:#{#filters.mileageTo} is null or vehicle.mileage <= :#{#filters.mileageTo}) and
         (:#{#filters.yearFrom} is null or vehicle.year >= :#{#filters.yearFrom}) and
         (:#{#filters.yearTo} is null or vehicle.year <= :#{#filters.yearTo}) and
-        (:#{#filters.priceFrom} is null or vehicle.amount >= :#{#filters.priceFrom}) and
-        (:#{#filters.priceTo} is null or vehicle.amount <= :#{#filters.priceTo})
+        (:#{#filters.priceFrom} is null or vehicle.totalAmount >= :#{#filters.priceFrom}) and
+        (:#{#filters.priceTo} is null or vehicle.totalAmount <= :#{#filters.priceTo})
       """)
   Page<VehicleEmbeddedProjection> findAllBy(VehicleFilters filters, Pageable pageable);
 }

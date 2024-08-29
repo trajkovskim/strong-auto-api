@@ -9,10 +9,17 @@ import org.example.strongauto.core.model.enums.CurrencyEnum;
  */
 @Getter
 @Builder
-public class VehicleAmountDto {
+public class VehicleAmount {
 
   private Double total;
   private Double totalPromo;
-  private Double saving;
   private CurrencyEnum currency;
+
+  public Double getSaving() {
+    if(totalPromo == null) {
+      return null;
+    }
+
+    return total - totalPromo;
+  }
 }
