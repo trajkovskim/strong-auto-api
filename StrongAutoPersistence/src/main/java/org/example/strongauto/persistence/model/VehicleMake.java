@@ -35,11 +35,10 @@ public class VehicleMake {
       schema = RepositoryConstants.SCHEMA,
       allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = VEHICLE_MAKE_TABLE_SEQUENCE)
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "make", unique = true)
+  @Column(name = "make", unique = true, nullable = false)
   private String make;
 
   @JoinColumn(name = "make_id", referencedColumnName = "id")

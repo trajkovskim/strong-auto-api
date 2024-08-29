@@ -5,20 +5,20 @@ services:
     container_name: strong-auto-app
     ports:
       - "3000:3000"
-    depends_on:
-      - strong-auto-postgres
-
-  strong-auto-postgres:
-    image: postgres:15.1-alpine
-    container_name: strong-auto-postgres
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - strong-auto-postgres-data:/var/lib/postgresql/data
-
-volumes:
-  strong-auto-postgres-data:
+#    depends_on:
+#      - strong-auto-postgres
+#
+#  strong-auto-postgres:
+#    image: postgres:15.1-alpine
+#    container_name: strong-auto-postgres
+#    environment:
+#      - POSTGRES_DB=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - strong-auto-postgres-data:/var/lib/postgresql/data
+#
+#volumes:
+#  strong-auto-postgres-data:

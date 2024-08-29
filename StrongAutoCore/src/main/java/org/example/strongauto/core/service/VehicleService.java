@@ -1,9 +1,11 @@
 package org.example.strongauto.core.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.converter.VehicleConverter;
 import org.example.strongauto.core.converter.VehicleMakeConverter;
 import org.example.strongauto.core.exception.VehicleMakeNotFoundException;
+import org.example.strongauto.core.exception.VehicleModelNotPresentInMakeException;
 import org.example.strongauto.core.exception.VehicleNotFoundException;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleDto;
@@ -11,6 +13,7 @@ import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
 import org.example.strongauto.core.model.dto.VehicleFiltersDto;
 import org.example.strongauto.core.model.dto.VehicleMakeDto;
 import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
+import org.example.strongauto.core.model.dto.VehicleModelDto;
 import org.example.strongauto.core.utils.PageUtils;
 import org.example.strongauto.persistence.model.Vehicle;
 import org.example.strongauto.persistence.model.VehicleMake;
@@ -63,9 +66,36 @@ public class VehicleService {
         .build();
   }
 
+  VehicleDto finalizeVehicleDto(VehicleDto vehicleDto) {
+
+    if(vehicleDto.getMake() == null) {
+      return vehicleDto;
+    }
+
+    VehicleMakeDto foundVehicleMake = findVehicleMakeByMake(vehicleDto.getMake().getMake());
+
+    String vehicleMakeStr = vehicleDto.getMake().getMake();
+    String vehicleModelStr = vehicleDto.getModel().getModel();
+
+    VehicleModelDto foundVehicleModel = foundVehicleMake.getModels()
+        .stream()
+        .filter(model-> vehicleModelStr.equals(model.getModel()))
+        .findFirst()
+        .orElseThrow(() ->
+            new VehicleModelNotPresentInMakeException(
+                String.format("Model %s not present in %s", vehicleModelStr, vehicleMakeStr)));
+
+    return vehicleDto.toBuilder()
+        .make(foundVehicleMake)
+        .model(foundVehicleModel)
+        .build();
+  }
+
   public Long createVehicle(VehicleDto vehicleDto) {
 
-    Vehicle vehicle = vehicleConverter.convertVehicle(vehicleDto);
+    VehicleDto finalizedVehicleDto = finalizeVehicleDto(vehicleDto);
+
+    Vehicle vehicle = vehicleConverter.convertVehicle(finalizedVehicleDto);
 
     Vehicle savedVehicle = vehicleRepository.save(vehicle);
 
@@ -78,7 +108,9 @@ public class VehicleService {
 
     VehicleDto vehicleDtoWithId = vehicleDto.toBuilder().id(foundVehicle.getId()).build();
 
-    Vehicle vehicle = vehicleConverter.convertVehicle(vehicleDtoWithId);
+    VehicleDto finalizedVehicleDto = finalizeVehicleDto(vehicleDtoWithId);
+
+    Vehicle vehicle = vehicleConverter.convertVehicle(finalizedVehicleDto);
 
     Vehicle savedVehicle = vehicleRepository.save(vehicle);
 
@@ -123,6 +155,7 @@ public class VehicleService {
     return savedVehicleMake.getMake();
   }
 
+  @Transactional
   public void deleteVehicleMake(String make) {
 
     vehicleMakeRepository.deleteByMake(make);

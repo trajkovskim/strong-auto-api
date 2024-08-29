@@ -44,7 +44,6 @@ public class Vehicle {
       schema = RepositoryConstants.SCHEMA,
       allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = VEHICLE_TABLE_SEQUENCE)
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
@@ -57,11 +56,11 @@ public class Vehicle {
   @Column(name = "summary")
   private String summary;
 
-  @JoinColumn(name = "make_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "make_id", referencedColumnName = "id")
   @OneToOne
   private VehicleMake make;
 
-  @JoinColumn(name = "model_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "model_id", referencedColumnName = "id")
   @OneToOne
   private VehicleModel model;
 
@@ -70,27 +69,27 @@ public class Vehicle {
   private VehicleState state;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "body_type", nullable = false)
+  @Column(name = "body_type")
   private VehicleBodyType bodyType;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "condition", nullable = false)
+  @Column(name = "condition")
   private VehicleCondition condition;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "drive_type", nullable = false)
+  @Column(name = "drive_type")
   private VehicleDriveType driveType;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "fuel_type", nullable = false)
+  @Column(name = "fuel_type")
   private VehicleFuelType fuelType;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "transmission", nullable = false)
+  @Column(name = "transmission")
   private VehicleTransmission transmission;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "color", nullable = false)
+  @Column(name = "color")
   private Color color;
 
   @Column(name = "mileage")

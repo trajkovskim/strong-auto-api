@@ -2,6 +2,8 @@ package org.example.strongauto.rest.converter;
 
 import com.example.rest.model.VehicleEmbeddedResponse;
 import com.example.rest.model.VehicleFilters;
+import com.example.rest.model.VehicleMake;
+import com.example.rest.model.VehicleModel;
 import com.example.rest.model.VehicleRequest;
 import com.example.rest.model.VehicleResponse;
 import com.example.rest.model.VehiclesResponse;
@@ -9,8 +11,12 @@ import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleDto;
 import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
 import org.example.strongauto.core.model.dto.VehicleFiltersDto;
+import org.example.strongauto.core.model.dto.VehicleMakeDto;
+import org.example.strongauto.core.model.dto.VehicleModelDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper
 public interface VehicleRestConverter {
@@ -35,7 +41,23 @@ public interface VehicleRestConverter {
   @Mapping(target = "model", source = "model.model")
   VehicleResponse convertVehicle(VehicleDto vehicle);
 
-  @Mapping(target = "make.make", source = "make")
-  @Mapping(target = "model.model", source = "model")
+  @Mapping(target = "make", source = "make")
+  @Mapping(target = "model", source = "model")
   VehicleDto convertVehicle(VehicleRequest vehicleRequest);
+
+  default VehicleMakeDto mapVehicleMake(String make) {
+    if (make == null) {
+      return null;
+    }
+
+    return VehicleMakeDto.builder().make(make).build();
+  }
+
+  default VehicleModelDto mapVehicleModel(String model) {
+    if (model == null) {
+      return null;
+    }
+
+    return VehicleModelDto.builder().model(model).build();
+  }
 }

@@ -6,7 +6,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:file:/strongauto-data
+    url: jdbc:h2:file:./strongauto-data
     username: sa
     password: password
     driver-class-name: org.h2.Driver
@@ -14,6 +14,10 @@ spring:
     hibernate:
       ddl-auto: validate
       dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  h2:
+    console:
+      enabled: true
 #    url: jdbc:postgresql://localhost:5432/
 #    username: postgres
 #    password: postgres

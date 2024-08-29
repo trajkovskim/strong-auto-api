@@ -57,49 +57,53 @@ public class VehicleRepositoryTest {
     IntervalFilter<Integer> from2019 = new IntervalFilter<>();
     from2019.setFrom(2019);
 
-    IntervalFilter<Integer> yearIntervalFilter3 = new IntervalFilter<>();
-    yearIntervalFilter3.setFrom(2010);
+    IntervalFilter<Integer> from2010 = new IntervalFilter<>();
+    from2010.setFrom(2010);
 
-    VehicleFilters vehicleFilters1 = new VehicleFilters();
-    vehicleFilters1.setYear(to2019);
+    VehicleFilters to2019Filter = new VehicleFilters();
+    to2019Filter.setYear(to2019);
 
-    VehicleFilters vehicleFilters2 = new VehicleFilters();
-    vehicleFilters2.setStates(List.of(VehicleState.SOLD));
+    VehicleFilters stateSoldFilter = new VehicleFilters();
+    stateSoldFilter.setStates(List.of(VehicleState.SOLD));
 
-    VehicleFilters vehicleFilters3 = new VehicleFilters();
-    vehicleFilters3.setStates(List.of(VehicleState.SOLD));
-    vehicleFilters3.setYear(to2019);
+    VehicleFilters stateSoldTo2019Filter = new VehicleFilters();
+    stateSoldTo2019Filter.setStates(List.of(VehicleState.SOLD));
+    stateSoldTo2019Filter.setYear(to2019);
 
-    VehicleFilters vehicleFilters4 = new VehicleFilters();
-    vehicleFilters4.setYear(from2019);
+    VehicleFilters from2019Filter = new VehicleFilters();
+    from2019Filter.setYear(from2019);
 
-    VehicleFilters vehicleFilters5 = new VehicleFilters();
-    vehicleFilters5.setYear(yearIntervalFilter3);
+    VehicleFilters from2010Filter = new VehicleFilters();
+    from2010Filter.setYear(from2010);
 
-    VehicleFilters vehicleFilters6 = new VehicleFilters();
-    vehicleFilters6.setYear(yearIntervalFilter3);
-    vehicleFilters6.setMake("AUDI");
+    VehicleFilters from2010AudiFilter = new VehicleFilters();
+    from2010AudiFilter.setYear(from2010);
+    from2010AudiFilter.setMake("AUDI");
 
-    VehicleFilters vehicleFilters7 = new VehicleFilters();
-    vehicleFilters7.setYear(yearIntervalFilter3);
-    vehicleFilters7.setMake("AUDI");
-    vehicleFilters7.setModel("B8");
+    VehicleFilters from2010AudiB8Filter = new VehicleFilters();
+    from2010AudiB8Filter.setYear(from2010);
+    from2010AudiB8Filter.setMake("AUDI");
+    from2010AudiB8Filter.setModel("B8");
 
-    VehicleFilters vehicleFilters8 = new VehicleFilters();
-    vehicleFilters8.setBodyTypes(List.of(VehicleBodyType.SUV));
+    VehicleFilters bodyTypeSUV_TRUCKFilter = new VehicleFilters();
+    bodyTypeSUV_TRUCKFilter.setBodyTypes(List.of(VehicleBodyType.SUV, VehicleBodyType.TRUCK));
+
+    VehicleFilters BMWFilter = new VehicleFilters();
+    BMWFilter.setMake("BMW");
 
     VehicleFilters noFilters = new VehicleFilters();
 
     return Stream.of(
-        arguments(vehicleFilters1, 2),
-        arguments(vehicleFilters2, 2),
-        arguments(vehicleFilters3, 2),
-        arguments(vehicleFilters4, 1),
-        arguments(vehicleFilters5, 3),
-        arguments(vehicleFilters6, 2),
-        arguments(vehicleFilters7, 1),
-        arguments(vehicleFilters8, 1),
-        arguments(noFilters, 3));
+        arguments(to2019Filter, 2),
+        arguments(stateSoldFilter, 2),
+        arguments(stateSoldTo2019Filter, 2),
+        arguments(from2019Filter, 2),
+        arguments(from2010Filter, 4),
+        arguments(from2010AudiFilter, 2),
+        arguments(from2010AudiB8Filter, 1),
+        arguments(bodyTypeSUV_TRUCKFilter, 2),
+        arguments(BMWFilter, 1),
+        arguments(noFilters, 4));
   }
 
   /** See method name. */
@@ -187,11 +191,30 @@ public class VehicleRepositoryTest {
     vehicle3.setCurrency(Currency.EUR);
     vehicle3.setColor(Color.BLACK);
 
-    vehicleRepository.saveAllAndFlush(List.of(vehicle1, vehicle2, vehicle3));
+    Vehicle vehicle4 = new Vehicle();
+    vehicle4.setTitle("BMW X5");
+    vehicle4.setDescription("BMW X5");
+    vehicle4.setSummary("BMW X5");
+    vehicle4.setState(VehicleState.FEATURED);
+    vehicle4.setCondition(VehicleCondition.NEW);
+    vehicle4.setTransmission(VehicleTransmission.AUTOMATIC);
+    vehicle4.setBodyType(VehicleBodyType.TRUCK);
+    vehicle4.setDriveType(VehicleDriveType._2WD_FWD);
+    vehicle4.setFuelType(VehicleFuelType.DIESEL);
+    vehicle4.setEngineSize("2.0");
+    vehicle4.setYear(2023);
+    vehicle4.setMileage(150000);
+    vehicle4.setDoors(4);
+    vehicle4.setTotalAmount(10000.0);
+    vehicle4.setCurrency(Currency.EUR);
+    vehicle4.setColor(Color.BLACK);
+
+    vehicleRepository.saveAllAndFlush(List.of(vehicle1, vehicle2, vehicle3, vehicle4));
 
     Pageable pageable = PageRequest.of(0, 100);
 
     // When
+    Page<Vehicle> all = vehicleRepository.findAll(pageable);
     Page<VehicleEmbeddedProjection> filtered = vehicleRepository.findAllBy(filters, pageable);
 
     // Then

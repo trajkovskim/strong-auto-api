@@ -31,13 +31,9 @@ databaseChangeLog:
               - column:
                   name: make_id
                   type: bigint
-                  constraints:
-                    nullable: false
               - column:
                   name: model_id
                   type: bigint
-                  constraints:
-                    nullable: false
               - column:
                   name: title
                   type: varchar(255)
@@ -55,33 +51,21 @@ databaseChangeLog:
               - column:
                   name: body_type
                   type: varchar(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: condition
                   type: varchar(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: drive_type
                   type: varchar(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: fuel_type
                   type: varchar(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: transmission
                   type: varchar(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: color
                   type: varchar(255)
-                  constraints:
-                    nullable: false
               - column:
                   name: mileage
                   type: integer
@@ -155,7 +139,7 @@ databaseChangeLog:
             referencedTableName: vehicle_make
             referencedColumnNames: id
             referencedTableSchemaName: strongauto
-            onDelete: RESTRICT
+            onDelete: SET NULL
             onUpdate: CASCADE
         - addForeignKeyConstraint:
             constraintName: fk_vehicle_vehicle_model
@@ -165,5 +149,5 @@ databaseChangeLog:
             referencedTableName: vehicle_model
             referencedColumnNames: id
             referencedTableSchemaName: strongauto
-            onDelete: RESTRICT
+            onDelete: SET NULL
             onUpdate: CASCADE

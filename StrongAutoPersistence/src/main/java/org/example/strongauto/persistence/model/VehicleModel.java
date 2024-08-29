@@ -29,10 +29,9 @@ public class VehicleModel {
       schema = RepositoryConstants.SCHEMA,
       allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = VEHICLE_MODEL_TABLE_SEQUENCE)
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "model")
+  @Column(name = "model", nullable = false)
   private String model;
 }

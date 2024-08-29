@@ -18,20 +18,20 @@ import java.util.List;
 @Setter
 public class VehicleFilters {
 
-  String make;
-  String model;
-  IntervalFilter<Integer> price;
-  List<VehicleState> states;
-  VehicleCondition condition;
-  List<VehicleBodyType> bodyTypes;
-  VehicleTransmission transmission;
-  IntervalFilter<Integer> year;
-  IntervalFilter<Integer> mileage;
-  VehicleFuelType fuelType;
-  Color color;
+  private String make;
+  private String model;
+  private IntervalFilter<Integer> price;
+  private List<VehicleState> states;
+  private VehicleCondition condition;
+  private List<VehicleBodyType> bodyTypes;
+  private VehicleTransmission transmission;
+  private IntervalFilter<Integer> year;
+  private IntervalFilter<Integer> mileage;
+  private VehicleFuelType fuelType;
+  private Color color;
 
   public Integer getPriceFrom() {
-    if(price == null) {
+    if (price == null) {
       return null;
     }
 
@@ -39,7 +39,7 @@ public class VehicleFilters {
   }
 
   public Integer getPriceTo() {
-    if(price == null) {
+    if (price == null) {
       return null;
     }
 
@@ -47,7 +47,7 @@ public class VehicleFilters {
   }
 
   public Integer getYearFrom() {
-    if(year == null) {
+    if (year == null) {
       return null;
     }
 
@@ -55,7 +55,7 @@ public class VehicleFilters {
   }
 
   public Integer getYearTo() {
-    if(year == null) {
+    if (year == null) {
       return null;
     }
 
@@ -63,7 +63,7 @@ public class VehicleFilters {
   }
 
   public Integer getMileageFrom() {
-    if(mileage == null) {
+    if (mileage == null) {
       return null;
     }
 
@@ -71,7 +71,7 @@ public class VehicleFilters {
   }
 
   public Integer getMileageTo() {
-    if(mileage == null) {
+    if (mileage == null) {
       return null;
     }
 

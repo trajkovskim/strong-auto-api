@@ -349,6 +349,8 @@ components:
 
     VehicleRequest:
       type: object
+      required:
+        - title
       properties:
         state:
           $ref: "#/components/schemas/VehicleState"
@@ -420,13 +422,11 @@ components:
           items:
             $ref: "#/components/schemas/VehicleModel"
 
-
     VehicleEmbedded:
       type: object
       description: Vehicle embedded data
       required:
         - id
-        - amount
         - title
       properties:
         id:
