@@ -57,11 +57,11 @@ public class Vehicle {
   @Column(name = "summary")
   private String summary;
 
-  @JoinColumn(name = "id", referencedColumnName = "id")
+  @JoinColumn(name = "make_id", referencedColumnName = "id", nullable = false)
   @OneToOne
   private VehicleMake make;
 
-  @JoinColumn(name = "id", referencedColumnName = "id")
+  @JoinColumn(name = "model_id", referencedColumnName = "id", nullable = false)
   @OneToOne
   private VehicleModel model;
 

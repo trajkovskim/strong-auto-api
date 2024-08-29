@@ -23,7 +23,7 @@ public class VehicleFilters {
   IntervalFilter<Integer> price;
   List<VehicleState> states;
   VehicleCondition condition;
-  List<VehicleBodyType> bodyType;
+  List<VehicleBodyType> bodyTypes;
   VehicleTransmission transmission;
   IntervalFilter<Integer> year;
   IntervalFilter<Integer> mileage;

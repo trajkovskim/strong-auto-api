@@ -10,6 +10,7 @@ import org.example.strongauto.core.model.VehicleDto;
 import org.example.strongauto.core.model.VehicleEmbeddedDto;
 import org.example.strongauto.core.model.VehicleFiltersDto;
 import org.example.strongauto.core.model.VehicleMakeDto;
+import org.example.strongauto.core.model.VehicleMakeEmbeddedDto;
 import org.example.strongauto.persistence.model.Vehicle;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.example.strongauto.persistence.model.filters.VehicleFilters;
@@ -43,7 +44,9 @@ public class VehicleService {
     return vehicleConverter.convertVehicle(vehicle);
   }
 
-  public PageInfoDto<VehicleEmbeddedDto> findAllPageable(VehicleFiltersDto vehicleFiltersDto, Integer pageNumber, Integer pageSize, List<String> sortBy) {
+  public PageInfoDto<VehicleEmbeddedDto> findAllPageable(
+      VehicleFiltersDto vehicleFiltersDto, Integer pageNumber, Integer pageSize, List<String> sortBy) {
+
     List<Sort.Order> orders = sortBy.stream().map(sorter -> {
       final String[] x = sorter.split("=");
       return x[1] != null && x[1].equals("desc") ? Sort.Order.desc(x[0]) : Sort.Order.asc(x[0]);
@@ -76,10 +79,10 @@ public class VehicleService {
     return vehicleMakeConverter.convertVehicleMake(foundVehicleMake);
   }
 
-  public List<VehicleMakeDto> findVehicleMakes() {
+  public List<VehicleMakeEmbeddedDto> findVehicleMakes() {
 
     List<VehicleMake> foundVehicleMake = vehicleMakeRepository.findAll();
 
-    return foundVehicleMake.stream().map(vehicleMakeConverter::convertVehicleMake).toList();
+    return foundVehicleMake.stream().map(vehicleMakeConverter::convertVehicleMakeEmbedded).toList();
   }
 }

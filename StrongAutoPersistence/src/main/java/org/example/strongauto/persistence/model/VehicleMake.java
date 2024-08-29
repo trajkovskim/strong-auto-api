@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.strongauto.persistence.model.constants.RepositoryConstants;
-import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 

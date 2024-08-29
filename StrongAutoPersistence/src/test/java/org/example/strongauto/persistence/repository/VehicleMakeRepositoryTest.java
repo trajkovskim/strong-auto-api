@@ -13,8 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test class for {@link VehicleRepository}.
@@ -49,7 +48,40 @@ public class VehicleMakeRepositoryTest {
 
     // Then
     Optional<VehicleMake> foundVehicleMake = vehicleMakeRepository.findById(savedVehicleMake.getId());
-    assertTrue(foundVehicleMake.isPresent());
-    assertEquals(foundVehicleMake.get().getModels().size(), models.size());
+
+    assertThat(foundVehicleMake).isPresent();
+    assertThat(foundVehicleMake.get().getModels()).hasSize(models.size());
+  }
+
+  /** See method name. */
+  @Test
+  void shouldFindByMake() {
+
+    // Given
+    VehicleModel audiB8 = new VehicleModel();
+    audiB8.setModel("B8");
+
+    VehicleModel audiB9 = new VehicleModel();
+    audiB9.setModel("B9");
+
+    VehicleMake audi = new VehicleMake();
+    audi.setMake("AUDI");
+    audi.setModels(List.of(audiB8, audiB9));
+
+    VehicleModel bmwX1 = new VehicleModel();
+    bmwX1.setModel("X1");
+
+    VehicleMake bmw = new VehicleMake();
+    bmw.setMake("BMW");
+    bmw.setModels(List.of(bmwX1));
+
+    vehicleMakeRepository.saveAllAndFlush(List.of(audi, bmw));
+
+    // When
+    Optional<VehicleMake> foundMake = vehicleMakeRepository.findByMake("AUDI");
+
+    // Then
+    assertThat(foundMake).isPresent();
+    assertThat(foundMake.get().getModels()).hasSize(audi.getModels().size());
   }
 }

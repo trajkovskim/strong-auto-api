@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class VehicleEmbeddedDto {
 
-  private String id;
+  private Long id;
   private VehicleStateEnum state;
   private String title;
   private String summary;

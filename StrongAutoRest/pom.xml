@@ -23,6 +23,12 @@
       <groupId>org.example</groupId>
       <artifactId>StrongAutoRestApi</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.hateoas</groupId>
+      <artifactId>spring-hateoas</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.example</groupId>
       <artifactId>StrongAutoCore</artifactId>

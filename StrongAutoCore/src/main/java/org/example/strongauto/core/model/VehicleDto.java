@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 public class VehicleDto {
 
-  private String id;
+  private Long id;
   private VehicleStateEnum state;
   private String title;
   private String description;

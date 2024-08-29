@@ -107,18 +107,18 @@ components:
         currency:
           $ref: "#/components/schemas/Currency"
 
-    VehicleMakeValue:
-      type: string
-      example: 'AUDI'
-    VehicleModelValue:
-      type: string
-      example: 'B8'
-
     Id:
       type: integer
       format: int64
       description: Primary key
       example: 0
+
+    VehicleState:
+      type: string
+      enum:
+        - FEATURED
+        - SOLD
+      example: "SOLD"
     VehicleCondition:
       type: string
       enum:
@@ -189,15 +189,14 @@ components:
           $ref: "#/components/schemas/VehicleMakeValue"
         model:
           $ref: "#/components/schemas/VehicleModelValue"
-        price:
-          type: string
-          example: "0-1000"
-        sold:
-          type: boolean
-          example: false
-        featured:
-          type: boolean
-          example: true
+        priceFrom:
+          $ref: "#/components/schemas/Decimal"
+        priceTo:
+          $ref: "#/components/schemas/Decimal"
+        states:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleState"
         condition:
           $ref: "#/components/schemas/VehicleCondition"
         bodyTypes:
@@ -240,13 +239,6 @@ components:
             saving:
               $ref: "#/components/schemas/Decimal"
 
-    VehicleState:
-      type: string
-      enum:
-        - FEATURED
-        - SOLD
-      example: "SOLD"
-
     VehicleEmbedded:
       type: object
       description: Vehicle embedded data
@@ -276,12 +268,6 @@ components:
           type: string
           description: Vehicle title
           example: "Audi RS7"
-        description:
-          type: string
-          description: Vehicle description
-          example: |
-            - 2.0 TDI
-            - 4 new tires
         summary:
           type: string
           description: Vehicle summary
@@ -297,6 +283,27 @@ components:
           $ref: "#/components/schemas/Year"
         driveType:
           $ref: "#/components/schemas/VehicleDriveType"
+    VehicleEmbeddedResponse:
+      allOf:
+        - $ref: "#/components/schemas/VehicleEmbedded"
+        - type: object
+          properties:
+            links:
+              $ref: "#/components/schemas/SelfLink"
+    VehiclesResponse:
+      type: object
+      required:
+        - pageInfo
+        - vehicles
+      properties:
+        info:
+          $ref: "#/components/schemas/PageInfo"
+        vehicles:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleEmbeddedResponse"
+        links:
+          $ref: "#/components/schemas/PaginationLinks"
 
     Vehicle:
       description: Vehicle full data
@@ -327,7 +334,17 @@ components:
               items:
                 type: string
                 example: "air_conditioner"
+    VehicleResponse:
+      allOf:
+        - $ref: "#/components/schemas/Vehicle"
+        - type: object
+          properties:
+            links:
+              $ref: "#/components/schemas/SelfLink"
 
+    VehicleModelValue:
+      type: string
+      example: 'B8'
     VehicleModel:
       type: object
       required:
@@ -335,6 +352,10 @@ components:
       properties:
         model:
           $ref: "#/components/schemas/VehicleModelValue"
+
+    VehicleMakeValue:
+      type: string
+      example: 'AUDI'
     VehicleMakeEmbedded:
       type: object
       required:
@@ -342,6 +363,23 @@ components:
       properties:
         make:
           $ref: "#/components/schemas/VehicleMakeValue"
+    VehicleMakeEmbeddedResponse:
+      allOf:
+        - $ref: '#/components/schemas/VehicleMakeEmbedded'
+        - type: object
+          properties:
+            links:
+              $ref: "#/components/schemas/SelfLink"
+    VehicleMakesResponse:
+      type: object
+      required:
+        - makes
+      properties:
+        makes:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleMakeEmbeddedResponse"
+
     VehicleMake:
       allOf:
         - $ref: "#/components/schemas/VehicleMakeEmbedded"
@@ -353,33 +391,42 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/VehicleModel"
-    VehicleMakesResponse:
-      type: object
-      required:
-        - makes
-      properties:
-        makes:
-          type: array
-          items:
-            $ref: "#/components/schemas/VehicleMakeEmbedded"
     VehicleMakeResponse:
-      $ref: '#/components/schemas/VehicleMake'
+      allOf:
+        - $ref: '#/components/schemas/VehicleMake'
+        - type: object
+          properties:
+            links:
+              $ref: "#/components/schemas/SelfLink"
 
-    VehiclesResponse:
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+          example: .../api/v1/
+
+    SelfLink:
       type: object
       required:
-        - pageInfo
-        - vehicles
+        - self
       properties:
-        info:
-          $ref: "#/components/schemas/PageInfo"
-        vehicles:
-          type: array
-          items:
-            $ref: "#/components/schemas/VehicleEmbedded"
+        self:
+          $ref: "#/components/schemas/Link"
 
-    VehicleResponse:
-      $ref: "#/components/schemas/Vehicle"
+    PaginationLinks:
+      type: object
+      properties:
+        self:
+          $ref: "#/components/schemas/Link"
+        first:
+          $ref: "#/components/schemas/Link"
+        last:
+          $ref: "#/components/schemas/Link"
+        prev:
+          $ref: "#/components/schemas/Link"
+        next:
+          $ref: "#/components/schemas/Link"
 
     PageInfo:
       type: object
@@ -421,37 +468,37 @@ components:
     VehicleMakesResponse:
       description: List of vehicle makes entries
       content:
-        application/json:
+        application/hal+json:
           schema:
             $ref: "#/components/schemas/VehicleMakesResponse"
     VehicleMakeResponse:
       description: Vehicle make info
       content:
-        application/json:
+        application/hal+json:
           schema:
             $ref: "#/components/schemas/VehicleMakeResponse"
     VehiclesResponse:
       description: A list of pageable vehicle entries
       content:
-        application/json:
+        application/hal+json:
           schema:
             $ref: "#/components/schemas/VehiclesResponse"
     VehicleResponse:
       description: Vehicle info
       content:
-        application/json:
+        application/hal+json:
           schema:
             $ref: "#/components/schemas/VehicleResponse"
     BadRequestResponse:
       description: Bad request error info
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
     NotFoundResponse:
       description: Not found error info
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
 

@@ -6,13 +6,14 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:file:/strongauto-data
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      dialect: org.hibernate.dialect.ProgressDialect
+      ddl-auto: validate
+      dialect: org.hibernate.dialect.H2Dialect
 
 springdoc:
   swagger-ui:

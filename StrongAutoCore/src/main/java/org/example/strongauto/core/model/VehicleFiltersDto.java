@@ -23,7 +23,7 @@ public class VehicleFiltersDto {
   IntervalFilterDto<Integer> price;
   List<VehicleStateEnum> states;
   VehicleConditionEnum condition;
-  List<VehicleBodyTypeEnum> bodyType;
+  List<VehicleBodyTypeEnum> bodyTypes;
   VehicleTransmissionEnum transmission;
   IntervalFilterDto<Integer> year;
   IntervalFilterDto<Integer> mileage;

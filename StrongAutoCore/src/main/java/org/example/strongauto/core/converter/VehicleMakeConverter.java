@@ -1,6 +1,7 @@
 package org.example.strongauto.core.converter;
 
 import org.example.strongauto.core.model.VehicleMakeDto;
+import org.example.strongauto.core.model.VehicleMakeEmbeddedDto;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.mapstruct.Mapper;
 
@@ -9,6 +10,8 @@ import org.mapstruct.Mapper;
 public interface VehicleMakeConverter {
 
   VehicleMakeDto convertVehicleMake(VehicleMake vehicleMake);
+
+  VehicleMakeEmbeddedDto convertVehicleMakeEmbedded(VehicleMake vehicleMake);
 
   VehicleMake convertVehicleMake(VehicleMakeDto vehicleMake);
 }
