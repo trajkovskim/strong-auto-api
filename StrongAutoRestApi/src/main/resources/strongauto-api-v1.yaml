@@ -201,7 +201,12 @@ components:
       type: integer
       description: year
       example: 2010
-
+    Language:
+      type: string
+      enum:
+        - MK
+        - EN
+      example: "MK"
     Currency:
       type: string
       enum:
@@ -221,6 +226,10 @@ components:
       description: Primary key
       example: 0
 
+    VehicleFeatures:
+      type: string
+      enum:
+        -
     VehicleState:
       type: string
       enum:

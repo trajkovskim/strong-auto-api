@@ -7,6 +7,16 @@ databaseChangeLog:
             sql: CREATE SCHEMA IF NOT EXISTS strongauto;
             stripComments: true
         - createSequence:
+            sequenceName: localized_text_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
+            sequenceName: localized_text_ref_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
             sequenceName:  vehicle_sequence
             schemaName: strongauto
             incrementBy: 1
@@ -28,6 +38,47 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+            tableName: localized_text_ref
+            schemaName: strongauto
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: text
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: language
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: localized_text_ref_id
+                  type: bigint
+            tableName: localized_text
+            schemaName: strongauto
+        - addForeignKeyConstraint:
+            constraintName: localized_text_localized_text_ref
+            baseColumnNames: localized_text_ref_id
+            baseTableName: localized_text
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: localized_text_ref
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
               - column:
                   name: make_id
                   type: bigint
@@ -35,16 +86,14 @@ databaseChangeLog:
                   name: model_id
                   type: bigint
               - column:
-                  name: title
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
+                  name: localized_title_ref_id
+                  type: bigint
               - column:
-                  name: description
-                  type: varchar(255)
+                  name: localized_description_ref_id
+                  type: bigint
               - column:
-                  name: summary
-                  type: varchar(255)
+                  name: localized_summary_ref_id
+                  type: bigint
               - column:
                   name: state
                   type: varchar(255)
@@ -121,6 +170,32 @@ databaseChangeLog:
                   type: bigint
             schemaName: strongauto
             tableName: vehicle_model
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_title_localized_text_ref
+            baseColumnNames: localized_title_ref_id
+            baseTableName: vehicle
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: localized_text_ref
+            referencedTableSchemaName: strongauto
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_description_localized_text_ref
+            baseColumnNames: localized_description_ref_id
+            baseTableName: vehicle
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: localized_text_ref
+            referencedTableSchemaName: strongauto
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_summary_localized_text_ref
+            baseColumnNames: localized_summary_ref_id
+            baseTableName: vehicle
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: localized_text_ref
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
         - addForeignKeyConstraint:
             constraintName: fk_vehicle_model_vehicle_make
             baseColumnNames: make_id

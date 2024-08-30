@@ -29,7 +29,7 @@ const PopularMakes: React.FC = () => {
     }
 
     send(
-      searchVehicles({ vehicleFilters: { make: activeTab } }).then((data) =>
+      searchVehicles({ vehicleFilters: { make: activeTab }, page: 0, size: 20 }).then((data) =>
         setVehiclesByMake((prev) => ({ ...prev, [activeTab]: data.vehicles }))
       )
     );

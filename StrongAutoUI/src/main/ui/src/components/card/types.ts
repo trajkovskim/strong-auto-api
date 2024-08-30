@@ -6,7 +6,7 @@ export type ProductProps = {
   rating?: number;
   title: Vehicle['title'];
   summary?: Vehicle['summary'];
-  amount: Vehicle['amount'];
+  amount?: Vehicle['amount'];
   bookmarked?: boolean;
   images?: Vehicle['images'];
   onView?: () => void;

@@ -28,7 +28,11 @@ const ProductsSection: React.FC = () => {
   const [vehiclesResponse, setVehiclesResponse] = useState<VehiclesResponse>();
 
   useEffect(() => {
-    send(searchVehicles({ vehicleFilters: { states: [VehicleState.Featured] } }).then(setVehiclesResponse));
+    send(
+      searchVehicles({ vehicleFilters: { states: [VehicleState.Featured] }, page: 0, size: 15 }).then(
+        setVehiclesResponse
+      )
+    );
   }, [send]);
 
   if (loading) {

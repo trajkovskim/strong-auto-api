@@ -1,4 +1,5 @@
 import { MiniProductCard } from 'components/card';
+import ProductCardPrice from 'components/card/ProductCardPrice';
 import {
   BoxAnimation,
   Button,
@@ -31,7 +32,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Routes } from 'routes';
 import { getVehicleEntry, searchVehicles } from 'services/VehicleService';
 import styled from 'styled-components';
-import { call, formatMoney, formatNumber, mailTo } from 'utils';
+import { call, formatNumber, mailTo } from 'utils';
 
 const StyledButton = styled(Button)`
   border-radius: 5px;
@@ -295,23 +296,7 @@ const ViewDetails: React.FC = () => {
             <Container styleConfig={{ rounded: true, padding: 'md', gap: '1rem', bordered: true }}>
               <Container styleConfig={{ gap: '0.3rem' }}>
                 <Text fontSize="lg">{t('offer')}</Text>
-                {product.amount?.totalPromo && (
-                  <Container styleConfig={{ gap: '0.5rem', direction: 'row', alignItems: 'end' }}>
-                    <Text fontSize="lg" textDecoration="line-through">
-                      {formatMoney(product.amount.total)}
-                    </Text>
-                    <Text fontSize="3xl" bold>
-                      {formatMoney(product.amount.totalPromo)}
-                    </Text>
-                  </Container>
-                )}
-                {!product.amount?.totalPromo && (
-                  <div>
-                    <Text fontSize="3xl" bold>
-                      {formatMoney(product.amount.total)}
-                    </Text>
-                  </div>
-                )}
+                <ProductCardPrice styleConfig={{ direction: 'row', gap: '0.5rem' }} />
                 {product.amount?.saving && (
                   <div>
                     <Text fontSize="lg">{t('saving', { saving: formatNumber(product.amount.saving) })}</Text>

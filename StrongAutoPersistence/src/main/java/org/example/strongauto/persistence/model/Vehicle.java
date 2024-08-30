@@ -1,5 +1,6 @@
 package org.example.strongauto.persistence.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -23,6 +25,8 @@ import org.example.strongauto.persistence.model.enums.VehicleDriveType;
 import org.example.strongauto.persistence.model.enums.VehicleFuelType;
 import org.example.strongauto.persistence.model.enums.VehicleState;
 import org.example.strongauto.persistence.model.enums.VehicleTransmission;
+
+import java.util.List;
 
 /**
  * Vehicle persistence model.
@@ -47,14 +51,17 @@ public class Vehicle {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "title", nullable = false)
-  private String title;
+  @JoinColumn(name = "localized_title_ref_id", referencedColumnName = "id")
+  @OneToOne(cascade = CascadeType.ALL)
+  private LocalizedTextList title;
 
-  @Column(name = "description")
-  private String description;
+  @JoinColumn(name = "localized_description_ref_id", referencedColumnName = "id")
+  @OneToOne(cascade = CascadeType.ALL)
+  private LocalizedTextList description;
 
-  @Column(name = "summary")
-  private String summary;
+  @JoinColumn(name = "localized_summary_ref_id", referencedColumnName = "id")
+  @OneToOne(cascade = CascadeType.ALL)
+  private LocalizedTextList summary;
 
   @JoinColumn(name = "make_id", referencedColumnName = "id")
   @OneToOne

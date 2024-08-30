@@ -35,15 +35,15 @@ export const MOCK_VEHICLE_API: VehicleApi = {
 
       const mileage = vehicle.mileage ?? 0;
       const year = vehicle.mileage ?? 0;
-      const vehicleAmount = vehicle.amount.totalPromo ?? vehicle.amount.total;
+      const vehicleAmount = vehicle.amount?.totalPromo ?? vehicle.amount?.total;
 
       if (
         (mileageInterval.from && mileage < mileageInterval.from) ||
         (mileageInterval.to && mileage > mileageInterval.to) ||
         (yearInterval.from && year < yearInterval.from) ||
         (yearInterval.to && year > yearInterval.to) ||
-        (priceInterval.from && vehicleAmount < priceInterval.from) ||
-        (priceInterval.to && vehicleAmount > priceInterval.to)
+        (priceInterval.from && vehicleAmount && vehicleAmount < priceInterval.from) ||
+        (priceInterval.to && vehicleAmount && vehicleAmount > priceInterval.to)
       ) {
         return false;
       }
