@@ -11,24 +11,12 @@
 
   <artifactId>StrongAutoRest</artifactId>
 
-  <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
   <dependencies>
     <!-- Project -->
     <dependency>
       <groupId>org.example</groupId>
       <artifactId>StrongAutoRestApi</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>org.springframework.hateoas</groupId>
-      <artifactId>spring-hateoas</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>org.example</groupId>
       <artifactId>StrongAutoCore</artifactId>
@@ -39,6 +27,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.hateoas</groupId>
+      <artifactId>spring-hateoas</artifactId>
     </dependency>
 
     <!-- Utilities -->

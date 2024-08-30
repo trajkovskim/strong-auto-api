@@ -1,0 +1,10 @@
+export { default as Home } from 'pages/home';
+export { default as Shop } from 'pages/shop';
+export { default as Contact } from 'pages/contact';
+export { default as ViewDetails } from 'pages/view-details';
+export { default as AboutUs } from 'pages/about-us';
+export { default as Parts } from 'pages/parts';
+export { default as TowingService } from 'pages/services/towing-service';
+export { default as CarService } from 'pages/services/car-service';
+export { default as DpfCleaningService } from 'pages/services/dpf-cleaning-service';
+export { default as NotFound } from 'pages/other/NotFound';

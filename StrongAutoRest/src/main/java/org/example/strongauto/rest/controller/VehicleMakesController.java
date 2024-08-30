@@ -12,13 +12,12 @@ import org.example.strongauto.core.service.VehicleService;
 import org.example.strongauto.rest.converter.VehicleMakeRestConverter;
 import org.example.strongauto.rest.factory.VehicleMakeResponseFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
+@StrongAutoController
 public class VehicleMakesController implements VehicleMakesApi {
 
   private final VehicleService vehicleService;

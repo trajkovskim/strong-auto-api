@@ -21,6 +21,7 @@
     <module>StrongAutoApp</module>
     <module>StrongAutoCore</module>
     <module>StrongAutoPersistence</module>
+    <module>StrongAutoUI</module>
   </modules>
 
   <properties>
@@ -34,6 +35,9 @@
 
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+
+    <!-- Plugins -->
+    <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -62,6 +66,12 @@
       <dependency>
         <groupId>org.example</groupId>
         <artifactId>StrongAutoCore</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.example</groupId>
+        <artifactId>StrongAutoUI</artifactId>
         <version>${project.version}</version>
       </dependency>
 
@@ -102,6 +112,16 @@
   </dependencyManagement>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>${frontend-maven-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

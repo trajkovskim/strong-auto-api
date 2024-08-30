@@ -1,0 +1,483 @@
+{
+  "strongauto": {
+    "telephone": "+38977648648",
+    "email": "vane.stamenov@gmail.com",
+    "openHours": "Пон-Нед: 08:00 - 20:00",
+    "followUs": "Follow us:",
+    "languages": {
+      "title": "Јазик",
+      "mk": "Македонски",
+      "en": "Англиски"
+    },
+    "notFound": {
+      "backToHomePageButton": "Back to home page"
+    },
+    "nav": {
+      "home": "Дома",
+      "shop": "Салон",
+      "aboutUs": "За нас",
+      "contact": "Контакт",
+      "services": "Сервиси",
+      "towingService": "Шлеп служба",
+      "dpfCleaningService": "DPF чистење",
+      "carService": "Сервис на визило"
+    },
+    "footer": {
+      "description": "Strong auto is a Strong auto is a Strong auto is a Strong auto is a Strong auto is a auto is a Strong auto is a auto is a Strong auto is a",
+      "findUs": {
+        "title": "Пронајди не",
+        "location": "15 Некаде во Струмица\nСеверна Македонија, NMK\nСтрумица 2400",
+        "openHours": {
+          "title": "Отворени:",
+          "label": "Mon-Sun: 08:00 - 20:00"
+        }
+      },
+      "contacts": {
+        "title": "Контакти",
+        "general": {
+          "title": "Телефон:"
+        },
+        "email": {
+          "title": "Електронска пошта:"
+        }
+      },
+      "usefulLinks": {
+        "title": "Корисни линкови:",
+        "home": "Дома",
+        "shop": "Салон",
+        "aboutUs": "За нас",
+        "contact": "Контакт"
+      },
+      "newsLetter": {
+        "title": "Придружете се:",
+        "description": "Добивајте новости, типови и многу повеќе!",
+        "emailInput": {
+          "placeholder": "Вашата електронска пошта"
+        },
+        "subscribeButton": "Претплати се"
+      }
+    },
+    "home": {
+      "carousel": {
+        "title": "Добредојдовте во StrongAUTO",
+        "description": "Погледнете ги колите што ги имаме во нашиот салон",
+        "inventoryButton": "Оди до салон",
+        "scrollDownButton": "Надолу"
+      },
+      "searchBox": {
+        "title": "Пронајди тоа што бараш",
+        "makeInput": {
+          "placeholder": "Направена од"
+        },
+        "modelInput": {
+          "placeholder": "Модел"
+        },
+        "priceInput": {
+          "placeholder": "Цена"
+        },
+        "advancedButton": "Напреден",
+        "searchButton": "Преварувај",
+        "popularSearches": "Популарни пребарувања:"
+      },
+      "vehiclesSection": {
+        "featured": "Истакнати",
+        "bodyTypes": "Тело",
+        "available": "{{n}} достапни"
+      },
+      "buyingACar": {
+        "title": "Сакате да купите кола?",
+        "description": "Во нашиот салон за автомобили, вашето идеално возило ве чека! Специјализирани сме за пружање на извонредни услуги и понуда која ќе ги задоволи сите ваши потреби. Без разлика дали барате нови, користени или луксузни возила, имаме сè што ви е потребно на едно место.",
+        "visitButton": "Погледнете во нашиот салон"
+      },
+      "rentingACar": {
+        "title": "Сакате да изнајмите кола?",
+        "description": "Во нашиот салон за автомобили, вашето идеално возило ве чека! Специјализирани сме за пружање на извонредни услуги и понуда која ќе ги задоволи сите ваши потреби. Без разлика дали барате нови, користени или луксузни возила, имаме сè што ви е потребно на едно место.",
+        "visitButton": "Погледнете во нашиот салон"
+      },
+      "popularMakes": {
+        "title": "Популарни модели",
+        "viewAllButton": "Види ги сите"
+      },
+      "ourServices": {
+        "title": "Наши сервиси",
+        "description": "StrongAUTO е најпримамливиот, креативен, модерен и повеќенаменски продавач на автомобили",
+        "viewAllButton": "Види ги сите сервиси",
+        "towingService": {
+          "title": "БРЗА И НЕ МНОГУ СКАПА ВЛЕЧНА СЛУЖБА ",
+          "description": "Кога не е возможно да го поправите вашиот автомобил на лице место ние можеме да ви помогнеме."
+        },
+        "dpfCleaning": {
+          "title": "DPF ЧИСТЕЊЕ",
+          "description": "Кога не е возможно да го поправите вашиот автомобил на лице место ние можеме да ви помогнеме."
+        },
+        "carService": {
+          "title": "СЕРВИС НА ВАШИОТ АВТОМОБИЛ",
+          "description": "Кога не е возможно да го поправите вашиот автомобил на лице место ние можеме да ви помогнеме."
+        }
+      },
+      "whyChooseUs": {
+        "title": "Зошто би ги избрале нашите сервиси",
+        "description": "StrongAUTO е најпримамливиот, креативен, модерен и повеќенаменски продавач на автомобили",
+        "point1": {
+          "title": "Доверлив салон за автомобили",
+          "description": "Широк асортиман на возила – од нови модели до добро одржувани класични автомобили, пронајдете го вашето совршено возило."
+        },
+        "point2": {
+          "title": "Доверлив салон за автомобили",
+          "description": "Широк асортиман на возила – од нови модели до добро одржувани класични автомобили, пронајдете го вашето совршено возило."
+        },
+        "point3": {
+          "title": "Доверлив салон за автомобили",
+          "description": "Широк асортиман на возила – од нови модели до добро одржувани класични автомобили, пронајдете го вашето совршено возило."
+        },
+        "point4": {
+          "title": "Доверлив салон за автомобили",
+          "description": "Широк асортиман на возила – од нови модели до добро одржувани класични автомобили, пронајдете го вашето совршено возило."
+        }
+      },
+      "reviews": {
+        "title": "Што велат нашите клиенти за нас",
+        "via": "од {{platform}}",
+        "starRating": "{{stars}}-оценка"
+      },
+      "newsLetterSubscription": {
+        "title": "Добијте најнови ажурирања и најдобри понуди",
+        "description": "StrongAUTO е најпримамливиот, креативен, модерен и повеќенаменски продавач на автомобили",
+        "emailInput": {
+          "placeholder": "Внесете електронска пошта"
+        },
+        "subscribeButton": "Претплати се"
+      },
+      "generalFaq": {
+        "title": "Генерални чести прашања",
+        "description": "Погледнете ги нашите често поставувани прашања кои ги имаме спремено за вас кои се често поставувани од нашите клиенти",
+        "questions": {
+          "0": {
+            "question": "Прашање 1?",
+            "answer": "Широк асортиман на возила – од нови модели до добро одржувани класични автомобили, пронајдете го вашето совршено возило."
+          },
+          "1": {
+            "question": "Прашање 2?",
+            "answer": "Одговор 2"
+          },
+          "2": {
+            "question": "Прашање 3?",
+            "answer": "Одговор 3"
+          },
+          "3": {
+            "question": "Прашање 4?",
+            "answer": "Одговор 4"
+          },
+          "4": {
+            "question": "Прашање 5?",
+            "answer": "Одговор 5"
+          }
+        }
+      }
+    },
+    "vehicleState": {
+      "SOLD": "Продадено",
+      "FEATURED": "Истакнато"
+    },
+    "vehicleCondition": {
+      "NEW": "Ново",
+      "USED": "Користено"
+    },
+    "vehicleBodyType": {
+      "SEDAN": "Sedan",
+      "COUPE": "Coupe",
+      "SUV": "SUV",
+      "CONVERTIBLE": "Convertible",
+      "LIMOUSINE": "Limousine"
+    },
+    "vehicleTransmission": {
+      "AUTOMATIC": "Автоматски",
+      "MANUAL": "Рачен"
+    },
+    "vehicleDriveType": {
+      "AWD_4WD": "Погон на сите тркала",
+      "2WD_FWD": "Погон на 2 тркала (Предна)",
+      "2WD_RWD": "Погон на 2 тркала (Задна)"
+    },
+    "vehicleMileage": "{{mileage}}km",
+    "vehicleFuelType": {
+      "ELECTRIC": "Електричен",
+      "DIESEL": "Дизел",
+      "PETROL": "Бензин",
+      "HYBRID": "Хибрид"
+    },
+    "color": {
+      "BLACK": "Црна",
+      "WHITE": "Бела",
+      "RED": "Црвена"
+    },
+    "price": {
+      "0-3000": "0-3000",
+      "3000-10000": "3000-10000",
+      "10000-20000": "10000-20000",
+      "20000-50000": "20000-50000",
+      "50000-100000": "50000-100000",
+      "100000-any": "100000-нагоре"
+    },
+    "inventory": {
+      "filters": {
+        "header": "Филтрирање",
+        "basic": {
+          "title": "Основни",
+          "makeInput": {
+            "placeholder": "Направена од",
+            "label": "Направена од"
+          },
+          "modelInput": {
+            "placeholder": "Модел",
+            "label": "Модел"
+          },
+          "priceInput": {
+            "placeholder": "Цена",
+            "label": "Цена"
+          }
+        },
+        "technical": {
+          "title": "Технички",
+          "conditionInput": {
+            "placeholder": "Состојба",
+            "label": "Состојба"
+          },
+          "bodyType": {
+            "title": "Тело"
+          },
+          "transmissionInput": {
+            "placeholder": "Менувач",
+            "label": "Менувач"
+          },
+          "driveTypeInput": {
+            "placeholder": "Погон",
+            "label": "Погон"
+          },
+          "yearFromInput": {
+            "placeholder": "Година (Од)",
+            "label": "Година"
+          },
+          "yearToInput": {
+            "placeholder": "Година (До)",
+            "label": "Година"
+          },
+          "mileageFromInput": {
+            "placeholder": "Километри (Од)",
+            "label": "Километри"
+          },
+          "mileageToInput": {
+            "placeholder": "Километри (До)",
+            "label": "Километри"
+          },
+          "fuelTypeInput": {
+            "placeholder": "Гориво",
+            "label": "Гориво"
+          },
+          "colorInput": {
+            "placeholder": "Боја",
+            "label": "Боја"
+          }
+        },
+        "features": {
+          "title": "Карактеристики"
+        },
+        "searchButton": "Пребарувај",
+        "resetButton": "Ресетирај"
+      },
+      "pagination": {
+        "sortByInput": {
+          "label": "Сортирај по",
+          "UNSORTED": "Стандард",
+          "PRICE_ASC": "Цена (растечка)",
+          "PRICE_DESC": "Цена (опаѓачка)",
+          "ID_ASC": "Најнови",
+          "ID_DESC": "Најстари"
+        },
+        "resultSizeInput": {
+          "label": "Резултати",
+          "10": "10",
+          "20": "20",
+          "40": "40",
+          "60": "60",
+          "100": "100"
+        },
+        "resultsShown": "Прикажани резултати {{results}} од {{totalResults}}"
+      }
+    },
+    "aboutUs": {
+      "title": "За нас",
+      "whoWeAre": {
+        "title": "Кој сме ние",
+        "description": "Кој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ниеКој сме ние"
+      },
+      "ourMission": {
+        "title": "Our mission",
+        "description": "At StrongAUTO, our mission is simple: to deliver an unparalleled automotive experience through integrity, innovation, and dedication. We strive to exceed your expectations by offering a diverse selection of vehicles, personalized service, and a seamless process whether you're purchasing or renting a car."
+      }
+    },
+    "contact": {
+      "title": "Стапете во контакт со нас!",
+      "giveUsAMessage": {
+        "title": "Испратете ни порака и известете не",
+        "description": "Ќе ја погледнеме вашата порака најбрзо што можеме ќе ви дадеме одговор што е можно поскоро",
+        "nameInput": {
+          "placeholder": "Вашето име"
+        },
+        "emailInput": {
+          "placeholder": "Вашата електронска пошта"
+        },
+        "phoneInput": {
+          "placeholder": "Вашиот телефон"
+        },
+        "subjectInput": {
+          "placeholder": "Наслов на е-пошта"
+        },
+        "messageInput": {
+          "placeholder": "Порака"
+        },
+        "sendMessageButton": "Прати порака"
+      },
+      "location": {
+        "title": "Локација",
+        "description": "15 Somewhere in strumica\nNorth Macedonia, MK\nStrumica 2400"
+      },
+      "callUs": {
+        "title": "Јавете се:"
+      },
+      "sendUsAnEmail": {
+        "title": "Пратете е-пошта на:"
+      },
+      "socialMedia": {
+        "title": "Социјална мрежа"
+      },
+      "openHours": {
+        "title": "Отворено:"
+      }
+    },
+    "viewDetails": {
+      "description": {
+        "title": "Опис"
+      },
+      "carOverview": {
+        "title": "Преглед",
+        "bodyType": "Тело",
+        "mileage": "Километри",
+        "fuelType": "Гориво",
+        "year": "Година",
+        "transmission": "Менувач",
+        "driveType": "Погон",
+        "condition": "Состојба",
+        "engineSize": "Големина на мотор",
+        "doors": "Врати",
+        "color": "Боја"
+      },
+      "features": {
+        "title": "Карактеристики"
+      },
+      "featuredProducts": {
+        "title": "Истакнати производи"
+      },
+      "saving": "Заштеда: {{saving}}$",
+      "offer": "Нашата понуда:",
+      "sendMessageButton": "Прати порака"
+    },
+    "services": {
+      "header": "Сервиси",
+      "introCard": {
+        "title": "Наши сервиси",
+        "description": "StrongAUTO е најпримамливиот, креативен, модерен и повеќенаменски продавач на автомобили"
+      },
+      "servicesList": {
+        "title": "We Provide Best Vehicles Solution & Awesome Services"
+      },
+      "cards": {
+        "0": {
+          "title": "FAST AND INEXPENSIVE TOWING SERVICES",
+          "description": "When it is not possible to fix a vehicle on-site, we utilise our extensive network of l."
+        },
+        "1": {
+          "title": "DPF CLEANING",
+          "description": "When it is not possible to fix a vehicle on-site, we utilise our extensive network of l."
+        },
+        "2": {
+          "title": "CAR SERVICE",
+          "description": "mply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever It has survived not only five centuries, but"
+        }
+      },
+      "towingService": {
+        "header": "Towing Service",
+        "title": "Dependable Towing, Anytime, Anywhere",
+        "description": "When you’re stranded, you need quick and reliable help. At StrongAUTO, our Fast and Inexpensive Towing Services ensure you’re never left waiting. With our 24/7 availability and budget-friendly rates, you can trust us to get your vehicle safely to its destination without breaking the bank. Let us take the stress out of your roadside emergency – call us anytime!",
+        "whyChooseOurTowingServices": {
+          "title": "Why Choose Our Towing Services?",
+          "list": {
+            "0": {
+              "title": "Rapid Response Time",
+              "items": {
+                "0": "We offer 24/7 towing services, ensuring that help is always available when you need it. Our quick response times mean you’re never left waiting long, no matter the hour."
+              }
+            },
+            "1": {
+              "title": "Affordable Pricing",
+              "items": {
+                "0": "Our towing services are designed to be budget-friendly. We provide clear, upfront pricing with no hidden fees, so you can get the assistance you need without breaking the bank."
+              }
+            },
+            "2": {
+              "title": "Professional & Experienced Team",
+              "items": {
+                "0": "Our tow truck operators are highly trained and experienced. They handle all types of vehicles with care, from small cars to larger SUVs, ensuring safe and efficient transport."
+              }
+            },
+            "3": {
+              "title": "Local & Long-Distance Coverage",
+              "items": {
+                "0": "Whether you’re stuck in a nearby parking lot or need a tow across town or further, our fleet is equipped to handle both local and long-distance towing. We offer flexible solutions tailored to your needs."
+              }
+            },
+            "4": {
+              "title": "Comprehensive Towing Services",
+              "items": {
+                "0": "Emergency Towing: Quick and reliable service for unexpected roadside emergencies.",
+                "1": "Flatbed Towing: Safe transport for vehicles that require extra care, such as luxury or modified vehicles.",
+                "2": "Winch Outs: Assistance with vehicles that are stuck in difficult conditions like mud, snow, or ditches."
+              }
+            },
+            "5": {
+              "title": "Door-to-Door Service",
+              "items": {
+                "0": "We provide door-to-door towing, picking up your vehicle from its current location and delivering it directly to your chosen destination, whether it’s our service center, your home, or another repair shop."
+              }
+            }
+          }
+        }
+      },
+      "carService": {
+        "header": "Car service",
+        "title": "Dependable Towing, Anytime, Anywhere",
+        "description": "When you’re stranded, you need quick and reliable help. At StrongAUTO, our Fast and Inexpensive Towing Services ensure you’re never left waiting. With our 24/7 availability and budget-friendly rates, you can trust us to get your vehicle safely to its destination without breaking the bank. Let us take the stress out of your roadside emergency – call us anytime!"
+      },
+      "dpfCleaningService": {
+        "header": "DPF Cleaning Service",
+        "title": "Dependable Towing, Anytime, Anywhere",
+        "description": "When you’re stranded, you need quick and reliable help. At StrongAUTO, our Fast and Inexpensive Towing Services ensure you’re never left waiting. With our 24/7 availability and budget-friendly rates, you can trust us to get your vehicle safely to its destination without breaking the bank. Let us take the stress out of your roadside emergency – call us anytime!"
+      },
+      "contactUs": {
+        "title": "Contact Us",
+        "description": "For fast, reliable, and affordable towing services, look no further than StrongAUTO. We’re here to assist you with all your towing needs, ensuring you get back on the road with minimal hassle.",
+        "callUsNowButton": "Call us now:"
+      }
+    },
+    "breadcrumb": {
+      "home": "Дома",
+      "shop": "Салон",
+      "aboutUs": "За нас",
+      "contact": "Контакт",
+      "services": "Сервиси",
+      "towingService": "Шлеп служба",
+      "dpfCleaningService": "DPF чистење",
+      "carService": "Сервис на визило"
+    }
+  }
+}
