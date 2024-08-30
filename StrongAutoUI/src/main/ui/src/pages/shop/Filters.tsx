@@ -15,6 +15,7 @@ import {
 import { VehicleFiltersForm } from 'context/vehicles';
 import { VehicleBodyType, VehicleState } from 'generated';
 import { useFetchMakes, useTranslation } from 'hooks';
+import useFetchFeatures from 'hooks/useFetchFeatures';
 import {
   convertMakeModelsToOptions,
   convertMakesToOptions,
@@ -60,6 +61,8 @@ const Filters: React.FC<Props> = (props) => {
   const years = new Array(30).fill(0).map((_, index) => yearNow - index);
   const { fetchModels, loadingGetVehicleMakeEntryRequest, loadingGetVehicleMakesEntriesRequest, makes } =
     useFetchMakes();
+  const { features, loadingGetVehicleFeatureEntriesRequest } = useFetchFeatures();
+
   const accordionBasicRef = useRef<AccordionHandle>(null);
   const accordionTechnicalRef = useRef<AccordionHandle>(null);
   const accordionFeaturesRef = useRef<AccordionHandle>(null);
@@ -261,28 +264,13 @@ const Filters: React.FC<Props> = (props) => {
             header={<Text>{t('features.title')}</Text>}
           >
             <CheckboxWrapper styleConfig={{ gap: '0.5rem' }}>
-              {[
-                { value: 'Air conditioner' },
-                { value: 'Apple CarPlay' },
-                { value: 'Break Assist' },
-                { value: 'Heater' },
-                { value: 'Power Steering' },
-                { value: 'Traction control' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-                { value: 'Bluetooth' },
-              ].map((feature, index) => (
+              {loadingGetVehicleFeatureEntriesRequest && <StyledSpinner />}
+              {features?.map((feature, index) => (
                 <Checkbox
                   name="features"
-                  key={`${feature.value}-${index}`}
-                  label={feature.value}
-                  value={feature.value}
+                  key={`${feature.featureKey}-${index}`}
+                  label={feature.featureName}
+                  value={`${feature.groupKey}:${feature.featureKey}`}
                   size="sm"
                 />
               ))}

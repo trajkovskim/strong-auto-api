@@ -1,3 +1,4 @@
+import { Image } from 'generated';
 import { TranslationFunction } from 'hooks';
 import { css } from 'styled-components';
 import theme, { Breakpoints, LARGEST_BREAKPOINT } from 'theme';
@@ -21,19 +22,22 @@ export const formatNumber = (num: string | number, separator = ',') => {
 
   const numAsString = typeof num === 'number' ? num.toString() : num;
 
-  if (numAsString.length <= 3) {
+  const pointPosition = numAsString.indexOf('.');
+  const length = numAsString.length - pointPosition === -1 ? 0 : pointPosition;
+
+  if (length <= 3) {
     return numAsString;
   }
 
   let start = 0;
   let result = '';
 
-  if (numAsString.length % 3) {
-    start = numAsString.length % 3;
+  if (length % 3) {
+    start = length % 3;
     result = numAsString.substring(0, start) + separator;
   }
 
-  for (let i = start; i < numAsString.length; i += 3) {
+  for (let i = start; i < length; i += 3) {
     result += numAsString.substring(i, i + 3) + separator;
   }
 
@@ -122,4 +126,8 @@ export const createMatrixFromTranslations = (prefixKey: string, t: TranslationFu
   }
 
   return matrix;
+};
+
+export const transformBase64Image = (image: Image) => {
+  return `data:${image.contentType};base64,${image.image}`;
 };

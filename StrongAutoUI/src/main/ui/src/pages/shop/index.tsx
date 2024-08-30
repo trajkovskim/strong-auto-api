@@ -2,7 +2,7 @@ import ShopProductCard from 'components/card/ShopProductCard';
 import { Button, Container, Spinner, Text } from 'components/common';
 import { setVehicleFiltersAction, VehicleFiltersForm } from 'context/vehicles';
 import { VehiclesResponse } from 'generated';
-import { useApplicationContext, useRequest } from 'hooks';
+import { useApplicationContext, useLanguage, useRequest } from 'hooks';
 import Filters from 'pages/shop/Filters';
 import ListHeader from 'pages/shop/ListHeader';
 import Sidebar from 'pages/shop/Sidebar';
@@ -45,6 +45,7 @@ const Shop: React.FC = () => {
   const { send, loading } = useRequest();
   const [vehiclesResponse, setVehiclesResponse] = useState<VehiclesResponse>();
   const { getState, dispatch } = useApplicationContext();
+  const { language } = useLanguage();
 
   const filters = getState().vehicles.filters;
   const setFilters = useCallback(
@@ -71,9 +72,10 @@ const Shop: React.FC = () => {
         page,
         size: pageSize,
         sortBy: sortBy ? [sortBy] : undefined,
+        acceptLanguage: language,
       }).then(setVehiclesResponse)
     );
-  }, [filters, location.state?.resetFilters, page, pageSize, send, setFilters, sortBy]);
+  }, [filters, language, location.state?.resetFilters, page, pageSize, send, setFilters, sortBy]);
 
   const listHeaderComponent = (
     <ListHeader

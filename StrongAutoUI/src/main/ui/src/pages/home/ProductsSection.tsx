@@ -1,7 +1,7 @@
 import { ProductCard } from 'components/card';
 import { BoxAnimation, ButtonProps, ButtonsGroup, Container, HorizontalList, StyledSpinner } from 'components/common';
 import { VehiclesResponse, VehicleState } from 'generated';
-import { useRequest, useTranslation } from 'hooks';
+import { useLanguage, useRequest, useTranslation } from 'hooks';
 import BodyTypes from 'pages/home/BodyTypes';
 import { WhiteBackgroundContainer } from 'pages/common.styled';
 import React, { useEffect, useState } from 'react';
@@ -26,14 +26,18 @@ const ProductsSection: React.FC = () => {
   const [exploreVehiclesActiveTab, setExploreVehiclesActiveTab] = useState<string>(tabs[0].value);
   const { send, loading } = useRequest();
   const [vehiclesResponse, setVehiclesResponse] = useState<VehiclesResponse>();
+  const { language } = useLanguage();
 
   useEffect(() => {
     send(
-      searchVehicles({ vehicleFilters: { states: [VehicleState.Featured] }, page: 0, size: 15 }).then(
-        setVehiclesResponse
-      )
+      searchVehicles({
+        vehicleFilters: { states: [VehicleState.Featured] },
+        page: 0,
+        size: 15,
+        acceptLanguage: language,
+      }).then(setVehiclesResponse)
     );
-  }, [send]);
+  }, [language, send]);
 
   if (loading) {
     return <StyledSpinner centered />;

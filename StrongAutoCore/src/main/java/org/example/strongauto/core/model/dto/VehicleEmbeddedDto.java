@@ -2,7 +2,6 @@ package org.example.strongauto.core.model.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.example.strongauto.core.model.ImageDto;
 import org.example.strongauto.core.model.VehicleAmount;
 import org.example.strongauto.core.model.enums.VehicleDriveTypeEnum;
 import org.example.strongauto.core.model.enums.VehicleFuelTypeEnum;
@@ -20,8 +19,8 @@ public class VehicleEmbeddedDto {
 
   private Long id;
   private VehicleStateEnum state;
-  private String title;
-  private String summary;
+  private LocalizedTextListDto title;
+  private LocalizedTextListDto summary;
   private VehicleMakeDto make;
   private VehicleModelDto model;
   private VehicleTransmissionEnum transmission;
@@ -30,5 +29,5 @@ public class VehicleEmbeddedDto {
   private Integer mileage;
   private Integer year;
   private VehicleAmount amount;
-  private List<ImageDto> images;
+  private List<VehicleImageDto> images;
 }

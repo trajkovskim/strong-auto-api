@@ -1,5 +1,7 @@
 package org.example.strongauto.persistence.model.projections;
 
+import org.example.strongauto.persistence.model.LocalizedTextList;
+import org.example.strongauto.persistence.model.VehicleImage;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.example.strongauto.persistence.model.VehicleModel;
 import org.example.strongauto.persistence.model.enums.Currency;
@@ -7,6 +9,8 @@ import org.example.strongauto.persistence.model.enums.VehicleDriveType;
 import org.example.strongauto.persistence.model.enums.VehicleFuelType;
 import org.example.strongauto.persistence.model.enums.VehicleState;
 import org.example.strongauto.persistence.model.enums.VehicleTransmission;
+
+import java.util.List;
 
 /**
  * Vehicle embedded projection
@@ -17,9 +21,9 @@ public interface VehicleEmbeddedProjection {
 
   VehicleState getState();
 
-  String getTitle();
+  LocalizedTextList getTitle();
 
-  String getSummary();
+  LocalizedTextList getSummary();
 
   VehicleMake getMake();
 
@@ -40,4 +44,6 @@ public interface VehicleEmbeddedProjection {
   Double getTotalPromoAmount();
 
   Currency getCurrency();
+
+  List<VehicleImage> getImages();
 }

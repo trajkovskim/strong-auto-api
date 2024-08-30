@@ -17,8 +17,8 @@ import {
   Title,
 } from 'components/common';
 import PageHeader from 'components/PageHeader';
-import { Vehicle, VehiclesResponse, VehicleState } from 'generated';
-import { useRequest, useTranslation } from 'hooks';
+import { Vehicle, VehicleFeature, VehiclesResponse, VehicleState } from 'generated';
+import { useLanguage, useRequest, useTranslation } from 'hooks';
 import { PAGE_MAX_WIDTH } from 'pages/constants';
 import React, { useEffect, useRef, useState } from 'react';
 import { BiCalendar, BiCheckCircle, BiColorFill, BiPhoneCall } from 'react-icons/bi';
@@ -32,7 +32,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Routes } from 'routes';
 import { getVehicleEntry, searchVehicles } from 'services/VehicleService';
 import styled from 'styled-components';
-import { call, formatNumber, mailTo } from 'utils';
+import { call, formatNumber, mailTo, transformBase64Image } from 'utils';
 
 const StyledButton = styled(Button)`
   border-radius: 5px;
@@ -49,6 +49,7 @@ const ViewDetails: React.FC = () => {
   const { send, loading } = useRequest();
   const [product, setProduct] = useState<Vehicle>();
   const [vehiclesResponse, setVehiclesResponse] = useState<VehiclesResponse>();
+  const { language } = useLanguage();
   const carouselRef = useRef<CarouselHandle>(null);
   const t = useTranslation('viewDetails');
   const tBase = useTranslation();
@@ -59,10 +60,10 @@ const ViewDetails: React.FC = () => {
     }
 
     send(
-      getVehicleEntry({ id: Number(id) }).then(setProduct),
+      getVehicleEntry({ id: Number(id), acceptLanguage: language }).then(setProduct),
       searchVehicles({ vehicleFilters: { states: [VehicleState.Featured] } }).then(setVehiclesResponse)
     );
-  }, [id, send]);
+  }, [id, language, send]);
 
   if (loading) {
     return <Spinner centered />;
@@ -72,29 +73,19 @@ const ViewDetails: React.FC = () => {
     return null;
   }
 
-  const featuresMap = new Map<string, string[]>();
-  const featuresWithoutClass = [];
+  const featuresMap = new Map<string, VehicleFeature[]>();
 
-  product.features
-    ?.map((feature) => feature.split(':'))
-    .forEach((feature) => {
-      if (feature.length > 2) {
-        return;
-      }
+  product.features?.forEach((feature) => {
+    if (!feature) {
+      return;
+    }
 
-      if (feature.length === 2) {
-        const featureTitleKey = feature[0];
-        const featureValueKey = feature[1];
+    if (!featuresMap.has(feature.groupKey)) {
+      featuresMap.set(feature.groupKey, []);
+    }
 
-        if (!featuresMap.has(featureTitleKey)) {
-          featuresMap.set(featureTitleKey, []);
-        }
-
-        featuresMap.get(featureTitleKey)?.push(featureValueKey);
-      } else {
-        featuresWithoutClass.push(feature[0]);
-      }
-    });
+    featuresMap.get(feature.groupKey)?.push(feature);
+  });
 
   const createTextIcon = (icon: React.ReactNode, text: string) => {
     return (
@@ -110,7 +101,13 @@ const ViewDetails: React.FC = () => {
     <HorizontalList noAutoScroll gap="10px" chunkGap="1rem" chunkSize={{ xs: 6 }}>
       {product?.images?.map((image, index) => (
         <BoxAnimation key={index}>
-          <Image onClick={() => handleImageClick(index)} rounded src={image} height="150px" objectFit="cover" />
+          <Image
+            onClick={() => handleImageClick(index)}
+            rounded
+            src={transformBase64Image(image)}
+            height="150px"
+            objectFit="cover"
+          />
         </BoxAnimation>
       ))}
     </HorizontalList>
@@ -119,7 +116,7 @@ const ViewDetails: React.FC = () => {
   return (
     <>
       <PageHeader
-        imageSrc={product.images?.length ? product.images[0] : ''}
+        imageSrc={product.images?.length ? transformBase64Image(product.images[0]) : undefined}
         styleConfig={{ textAlign: 'center' }}
         lgStyle={{ textAlign: 'left' }}
       >
@@ -180,7 +177,7 @@ const ViewDetails: React.FC = () => {
               <Carousel minHeight="400px" maxHeight="400px" ref={carouselRef}>
                 {product?.images?.map((image, index) => (
                   <BoxAnimation fullheight key={index}>
-                    <Image key={index} src={image} height="100%" objectFit="cover" />
+                    <Image key={index} src={transformBase64Image(image)} height="100%" objectFit="cover" />
                   </BoxAnimation>
                 ))}
               </Carousel>
@@ -214,24 +211,24 @@ const ViewDetails: React.FC = () => {
                     data={[
                       [
                         createTextIcon(<FaCar />, t('carOverview.bodyType')),
-                        tBase(`vehicleBodyType.${product.bodyType}`),
+                        product.bodyType && tBase(`vehicleBodyType.${product.bodyType}`),
                       ],
                       [
                         createTextIcon(<SlSpeedometer />, t('carOverview.mileage')),
-                        `${product.mileage && tBase('vehicleMileage', { mileage: formatNumber(product.mileage) })}`,
+                        product.mileage && tBase('vehicleMileage', { mileage: formatNumber(product.mileage) }),
                       ],
                       [
                         createTextIcon(<BsFuelPump />, t('carOverview.fuelType')),
-                        tBase(`vehicleFuelType.${product.fuelType}`),
+                        product.fuelType && tBase(`vehicleFuelType.${product.fuelType}`),
                       ],
                       [createTextIcon(<BiCalendar />, t('carOverview.year')), product.year],
                       [
                         createTextIcon(<TbManualGearbox />, t('carOverview.transmission')),
-                        tBase(`vehicleTransmission.${product.transmission}`),
+                        product.transmission && tBase(`vehicleTransmission.${product.transmission}`),
                       ],
                       [
                         createTextIcon(<GiSteeringWheel />, t('carOverview.driveType')),
-                        tBase(`vehicleDriveType.${product.driveType}`),
+                        product.driveType && tBase(`vehicleDriveType.${product.driveType}`),
                       ],
                     ]}
                   />
@@ -246,11 +243,14 @@ const ViewDetails: React.FC = () => {
                     data={[
                       [
                         createTextIcon(<FaCar />, t('carOverview.condition')),
-                        tBase(`vehicleCondition.${product.condition}`),
+                        product.condition && tBase(`vehicleCondition.${product.condition}`),
                       ],
                       [createTextIcon(<TbEngine />, t('carOverview.engineSize')), product.engineSize],
                       [createTextIcon(<TbDoor />, t('carOverview.doors')), product.doors],
-                      [createTextIcon(<BiColorFill />, t('carOverview.color')), tBase(`color.${product.color}`)],
+                      [
+                        createTextIcon(<BiColorFill />, t('carOverview.color')),
+                        product.color && tBase(`color.${product.color}`),
+                      ],
                     ]}
                   />
                 </BoxAnimation>
@@ -264,14 +264,14 @@ const ViewDetails: React.FC = () => {
             <Container styleConfig={{ gap: '1rem', padding: { left: 'md', right: 'md' } }}>
               <Text fontSize="2xl">{t('features.title')}</Text>
               <List gap="2rem" xs={1} sm={2} justifyContent="space-between">
-                {Array.from(featuresMap).map(([featureTitleKey, featureValueKeys]) => (
+                {Array.from(featuresMap).map(([featureTitleKey, featuresByGroup]) => (
                   <Container xs={12} key={featureTitleKey} styleConfig={{ gap: '0.5rem', alignItems: 'flex-start' }}>
                     <Container styleConfig={{ gap: '0.3rem' }}>
-                      <Text fontSize="xl">{featureTitleKey}</Text>
-                      {featureValueKeys.map((valueKey) => (
-                        <div key={valueKey}>
+                      <Text fontSize="xl">{featuresByGroup[0].groupName}</Text>
+                      {featuresByGroup.map((feature) => (
+                        <div key={feature.featureName}>
                           <Icon icon={<BiCheckCircle />} size="md" />
-                          <Text fontSize="md">{valueKey}</Text>
+                          <Text fontSize="md">{feature.featureName}</Text>
                         </div>
                       ))}
                     </Container>
@@ -296,8 +296,8 @@ const ViewDetails: React.FC = () => {
             <Container styleConfig={{ rounded: true, padding: 'md', gap: '1rem', bordered: true }}>
               <Container styleConfig={{ gap: '0.3rem' }}>
                 <Text fontSize="lg">{t('offer')}</Text>
-                <ProductCardPrice styleConfig={{ direction: 'row', gap: '0.5rem' }} />
-                {product.amount?.saving && (
+                <ProductCardPrice amount={product.amount} styleConfig={{ direction: 'row', gap: '0.5rem' }} />
+                {!!product.amount?.saving && (
                   <div>
                     <Text fontSize="lg">{t('saving', { saving: formatNumber(product.amount.saving) })}</Text>
                   </div>

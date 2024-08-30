@@ -1,7 +1,7 @@
 import { MiniProductCard } from 'components/card';
 import { Button, ButtonProps, ButtonsGroup, Container, HorizontalList, StyledSpinner, Title } from 'components/common';
 import { VehicleEmbedded } from 'generated';
-import { useRequest, useTranslation } from 'hooks';
+import { useLanguage, useRequest, useTranslation } from 'hooks';
 import { DarkBackgroundContainer } from 'pages/common.styled';
 import { PAGE_MAX_WIDTH } from 'pages/constants';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +20,7 @@ const PopularMakes: React.FC = () => {
   const t = useTranslation('home.popularMakes');
   const [activeTab, setActiveTab] = useState<string>(tabs[0].value);
   const { send, loading } = useRequest();
+  const { language } = useLanguage();
   const [vehiclesByMake, setVehiclesByMake] = useState<Record<string, VehicleEmbedded[]>>({});
   const navigate = useNavigate();
 
@@ -29,11 +30,11 @@ const PopularMakes: React.FC = () => {
     }
 
     send(
-      searchVehicles({ vehicleFilters: { make: activeTab }, page: 0, size: 20 }).then((data) =>
-        setVehiclesByMake((prev) => ({ ...prev, [activeTab]: data.vehicles }))
+      searchVehicles({ vehicleFilters: { make: activeTab }, page: 0, size: 20, acceptLanguage: language }).then(
+        (data) => setVehiclesByMake((prev) => ({ ...prev, [activeTab]: data.vehicles }))
       )
     );
-  }, [send, activeTab, vehiclesByMake]);
+  }, [send, activeTab, vehiclesByMake, language]);
 
   return (
     <DarkBackgroundContainer xs={12}>

@@ -17,7 +17,7 @@ databaseChangeLog:
             incrementBy: 1
             startValue: 1
         - createSequence:
-            sequenceName: image_sequence
+            sequenceName: vehicle_image_sequence
             schemaName: strongauto
             incrementBy: 1
             startValue: 1

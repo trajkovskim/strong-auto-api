@@ -12,7 +12,7 @@ import { FaRoad } from 'react-icons/fa';
 import { TbManualGearbox } from 'react-icons/tb';
 import styled from 'styled-components';
 import theme from 'theme';
-import { formatNumber } from 'utils';
+import { formatNumber, transformBase64Image } from 'utils';
 
 const StyledCard = styled(Card)`
   transition: all 200ms;
@@ -82,7 +82,7 @@ const ShopProductCard: React.FC<ProductProps> = (props) => {
   const image = (
     <StyledCarousel noChangeOptions noArrows ref={setImageCarouselRef}>
       {props.images?.map((image, index) => (
-        <StyledImage key={index} shadow objectFit="cover" height="400px" src={image} />
+        <StyledImage key={index} shadow objectFit="cover" height="400px" src={transformBase64Image(image)} />
       ))}
     </StyledCarousel>
   );

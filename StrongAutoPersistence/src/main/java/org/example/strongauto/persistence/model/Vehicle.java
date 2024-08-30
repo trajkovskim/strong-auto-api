@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -134,6 +135,6 @@ public class Vehicle {
   private List<VehicleFeature> features;
 
   @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   private List<VehicleImage> images;
 }

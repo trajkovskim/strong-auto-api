@@ -1,6 +1,15 @@
-import { Vehicle, VehicleApi, VehicleMake, VehicleMakeApi, VehicleMakesResponse, VehiclesResponse } from 'generated';
+import {
+  Vehicle,
+  VehicleApi,
+  VehicleFeaturesApi,
+  VehicleFeaturesResponse,
+  VehicleMake,
+  VehicleMakeApi,
+  VehicleMakesResponse,
+  VehiclesResponse,
+} from 'generated';
 import { createMockResponse } from 'services/api';
-import { makes, vehicles } from 'services/mocks';
+import { features, makes, vehicles } from 'services/mocks';
 
 export const MOCK_VEHICLE_API: VehicleApi = {
   searchVehicleEntries: (...[request]: Parameters<VehicleApi['searchVehicleEntries']>) => {
@@ -70,4 +79,14 @@ export const MOCK_VEHICLE_MAKE_API: VehicleMakeApi = {
     ),
   getVehicleMakeEntry: (...[request]: Parameters<VehicleMakeApi['getVehicleMakeEntry']>) =>
     createMockResponse<VehicleMake>(makes.find((make) => make.make === request.make) as VehicleMake, 1500),
+} as never;
+
+export const MOCK_VEHICLE_FEATURES_API: VehicleFeaturesApi = {
+  getVehicleFeaturesEntries: (...[request]: Parameters<VehicleFeaturesApi['getVehicleFeatureEntries']>) =>
+    createMockResponse<VehicleFeaturesResponse>(
+      {
+        features: features,
+      },
+      1500
+    ),
 } as never;

@@ -2,7 +2,6 @@ package org.example.strongauto.core.model.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.example.strongauto.core.model.ImageDto;
 import org.example.strongauto.core.model.VehicleAmount;
 import org.example.strongauto.core.model.enums.ColorEnum;
 import org.example.strongauto.core.model.enums.VehicleBodyTypeEnum;
@@ -36,6 +35,6 @@ public class VehicleDto {
   private VehicleTransmissionEnum transmission;
   private ColorEnum color;
   private VehicleAmount amount;
-  private List<ImageDto> images;
+  private List<VehicleImageDto> images;
   private List<VehicleFeatureDto> features;
 }

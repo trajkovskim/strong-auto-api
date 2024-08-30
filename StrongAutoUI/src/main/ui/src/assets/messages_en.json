@@ -6,8 +6,8 @@
     "followUs": "Follow us:",
     "languages": {
       "title": "Language",
-      "MK": "Macedonian",
-      "EN": "English"
+      "mk": "Macedonian",
+      "en": "English"
     },
     "productCards": {
       "noPrice": "No price"

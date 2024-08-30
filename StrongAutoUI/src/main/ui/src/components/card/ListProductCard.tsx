@@ -10,7 +10,7 @@ import { BsBookmark, BsBookmarkCheckFill, BsFuelPumpFill } from 'react-icons/bs'
 import { FaRoad } from 'react-icons/fa';
 import { FaGear } from 'react-icons/fa6';
 import { TbManualGearbox } from 'react-icons/tb';
-import { formatNumber } from 'utils';
+import { formatNumber, transformBase64Image } from 'utils';
 
 type Props = ProductCardProps & {
   driveType?: Vehicle['driveType'];
@@ -123,7 +123,14 @@ const ListProductCard: React.FC<Props> = (props) => {
   const image = (
     <Carousel noArrows minHeight="170px">
       {props.images?.map((image, index) => (
-        <StyledImage key={index} shadow objectFit="cover" width="320px" height="100%" src={image} />
+        <StyledImage
+          key={index}
+          shadow
+          objectFit="cover"
+          width="320px"
+          height="100%"
+          src={transformBase64Image(image)}
+        />
       ))}
     </Carousel>
   );

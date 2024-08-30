@@ -9,6 +9,7 @@ import { OnImageContainer, StyledCarousel, StyledImage } from 'components/common
 import React from 'react';
 import styled from 'styled-components';
 import theme from 'theme';
+import { transformBase64Image } from 'utils';
 
 const StyledCard = styled(Card)`
   transition: all 200ms;
@@ -77,7 +78,7 @@ const MiniProductCard: React.FC<ProductProps> = (props) => {
   const image = (
     <StyledCarousel noChangeOptions>
       {props.images?.map((image, index) => (
-        <StyledImage key={index} shadow objectFit="cover" height="350px" src={image} />
+        <StyledImage key={index} shadow objectFit="cover" height="350px" src={transformBase64Image(image)} />
       ))}
     </StyledCarousel>
   );

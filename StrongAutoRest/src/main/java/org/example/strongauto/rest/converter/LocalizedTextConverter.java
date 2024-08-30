@@ -32,7 +32,7 @@ public interface LocalizedTextConverter {
       return null;
     }
 
-    LanguageEnum languageEnum = LanguageEnum.valueOf(language);
+    LanguageEnum languageEnum = LanguageEnum.valueOf(language.toUpperCase());
 
     return localizedTextListDto.getTextList()
         .stream()

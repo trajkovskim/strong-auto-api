@@ -489,7 +489,7 @@ components:
         features:
           type: array
           items:
-            $ref: "#/components/schemas/VehicleFeatureRequest"
+            $ref: "#/components/schemas/VehicleRequestFeature"
 
     VehicleRequestFeature:
       type: object
@@ -671,6 +671,11 @@ components:
               $ref: "#/components/schemas/SelfLink"
     VehicleFeatureRequest:
       type: object
+      required:
+        - groupKey
+        - featureKey
+        - groupName
+        - featureName
       properties:
         groupKey:
           type: string
@@ -684,6 +689,10 @@ components:
           $ref: "#/components/schemas/LocalizedTextList"
     VehicleFeature:
       type: object
+      required:
+        - id
+        - groupKey
+        - featureKey
       properties:
         id:
           $ref: "#/components/schemas/Id"

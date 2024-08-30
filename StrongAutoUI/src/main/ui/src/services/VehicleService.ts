@@ -1,7 +1,7 @@
 import env from 'env';
-import { VehicleApi, VehicleMakeApi } from 'generated';
+import { VehicleApi, VehicleFeaturesApi, VehicleMakeApi } from 'generated';
 import { baseConfiguration } from 'services/api';
-import { MOCK_VEHICLE_API, MOCK_VEHICLE_MAKE_API } from 'services/MockVehicleService';
+import { MOCK_VEHICLE_API, MOCK_VEHICLE_FEATURES_API, MOCK_VEHICLE_MAKE_API } from 'services/MockVehicleService';
 
 const AXIOS_VEHICLE_API = new VehicleApi(baseConfiguration);
 
@@ -22,3 +22,10 @@ export const getVehicleMakeEntries = (...params: Parameters<typeof VEHICLE_MAKE_
 
 export const getVehicleMakeEntry = (...params: Parameters<typeof VEHICLE_MAKE_API.getVehicleMakeEntry>) =>
   VEHICLE_MAKE_API.getVehicleMakeEntry(...params).then((response) => response);
+
+const AXIOS_VEHICLE_FEATURES_API = new VehicleFeaturesApi(baseConfiguration);
+
+const VEHICLE_FEATURES_API = env.USE_MOCK === 'true' ? MOCK_VEHICLE_FEATURES_API : AXIOS_VEHICLE_FEATURES_API;
+
+export const getVehicleFeatureEntries = (...params: Parameters<typeof VEHICLE_FEATURES_API.getVehicleFeatureEntries>) =>
+  VEHICLE_FEATURES_API.getVehicleFeatureEntries(...params).then((response) => response);

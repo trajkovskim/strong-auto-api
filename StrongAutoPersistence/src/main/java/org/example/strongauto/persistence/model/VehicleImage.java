@@ -5,11 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.strongauto.persistence.model.constants.RepositoryConstants;
+
+import java.io.InputStream;
 
 /**
  * Vehicle image.
@@ -39,6 +42,7 @@ public class VehicleImage {
   @Column(name = "content_type")
   private String contentType;
 
+  @Lob
   @Column(name = "image")
   private byte[] image;
 }
