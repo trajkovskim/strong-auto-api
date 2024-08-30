@@ -12,6 +12,7 @@ public enum Error {
 
   PERSISTENCE_ERROR("STRONGAUTO:0001", "strongauto.error.persistence.generic.error", 500),
   ENTITY_NOT_FOUND_ERROR("STRONGAUTO:0002", "strongauto.error.persistence.not.found.error", 404),
+  ENTITY_NOT_EXISTS_ERROR("STRONGAUTO:0002", "strongauto.error.persistence.already.exists.error", 400),
   VALIDATION_ERROR("STRONGAUTO:0003", "strongauto.error.validation.generic.error", 404);
 
   private final String code;

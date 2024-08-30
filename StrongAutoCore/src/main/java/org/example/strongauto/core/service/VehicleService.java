@@ -3,22 +3,28 @@ package org.example.strongauto.core.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.converter.VehicleConverter;
+import org.example.strongauto.core.converter.VehicleFeatureConverter;
 import org.example.strongauto.core.converter.VehicleMakeConverter;
+import org.example.strongauto.core.exception.EntityAlreadyExistsException;
+import org.example.strongauto.core.exception.EntityNotFoundException;
 import org.example.strongauto.core.exception.VehicleMakeNotFoundException;
 import org.example.strongauto.core.exception.VehicleModelNotPresentInMakeException;
 import org.example.strongauto.core.exception.VehicleNotFoundException;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleDto;
 import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
+import org.example.strongauto.core.model.dto.VehicleFeatureDto;
 import org.example.strongauto.core.model.dto.VehicleFiltersDto;
 import org.example.strongauto.core.model.dto.VehicleMakeDto;
 import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
 import org.example.strongauto.core.model.dto.VehicleModelDto;
 import org.example.strongauto.core.utils.PageUtils;
 import org.example.strongauto.persistence.model.Vehicle;
+import org.example.strongauto.persistence.model.VehicleFeature;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.example.strongauto.persistence.model.filters.VehicleFilters;
 import org.example.strongauto.persistence.model.projections.VehicleEmbeddedProjection;
+import org.example.strongauto.persistence.repository.VehicleFeatureRepository;
 import org.example.strongauto.persistence.repository.VehicleMakeRepository;
 import org.example.strongauto.persistence.repository.VehicleRepository;
 import org.springframework.data.domain.Page;
@@ -27,6 +33,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,14 +42,15 @@ public class VehicleService {
 
   private final VehicleRepository vehicleRepository;
   private final VehicleMakeRepository vehicleMakeRepository;
+  private final VehicleFeatureRepository vehicleFeatureRepository;
 
   private final VehicleConverter vehicleConverter;
   private final VehicleMakeConverter vehicleMakeConverter;
+  private final VehicleFeatureConverter vehicleFeatureConverter;
 
   public VehicleDto findById(Long id) {
-    final Vehicle vehicle = vehicleRepository
-        .findById(id)
-        .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found: " + id));
+    final Vehicle vehicle =
+        vehicleRepository.findById(id).orElseThrow(() -> new VehicleNotFoundException("Vehicle not found: " + id));
 
     return vehicleConverter.convertVehicle(vehicle);
   }
@@ -54,10 +63,7 @@ public class VehicleService {
 
     final Page<VehicleEmbeddedProjection> page = vehicleRepository.findAllBy(vehicleFilters, pageRequest);
 
-    Collection<VehicleEmbeddedDto> items = page
-        .get()
-        .map(vehicleConverter::convertVehicle)
-        .toList();
+    Collection<VehicleEmbeddedDto> items = page.get().map(vehicleConverter::convertVehicle).toList();
 
     return PageInfoDto.<VehicleEmbeddedDto>builder()
         .pageNumber(page.getNumber())
@@ -68,7 +74,7 @@ public class VehicleService {
 
   VehicleDto finalizeVehicleDto(VehicleDto vehicleDto) {
 
-    if(vehicleDto.getMake() == null) {
+    if (vehicleDto.getMake() == null) {
       return vehicleDto;
     }
 
@@ -79,11 +85,11 @@ public class VehicleService {
 
     VehicleModelDto foundVehicleModel = foundVehicleMake.getModels()
         .stream()
-        .filter(model-> vehicleModelStr.equals(model.getModel()))
+        .filter(model -> vehicleModelStr.equals(model.getModel()))
         .findFirst()
-        .orElseThrow(() ->
-            new VehicleModelNotPresentInMakeException(
-                String.format("Model %s not present in %s", vehicleModelStr, vehicleMakeStr)));
+        .orElseThrow(() -> new VehicleModelNotPresentInMakeException(String.format("Model %s not present in %s",
+            vehicleModelStr,
+            vehicleMakeStr)));
 
     return vehicleDto.toBuilder()
         .make(foundVehicleMake)
@@ -112,11 +118,20 @@ public class VehicleService {
 
     Vehicle vehicle = vehicleConverter.convertVehicle(finalizedVehicleDto);
 
+    List<VehicleFeature> features = vehicleDto.getFeatures()
+        .stream()
+        .map(feature -> vehicleFeatureRepository.findByGroupKeyAndFeatureKey(feature.getGroupKey(),
+            feature.getFeatureKey()))
+        .map(feature -> feature.orElse(null))
+        .filter(Objects::nonNull)
+        .toList();
+
+    vehicle.setFeatures(features);
+
     Vehicle savedVehicle = vehicleRepository.save(vehicle);
 
     return savedVehicle.getId();
   }
-
   public void deleteVehicle(Long id) {
 
     vehicleRepository.deleteById(id);
@@ -124,8 +139,7 @@ public class VehicleService {
 
   public VehicleMakeDto findVehicleMakeByMake(String make) {
 
-    VehicleMake foundVehicleMake = vehicleMakeRepository
-        .findByMake(make)
+    VehicleMake foundVehicleMake = vehicleMakeRepository.findByMake(make)
         .orElseThrow(() -> new VehicleMakeNotFoundException("Vehicle make not found: " + make));
 
     return vehicleMakeConverter.convertVehicleMake(foundVehicleMake);
@@ -144,9 +158,7 @@ public class VehicleService {
 
     VehicleMakeDto foundVehicleMake = findVehicleMakeByMake(make);
 
-    VehicleMakeDto vehicleMakeDtoWithId = vehicleMakeDto.toBuilder()
-        .id(foundVehicleMake.getId())
-        .build();
+    VehicleMakeDto vehicleMakeDtoWithId = vehicleMakeDto.toBuilder().id(foundVehicleMake.getId()).build();
 
     VehicleMake vehicleMake = vehicleMakeConverter.convertVehicleMake(vehicleMakeDtoWithId);
 
@@ -166,5 +178,37 @@ public class VehicleService {
     List<VehicleMake> foundVehicleMake = vehicleMakeRepository.findAll();
 
     return foundVehicleMake.stream().map(vehicleMakeConverter::convertVehicleMakeEmbedded).toList();
+  }
+
+  public List<VehicleFeatureDto> findVehicleFeatures() {
+
+    return vehicleFeatureRepository.findAll().stream().map(vehicleFeatureConverter::convertVehicleMake).toList();
+  }
+
+  public void createVehicleFeature(VehicleFeatureDto vehicleFeatureDto) {
+
+    Optional<VehicleFeature> byGroupKeyAndFeatureKey = vehicleFeatureRepository.findByGroupKeyAndFeatureKey(
+        vehicleFeatureDto.getGroupKey(),
+        vehicleFeatureDto.getFeatureKey());
+
+    if (byGroupKeyAndFeatureKey.isPresent()) {
+      throw new EntityAlreadyExistsException("Vehicle feature with group key %s and feature key %s already exists".formatted(
+          vehicleFeatureDto.getGroupKey(),
+          vehicleFeatureDto.getFeatureKey()));
+    }
+
+    VehicleFeature vehicleFeature = vehicleFeatureConverter.convertVehicleMake(vehicleFeatureDto);
+    vehicleFeatureRepository.save(vehicleFeature);
+  }
+
+  public void updateVehicleFeature(Long id, VehicleFeatureDto vehicleFeatureDto) {
+
+    VehicleFeature found = vehicleFeatureRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Vehicle feature not found with id " + id));
+
+    VehicleFeatureDto finalized = vehicleFeatureDto.toBuilder().id(found.getId()).build();
+
+    VehicleFeature vehicleFeature = vehicleFeatureConverter.convertVehicleMake(finalized);
+    vehicleFeatureRepository.save(vehicleFeature);
   }
 }

@@ -190,6 +190,54 @@ paths:
           $ref: "#/components/responses/NoContentResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
+  /vehicle-features:
+    get:
+      operationId: getVehicleFeatureEntries
+      tags:
+        - vehicle-features
+      description: Gets vehicle feature entries
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleFeaturesResponse"
+    post:
+      operationId: createVehicleFeatureEntry
+      tags:
+        - vehicle-features
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleFeatureRequest"
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
+  /vehicle-features/{id}:
+    put:
+      operationId: updateVehicleFeatureEntry
+      tags:
+        - vehicle-features
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VehicleFeatureRequest"
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        400:
+          $ref: "#/components/responses/BadRequestResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
 components:
   schemas:
     Decimal:
@@ -213,7 +261,18 @@ components:
         - MKD
         - EUR
       example: "MKD"
-
+    Image:
+      type: object
+      properties:
+        image:
+          type: string
+          format: byte
+        name:
+          type: string
+          example: "image.png"
+        contentType:
+          type: string
+          example: "image/png"
     Amount:
       type: object
       properties:
@@ -226,10 +285,6 @@ components:
       description: Primary key
       example: 0
 
-    VehicleFeatures:
-      type: string
-      enum:
-        -
     VehicleState:
       type: string
       enum:
@@ -299,6 +354,34 @@ components:
         - GREEN
       example: "BLACK"
 
+    VehicleFeatureFilter:
+      type: object
+      required:
+        - groupKey
+        - featureKey
+      properties:
+        groupKey:
+          type: string
+        featureKey:
+          type: string
+
+    LocalizedText:
+      type: object
+      required:
+        - text
+        - language
+      properties:
+        text:
+          type: string
+          format: "text"
+        language:
+          $ref: "#/components/schemas/Language"
+
+    LocalizedTextList:
+      type: array
+      items:
+        $ref: "#/components/schemas/LocalizedText"
+
     VehicleFilters:
       type: object
       properties:
@@ -339,8 +422,7 @@ components:
         features:
           type: array
           items:
-            type: string
-            example: "air_conditioner"
+            $ref: "#/components/schemas/VehicleFeatureFilter"
 
     VehicleAmount:
       allOf:
@@ -366,8 +448,7 @@ components:
         images:
           type: array
           items:
-            type: string
-            example: 'image'
+            $ref: "#/components/schemas/Image"
         make:
           type: string
           example: "Audi"
@@ -377,13 +458,9 @@ components:
         amount:
           $ref: "#/components/schemas/VehicleAmount"
         title:
-          type: string
-          description: Vehicle title
-          example: "Audi RS7"
+          $ref: "#/components/schemas/LocalizedTextList"
         summary:
-          type: string
-          description: Vehicle summary
-          example: Audi A4 2.0TDI
+          $ref: "#/components/schemas/LocalizedTextList"
         transmission:
           $ref: "#/components/schemas/VehicleTransmission"
         fuelType:
@@ -396,11 +473,7 @@ components:
         driveType:
           $ref: "#/components/schemas/VehicleDriveType"
         description:
-          type: string
-          description: Vehicle description
-          example: |
-            - 2.0 TDI
-            - 4 new tires
+          $ref: "#/components/schemas/LocalizedTextList"
         engineSize:
           type: string
           example: "2.0"
@@ -416,8 +489,17 @@ components:
         features:
           type: array
           items:
-            type: string
-            example: "air_conditioner"
+            $ref: "#/components/schemas/VehicleFeatureRequest"
+
+    VehicleRequestFeature:
+      type: object
+      properties:
+        groupKey:
+          type: string
+          example: "interior"
+        featureKey:
+          type: string
+          example: "airConditioner"
 
     VehicleMakeRequest:
       type: object
@@ -445,8 +527,7 @@ components:
         images:
           type: array
           items:
-            type: string
-            example: 'image'
+           $ref: "#/components/schemas/Image"
         make:
           type: string
           example: "Audi"
@@ -523,8 +604,7 @@ components:
             features:
               type: array
               items:
-                type: string
-                example: "air_conditioner"
+                $ref: "#/components/schemas/VehicleFeature"
     VehicleResponse:
       allOf:
         - $ref: "#/components/schemas/Vehicle"
@@ -589,6 +669,44 @@ components:
           properties:
             links:
               $ref: "#/components/schemas/SelfLink"
+    VehicleFeatureRequest:
+      type: object
+      properties:
+        groupKey:
+          type: string
+          example: "interior"
+        featureKey:
+          type: string
+          example: "airConditioner"
+        groupName:
+          $ref: "#/components/schemas/LocalizedTextList"
+        featureName:
+          $ref: "#/components/schemas/LocalizedTextList"
+    VehicleFeature:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        groupKey:
+          type: string
+          example: "interior"
+        featureKey:
+          type: string
+          example: "airConditioner"
+        groupName:
+          type: string
+          example: "Interior"
+        featureName:
+          type: string
+          example: "Air conditioner"
+    VehicleFeaturesResponse:
+      type: object
+      properties:
+        features:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleFeature"
+
 
     Link:
       type: object
@@ -664,6 +782,12 @@ components:
         links:
           $ref: "#/components/schemas/SelfLink"
   responses:
+    VehicleFeaturesResponse:
+      description: List of vehicle features entries
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehicleFeaturesResponse"
     VehicleMakesResponse:
       description: List of vehicle makes entries
       content:

@@ -3,6 +3,7 @@ package org.example.strongauto.persistence.repository;
 import org.example.strongauto.persistence.model.LocalizedText;
 import org.example.strongauto.persistence.model.LocalizedTextList;
 import org.example.strongauto.persistence.model.Vehicle;
+import org.example.strongauto.persistence.model.VehicleFeature;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.example.strongauto.persistence.model.VehicleModel;
 import org.example.strongauto.persistence.model.enums.Color;
@@ -97,6 +98,27 @@ public class VehicleRepositoryTest {
     vehicle.setTotalAmount(10000.0);
     vehicle.setCurrency(Currency.EUR);
     vehicle.setColor(Color.BLACK);
+
+    LocalizedText feature1Mk = new LocalizedText();
+    feature1Mk.setText("feature1Mk");
+    feature1Mk.setLanguage(Language.MK);
+
+    LocalizedTextList feature1LocalizedTextList = new LocalizedTextList();
+    feature1LocalizedTextList.setTextList(List.of(feature1Mk));
+
+    VehicleFeature vehicleFeature1 = new VehicleFeature();
+    vehicleFeature1.setGroupKey("group1");
+    vehicleFeature1.setFeatureKey("feature1");
+    vehicleFeature1.setGroupName(feature1LocalizedTextList);
+    vehicleFeature1.setFeatureName(feature1LocalizedTextList);
+
+    VehicleFeature vehicleFeature2 = new VehicleFeature();
+    vehicleFeature2.setGroupKey("group1");
+    vehicleFeature2.setFeatureKey("feature1");
+    vehicleFeature2.setGroupName(feature1LocalizedTextList);
+    vehicleFeature2.setFeatureName(feature1LocalizedTextList);
+
+    vehicle.setFeatures(List.of(vehicleFeature1, vehicleFeature2));
 
     // When
     Vehicle saved = vehicleRepository.saveAndFlush(vehicle);

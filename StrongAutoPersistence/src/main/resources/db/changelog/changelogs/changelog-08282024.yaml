@@ -17,7 +17,7 @@ databaseChangeLog:
             incrementBy: 1
             startValue: 1
         - createSequence:
-            sequenceName:  vehicle_sequence
+            sequenceName: image_sequence
             schemaName: strongauto
             incrementBy: 1
             startValue: 1
@@ -28,6 +28,16 @@ databaseChangeLog:
             startValue: 1
         - createSequence:
             sequenceName: vehicle_model_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
+            sequenceName: vehicle_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
+            sequenceName: vehicle_feature_sequence
             schemaName: strongauto
             incrementBy: 1
             startValue: 1
@@ -66,6 +76,89 @@ databaseChangeLog:
             constraintName: localized_text_localized_text_ref
             baseColumnNames: localized_text_ref_id
             baseTableName: localized_text
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: localized_text_ref
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: make
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+            schemaName: strongauto
+            tableName: vehicle_make
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: model
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: make_id
+                  type: bigint
+            schemaName: strongauto
+            tableName: vehicle_model
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_model_vehicle_make
+            baseColumnNames: make_id
+            baseTableName: vehicle_model
+            baseTableSchemaName: strongauto
+            referencedTableName: vehicle_make
+            referencedColumnNames: id
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: group_key
+                  type: varchar(255)
+              - column:
+                  name: feature_key
+                  type: varchar(255)
+              - column:
+                  name: localized_group_name_ref_id
+                  type: bigint
+              - column:
+                  name: localized_feature_name_ref_id
+                  type: bigint
+            schemaName: strongauto
+            tableName: vehicle_feature
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_group_localized_group_name_ref_id
+            baseColumnNames: localized_group_name_ref_id
+            baseTableName: vehicle_feature
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: localized_text_ref
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_feature_localized_feature_name_ref_id
+            baseColumnNames: localized_feature_name_ref_id
+            baseTableName: vehicle_feature
             baseTableSchemaName: strongauto
             referencedColumnNames: id
             referencedTableName: localized_text_ref
@@ -138,38 +231,6 @@ databaseChangeLog:
                   type: varchar(255)
             schemaName: strongauto
             tableName: vehicle
-        - createTable:
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: make
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-                    unique: true
-            schemaName: strongauto
-            tableName: vehicle_make
-        - createTable:
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: model
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: make_id
-                  type: bigint
-            schemaName: strongauto
-            tableName: vehicle_model
         - addForeignKeyConstraint:
             constraintName: fk_vehicle_title_localized_text_ref
             baseColumnNames: localized_title_ref_id
@@ -178,6 +239,8 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: localized_text_ref
             referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
         - addForeignKeyConstraint:
             constraintName: fk_vehicle_description_localized_text_ref
             baseColumnNames: localized_description_ref_id
@@ -186,6 +249,8 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: localized_text_ref
             referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
         - addForeignKeyConstraint:
             constraintName: fk_vehicle_summary_localized_text_ref
             baseColumnNames: localized_summary_ref_id
@@ -193,16 +258,6 @@ databaseChangeLog:
             baseTableSchemaName: strongauto
             referencedColumnNames: id
             referencedTableName: localized_text_ref
-            referencedTableSchemaName: strongauto
-            onDelete: CASCADE
-            onUpdate: CASCADE
-        - addForeignKeyConstraint:
-            constraintName: fk_vehicle_model_vehicle_make
-            baseColumnNames: make_id
-            baseTableName:  vehicle_model
-            baseTableSchemaName: strongauto
-            referencedTableName: vehicle_make
-            referencedColumnNames: id
             referencedTableSchemaName: strongauto
             onDelete: CASCADE
             onUpdate: CASCADE
@@ -226,3 +281,79 @@ databaseChangeLog:
             referencedTableSchemaName: strongauto
             onDelete: SET NULL
             onUpdate: CASCADE
+        - createTable:
+            columns:
+              - column:
+                  name: vehicle_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vehicle_feature_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+            schemaName: strongauto
+            tableName: vehicle_feature_ref
+        - addPrimaryKey:
+            constraintName: pk_vehicle_feature_ref
+            columnNames: vehicle_id, vehicle_feature_id
+            schemaName: strongauto
+            tableName: vehicle_feature_ref
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_vehicle_feature_ref
+            baseColumnNames: vehicle_id
+            baseTableName: vehicle_feature_ref
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: vehicle
+            referencedTableSchemaName: strongauto
+            onUpdate: CASCADE
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_feature_vehicle_feature_ref
+            baseColumnNames: vehicle_feature_id
+            baseTableName: vehicle_feature_ref
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: vehicle_feature
+            referencedTableSchemaName: strongauto
+            onUpdate: CASCADE
+            onDelete: CASCADE
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image
+                  type: blob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vehicle_id
+                  type: bigint
+            schemaName: strongauto
+            tableName: vehicle_image
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_image_vehicle
+            baseColumnNames: vehicle_id
+            baseTableName: vehicle_image
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: vehicle
+            referencedTableSchemaName: strongauto
+            onUpdate: CASCADE
+            onDelete: CASCADE

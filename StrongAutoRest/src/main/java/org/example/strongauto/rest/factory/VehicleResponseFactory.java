@@ -46,7 +46,7 @@ public class VehicleResponseFactory {
       String acceptLanguage,
       List<String> sortBy) {
 
-    VehiclesResponse vehiclesResponse = vehicleRestConverter.convertVehiclePage(vehicleEmbeddedPage);
+    VehiclesResponse vehiclesResponse = vehicleRestConverter.convertVehiclePage(vehicleEmbeddedPage, acceptLanguage);
 
     vehiclesResponse.getVehicles().forEach(vehicle -> vehicle
         .links(createVehicleSelfLink(vehicle.getId(), acceptLanguage)));
@@ -60,7 +60,7 @@ public class VehicleResponseFactory {
 
   public VehicleResponse createVehicleResponse(VehicleDto vehicleDto, String acceptLanguage) {
 
-    return vehicleRestConverter.convertVehicle(vehicleDto)
+    return vehicleRestConverter.convertVehicle(vehicleDto, acceptLanguage)
         .links(createVehicleSelfLink(vehicleDto.getId(), acceptLanguage));
   }
 }

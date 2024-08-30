@@ -29,4 +29,5 @@ public class VehicleFiltersDto {
   IntervalFilterDto<Integer> mileage;
   VehicleFuelTypeEnum fuelType;
   ColorEnum color;
+  List<VehicleFeatureFilterDto> features;
 }

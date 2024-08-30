@@ -2,6 +2,7 @@ package org.example.strongauto.persistence.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
@@ -25,6 +28,7 @@ import org.example.strongauto.persistence.model.enums.VehicleDriveType;
 import org.example.strongauto.persistence.model.enums.VehicleFuelType;
 import org.example.strongauto.persistence.model.enums.VehicleState;
 import org.example.strongauto.persistence.model.enums.VehicleTransmission;
+import org.example.strongauto.persistence.model.relations.VehicleFeatureRef;
 
 import java.util.List;
 
@@ -118,5 +122,18 @@ public class Vehicle {
   private Double totalPromoAmount;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "currency")
   private Currency currency;
+
+  @JoinTable(
+      name = RepositoryConstants.VEHICLE_FEATURE_REF_TABLE,
+      schema = RepositoryConstants.SCHEMA,
+      joinColumns = @JoinColumn(name = "vehicle_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "vehicle_feature_id", referencedColumnName = "id"))
+  @ManyToMany(cascade = CascadeType.ALL)
+  private List<VehicleFeature> features;
+
+  @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
+  @OneToMany
+  private List<VehicleImage> images;
 }

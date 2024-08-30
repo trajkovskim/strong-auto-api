@@ -29,6 +29,7 @@ public class VehicleFilters {
   private IntervalFilter<Integer> mileage;
   private VehicleFuelType fuelType;
   private Color color;
+  private List<VehicleFeatureFilter> features;
 
   public Integer getPriceFrom() {
     if (price == null) {

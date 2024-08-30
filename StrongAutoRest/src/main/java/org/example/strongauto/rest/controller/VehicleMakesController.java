@@ -29,7 +29,8 @@ public class VehicleMakesController implements VehicleMakesApi {
 
     List<VehicleMakeEmbeddedDto> vehicleMakes = vehicleService.findVehicleMakes();
 
-    VehicleMakesResponse vehicleMakesResponse = vehicleMakeResponseFactory.createVehicleMakesResponse(vehicleMakes, acceptLanguage);
+    VehicleMakesResponse vehicleMakesResponse =
+        vehicleMakeResponseFactory.createVehicleMakesResponse(vehicleMakes, acceptLanguage);
 
     return ResponseEntity.ok(vehicleMakesResponse);
   }
