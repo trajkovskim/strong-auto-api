@@ -40,25 +40,21 @@ const Shop: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>();
 
-  const [page, setPage] = useState<number>(0);
-
   const [filtersSidebarShow, setFiltersSidebarShow] = useState<boolean>(false);
   const [sortAndSizeSidebarShow, setSortAndSizeSidebarShow] = useState<boolean>(false);
   const { send, loading } = useRequest();
+
   const [vehiclesResponse, setVehiclesResponse] = useState<VehiclesResponse>();
+  const isLastPage = vehiclesResponse?.info?.totalPages === Number(vehiclesResponse?.info?.pageNumber) + 1;
+
   const { getState, dispatch } = useApplicationContext();
   const { language } = useLanguage();
   const t = useTranslation('inventory');
-
-  const resetPagination = () => {
-    setPage(0);
-  };
 
   const filters = getState().vehicles.filters;
   const setFilters = useCallback(
     (filters: VehicleFiltersForm) => {
       dispatch(setVehicleFiltersAction(filters));
-      resetPagination();
     },
     [dispatch]
   );
@@ -91,6 +87,8 @@ const Shop: React.FC = () => {
       return;
     }
 
+    setVehiclesResponse({ vehicles: [] });
+
     sendSearchVehiclesRequest(filters, 0, pageSize, sortBy, setVehiclesResponse);
   }, [filters, location.state?.resetFilters, pageSize, sendSearchVehiclesRequest, setFilters, sortBy]);
 
@@ -99,16 +97,10 @@ const Shop: React.FC = () => {
       onFiltersClick={() => setFiltersSidebarShow(true)}
       filtersOpen={filtersSidebarShow}
       onPaginationClick={() => setSortAndSizeSidebarShow(true)}
-      page={page}
+      page={vehiclesResponse?.info?.pageNumber ?? 0}
       pageSize={pageSize}
-      onPageSizeChange={(pageSize) => {
-        setPageSize(pageSize);
-        resetPagination();
-      }}
-      onSortByChange={(sortBy) => {
-        setSortBy(sortBy);
-        resetPagination();
-      }}
+      onPageSizeChange={setPageSize}
+      onSortByChange={setSortBy}
     />
   );
 
@@ -129,8 +121,8 @@ const Shop: React.FC = () => {
               fullwidth
               pageSize={pageSize}
               sortBy={sortBy}
-              onSortByChange={setSortBy}
               onPageSizeChange={setPageSize}
+              onSortByChange={setSortBy}
             />
           </Container>
         </Container>
@@ -158,44 +150,52 @@ const Shop: React.FC = () => {
             {listHeaderComponent}
           </Container>
 
-          {!loading && (
-            <Container styleConfig={{ gap: '1rem', direction: 'row', wrap: true }}>
-              {vehiclesResponse?.vehicles?.map((product, index, allProducts) => {
-                const productCard = (
-                  <ShopProductCard
-                    key={product.id}
-                    onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
-                    fullwidth
-                    {...product}
-                  />
-                );
+          <Container styleConfig={{ gap: '1rem', direction: 'row', wrap: true }}>
+            {vehiclesResponse?.vehicles.map((product, index, allProducts) => {
+              const productCard = (
+                <ShopProductCard
+                  key={product.id}
+                  onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
+                  fullwidth
+                  {...product}
+                />
+              );
 
-                return (
-                  <Container xs={12} lg={6} xl={4} key={product.id}>
-                    {vehiclesResponse?.info?.totalPages === page + 1 && index === allProducts.length - 1 ? (
-                      productCard
-                    ) : (
-                      <ElementIntersectionObserver
-                        callback={() => {
-                          setPage((prev) => prev + 1);
-                          sendSearchVehiclesRequest(filters, page + 1, pageSize, sortBy, (response) => {
+              return (
+                <Container xs={12} lg={6} xl={4} key={product.id}>
+                  {!loading && !isLastPage && index === allProducts.length - 1 ? (
+                    <ElementIntersectionObserver
+                      callback={() => {
+                        sendSearchVehiclesRequest(
+                          filters,
+                          Number(vehiclesResponse.info?.pageNumber) + 1,
+                          pageSize,
+                          sortBy,
+                          (response) => {
                             setVehiclesResponse((prev) => ({
                               ...response,
-                              vehicles: [...(prev?.vehicles ?? [], response.vehicles)],
+                              vehicles: [...(prev?.vehicles ?? []), ...response.vehicles],
                             }));
-                          });
-                        }}
-                      >
-                        {productCard}
-                      </ElementIntersectionObserver>
-                    )}
-                  </Container>
-                );
-              })}
-            </Container>
-          )}
-          {loading && <Spinner centered />}
-          {!loading && page + 1 === vehiclesResponse?.info?.totalPages && (
+                          }
+                        );
+                      }}
+                    >
+                      {productCard}
+                    </ElementIntersectionObserver>
+                  ) : (
+                    productCard
+                  )}
+                </Container>
+              );
+            })}
+            {loading && !!vehiclesResponse?.vehicles.length && (
+              <Container xs={12} lg={6} xl={4}>
+                <Spinner centered />
+              </Container>
+            )}
+          </Container>
+          {loading && vehiclesResponse?.vehicles.length === 0 && <Spinner centered />}
+          {!loading && isLastPage && (
             <Container styleConfig={{ itemsCentered: true }}>
               <Text fontSize="sm" type="sub">
                 All results displayed
