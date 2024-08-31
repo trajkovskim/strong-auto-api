@@ -42,7 +42,7 @@ const ContactUs: React.FC = () => {
             onClick={() => call(telephone)}
           >
             <Container styleConfig={{ gap: '0.5rem' }}>
-              <Text>Call us now:</Text>
+              <Text>{t('callUsNowButton')}</Text>
               <Text>{telephone}</Text>
             </Container>
           </Button>

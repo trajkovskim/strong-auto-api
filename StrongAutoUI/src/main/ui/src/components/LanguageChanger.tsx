@@ -10,6 +10,7 @@ const StyledDropdown = styled(Dropdown)`
   color: inherit;
 
   option {
+    padding: 0.5rem;
     color: #000;
   }
 `;

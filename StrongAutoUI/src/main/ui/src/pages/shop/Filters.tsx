@@ -159,6 +159,7 @@ const Filters: React.FC<Props> = (props) => {
                     key={checkbox}
                     name="states"
                     value={checkbox}
+                    valueAsArray
                     label={baseT(`vehicleState.${checkbox}`)}
                     size="sm"
                   />
@@ -188,6 +189,7 @@ const Filters: React.FC<Props> = (props) => {
                     key={bodyType}
                     label={baseT(`vehicleBodyType.${bodyType}`)}
                     value={bodyType}
+                    valueAsArray
                     size="sm"
                   />
                 ))}
@@ -271,6 +273,7 @@ const Filters: React.FC<Props> = (props) => {
                   key={`${feature.featureKey}-${index}`}
                   label={feature.featureName}
                   value={`${feature.groupKey}:${feature.featureKey}`}
+                  valueAsArray
                   size="sm"
                 />
               ))}

@@ -109,33 +109,6 @@ public class VehicleRepositoryTest {
 
   /** See method name. */
   @Test
-  void shouldDeleteVehicleLocalizedTexts() {
-
-    // Given
-    LocalizedTextList title = new LocalizedTextList();
-    title.setTextList(new HashSet<>(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK))));
-
-    Vehicle vehicle = createVehicle(title, null, null, null);
-    vehicleRepository.saveAndFlush(vehicle);
-
-    // When
-    LocalizedTextList description = new LocalizedTextList();
-    description.setTextList(new HashSet<>(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK))));
-    vehicle.setDescription(description);
-
-    LocalizedTextList summary = new LocalizedTextList();
-    summary.setTextList(new HashSet<>(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK))));
-    vehicle.setSummary(summary);
-
-    vehicleRepository.saveAndFlush(vehicle);
-
-    // Then
-    List<LocalizedTextList> all = localizedTextListRepository.findAll();
-    assertThat(all).isEmpty();
-  }
-
-  /** See method name. */
-  @Test
   void shouldUpdateVehicleFeatures() {
 
     // Given

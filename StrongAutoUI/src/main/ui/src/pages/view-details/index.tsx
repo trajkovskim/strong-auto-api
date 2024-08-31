@@ -17,9 +17,10 @@ import {
   Title,
 } from 'components/common';
 import PageHeader from 'components/PageHeader';
-import { Vehicle, VehicleFeature, VehiclesResponse, VehicleState } from 'generated';
+import { Vehicle, VehiclesResponse, VehicleState } from 'generated';
 import { useLanguage, useRequest, useTranslation } from 'hooks';
 import { PAGE_MAX_WIDTH } from 'pages/constants';
+import { getFeaturesByGroup } from 'pages/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { BiCalendar, BiCheckCircle, BiColorFill, BiPhoneCall } from 'react-icons/bi';
 import { BsFuelPump } from 'react-icons/bs';
@@ -61,7 +62,12 @@ const ViewDetails: React.FC = () => {
 
     send(
       getVehicleEntry({ id: Number(id), acceptLanguage: language }).then(setProduct),
-      searchVehicles({ vehicleFilters: { states: [VehicleState.Featured] } }).then(setVehiclesResponse)
+      searchVehicles({
+        vehicleFilters: { states: [VehicleState.Featured] },
+        acceptLanguage: language,
+        page: 0,
+        size: 15,
+      }).then(setVehiclesResponse)
     );
   }, [id, language, send]);
 
@@ -73,19 +79,7 @@ const ViewDetails: React.FC = () => {
     return null;
   }
 
-  const featuresMap = new Map<string, VehicleFeature[]>();
-
-  product.features?.forEach((feature) => {
-    if (!feature) {
-      return;
-    }
-
-    if (!featuresMap.has(feature.groupKey)) {
-      featuresMap.set(feature.groupKey, []);
-    }
-
-    featuresMap.get(feature.groupKey)?.push(feature);
-  });
+  const featuresByGroup = getFeaturesByGroup(product.features ?? []);
 
   const createTextIcon = (icon: React.ReactNode, text: string) => {
     return (
@@ -208,29 +202,31 @@ const ViewDetails: React.FC = () => {
                     rowGap="1rem"
                     gap="0.5rem"
                     cellWidth="50%"
-                    data={[
+                    data={
                       [
-                        createTextIcon(<FaCar />, t('carOverview.bodyType')),
-                        product.bodyType && tBase(`vehicleBodyType.${product.bodyType}`),
-                      ],
-                      [
-                        createTextIcon(<SlSpeedometer />, t('carOverview.mileage')),
-                        product.mileage && tBase('vehicleMileage', { mileage: formatNumber(product.mileage) }),
-                      ],
-                      [
-                        createTextIcon(<BsFuelPump />, t('carOverview.fuelType')),
-                        product.fuelType && tBase(`vehicleFuelType.${product.fuelType}`),
-                      ],
-                      [createTextIcon(<BiCalendar />, t('carOverview.year')), product.year],
-                      [
-                        createTextIcon(<TbManualGearbox />, t('carOverview.transmission')),
-                        product.transmission && tBase(`vehicleTransmission.${product.transmission}`),
-                      ],
-                      [
-                        createTextIcon(<GiSteeringWheel />, t('carOverview.driveType')),
-                        product.driveType && tBase(`vehicleDriveType.${product.driveType}`),
-                      ],
-                    ]}
+                        product.bodyType && [
+                          createTextIcon(<FaCar />, t('carOverview.bodyType')),
+                          tBase(`vehicleBodyType.${product.bodyType}`),
+                        ],
+                        product.mileage && [
+                          createTextIcon(<SlSpeedometer />, t('carOverview.mileage')),
+                          product.mileage && tBase('vehicleMileage', { mileage: formatNumber(product.mileage) }),
+                        ],
+                        product.fuelType && [
+                          createTextIcon(<BsFuelPump />, t('carOverview.fuelType')),
+                          product.fuelType && tBase(`vehicleFuelType.${product.fuelType}`),
+                        ],
+                        product.year && [createTextIcon(<BiCalendar />, t('carOverview.year')), product.year],
+                        product.transmission && [
+                          createTextIcon(<TbManualGearbox />, t('carOverview.transmission')),
+                          product.transmission && tBase(`vehicleTransmission.${product.transmission}`),
+                        ],
+                        product.driveType && [
+                          createTextIcon(<GiSteeringWheel />, t('carOverview.driveType')),
+                          product.driveType && tBase(`vehicleDriveType.${product.driveType}`),
+                        ],
+                      ].filter(Boolean) as React.ReactNode[][]
+                    }
                   />
                 </BoxAnimation>
               </Container>
@@ -240,18 +236,26 @@ const ViewDetails: React.FC = () => {
                     rowGap="1rem"
                     gap="0.5rem"
                     cellWidth="50%"
-                    data={[
+                    data={
                       [
-                        createTextIcon(<FaCar />, t('carOverview.condition')),
-                        product.condition && tBase(`vehicleCondition.${product.condition}`),
-                      ],
-                      [createTextIcon(<TbEngine />, t('carOverview.engineSize')), product.engineSize],
-                      [createTextIcon(<TbDoor />, t('carOverview.doors')), product.doors],
-                      [
-                        createTextIcon(<BiColorFill />, t('carOverview.color')),
-                        product.color && tBase(`color.${product.color}`),
-                      ],
-                    ]}
+                        product.condition && [
+                          createTextIcon(<FaCar />, t('carOverview.condition')),
+                          tBase(`vehicleCondition.${product.condition}`),
+                        ],
+                        product.engineSize && [
+                          createTextIcon(<TbEngine />, t('carOverview.engineSize')),
+                          product.engineSize,
+                        ],
+                        !Number.isNaN(product.doors) && [
+                          createTextIcon(<TbDoor />, t('carOverview.doors')),
+                          product.doors,
+                        ],
+                        product.color && [
+                          createTextIcon(<BiColorFill />, t('carOverview.color')),
+                          product.color && tBase(`color.${product.color}`),
+                        ],
+                      ].filter(Boolean) as React.ReactNode[][]
+                    }
                   />
                 </BoxAnimation>
               </Container>
@@ -264,11 +268,11 @@ const ViewDetails: React.FC = () => {
             <Container styleConfig={{ gap: '1rem', padding: { left: 'md', right: 'md' } }}>
               <Text fontSize="2xl">{t('features.title')}</Text>
               <List gap="2rem" xs={1} sm={2} justifyContent="space-between">
-                {Array.from(featuresMap).map(([featureTitleKey, featuresByGroup]) => (
+                {Array.from(featuresByGroup).map(([featureTitleKey, featuresGroup]) => (
                   <Container xs={12} key={featureTitleKey} styleConfig={{ gap: '0.5rem', alignItems: 'flex-start' }}>
                     <Container styleConfig={{ gap: '0.3rem' }}>
-                      <Text fontSize="xl">{featuresByGroup[0].groupName}</Text>
-                      {featuresByGroup.map((feature) => (
+                      <Text fontSize="xl">{featuresGroup[0].groupName}</Text>
+                      {featuresGroup.map((feature) => (
                         <div key={feature.featureName}>
                           <Icon icon={<BiCheckCircle />} size="md" />
                           <Text fontSize="md">{feature.featureName}</Text>

@@ -32,7 +32,7 @@ const Home: React.FC = () => {
         </Carousel>
         <Container styleConfig={{ gap: '3rem', padding: { top: 'xl', bottom: 'xl', left: 'md', right: 'md' } }}>
           <BoxAnimation>
-            <Container xs="600px" styleConfig={{ centered: true, itemsCentered: true }}>
+            <Container xs="800px" styleConfig={{ centered: true, itemsCentered: true }}>
               <Title
                 fontSize={{ title: '3xl', description: 'xl' }}
                 bold
@@ -45,7 +45,7 @@ const Home: React.FC = () => {
           </BoxAnimation>
           <BoxAnimation>
             <Container
-              xs="600px"
+              xs="800px"
               styleConfig={{ gap: '1rem', centered: true, itemsCentered: true }}
               smStyle={{ direction: 'row' }}
             >

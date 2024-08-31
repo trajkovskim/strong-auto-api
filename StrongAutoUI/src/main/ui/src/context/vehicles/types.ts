@@ -1,8 +1,9 @@
 import { Action } from 'context/types';
 import { VehicleFilters, VehicleMake } from 'generated';
 
-export type VehicleFiltersForm = Omit<VehicleFilters, 'priceFrom' | 'priceTo'> & {
+export type VehicleFiltersForm = Omit<VehicleFilters, 'priceFrom' | 'priceTo' | 'features'> & {
   price?: string;
+  features?: string[];
 };
 
 type MakesValue = {
@@ -18,9 +19,9 @@ export type VehiclesState = {
 export type BaseReduceFunction<A extends Action> = (state: VehiclesState, action: A) => VehiclesState;
 
 export type SetVehicleFiltersActionType = Action & {
-  filters?: VehicleFilters;
+  filters?: VehicleFiltersForm;
 };
-export type SetVehicleFiltersAction = (vehicleFilters?: VehicleFilters) => SetVehicleFiltersActionType;
+export type SetVehicleFiltersAction = (vehicleFilters?: VehicleFiltersForm) => SetVehicleFiltersActionType;
 
 export type SetVehicleMakesActionType = Action & {
   makes?: Record<VehicleMake['make'], MakesValue>;

@@ -118,11 +118,36 @@ export const createListFromTranslations = (prefixKey: string, t: TranslationFunc
 };
 
 export const createMatrixFromTranslations = (prefixKey: string, t: TranslationFunction) => {
-  const matrix = [];
+  const matrix: {
+    title: string;
+    items: string[];
+  }[] = [];
   const listPrefix = `${prefixKey}.matrix`;
 
-  for (let i = 0; !t(`${listPrefix}.${i}`).toString().endsWith(`${listPrefix}.${i}`); i++) {
-    matrix.push(createListFromTranslations(`${listPrefix}.${i}`, t));
+  let i = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    let exit = true;
+    let j = 0;
+
+    const listTitle = t(`${listPrefix}.${i}.title`);
+    const itemsPrefix = t(`${listPrefix}.${i}.items`);
+    while (!t(`${itemsPrefix}.${j}`).toString().endsWith(`${itemsPrefix}.${j}`)) {
+      if (matrix.length <= i) {
+        matrix[i] = {
+          title: listTitle,
+          items: [],
+        };
+      }
+      exit = false;
+      matrix[i].items.push(t(`${itemsPrefix}.${j}`));
+      ++j;
+    }
+
+    if (exit) {
+      break;
+    }
+    ++i;
   }
 
   return matrix;

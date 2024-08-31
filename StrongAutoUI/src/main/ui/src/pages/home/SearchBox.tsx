@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from 'components/common';
-import { setVehicleFiltersAction } from 'context/vehicles';
+import { setVehicleFiltersAction, VehicleFiltersForm } from 'context/vehicles';
 import { VehicleFilters } from 'generated';
 import { useApplicationContext, useFetchMakes, useTranslation } from 'hooks';
 import { PAGE_MAX_WIDTH } from 'pages/constants';
@@ -55,7 +55,7 @@ const SearchBox: React.FC = () => {
     }
   };
 
-  const handleSubmit = (filters: VehicleFilters) => {
+  const handleSubmit = (filters: VehicleFiltersForm) => {
     dispatch(setVehicleFiltersAction(filters));
     navigate(Routes.SHOP);
   };

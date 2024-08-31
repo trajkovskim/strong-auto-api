@@ -16,7 +16,6 @@ type Props = {
   onFiltersClick: () => void;
   onPaginationClick: () => void;
   page: number;
-  totalContentNumber: number;
 } & Omit<React.ComponentProps<typeof SortAndSizeDropdowns>, 'fullwidth'>;
 
 const ListHeader: React.FC<Props> = (props) => {
@@ -28,8 +27,7 @@ const ListHeader: React.FC<Props> = (props) => {
         <Breadcrumb />
         <Text type="sub" fontSize="sm">
           {t('pagination.resultsShown', {
-            results: props.pageSize * props.page,
-            totalResults: props.totalContentNumber,
+            results: props.pageSize + 1 * props.page,
           })}
         </Text>
         <Container xs={0} lg={12} styleConfig={{ gap: '1rem', direction: 'row', justifyContent: 'space-between' }}>

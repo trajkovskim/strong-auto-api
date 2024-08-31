@@ -41,7 +41,7 @@ const NavigationOptionCreator: React.FC<InnerOptionsProps> = (props) => {
       <StyledButton
         padding="sm"
         fullwidth
-        size="md"
+        size="lg"
         iconSize="lg"
         themeType="link"
         icon={props.option.icon}
@@ -65,7 +65,7 @@ const NavigationOptionCreator: React.FC<InnerOptionsProps> = (props) => {
       buttonProps={{
         padding: { left: 'sm', right: 'sm', top: 'sm', bottom: 'sm' },
         icon: props.option.icon,
-        size: 'md',
+        size: 'lg',
         style: { color: props.option.active ? theme.navigation.activeColor : undefined },
       }}
       gap="0.5rem"

@@ -21,9 +21,10 @@ const CheckboxWrapper = styled(StyledFormFieldContainer)`
 
 type Props = React.ComponentProps<typeof StyledInput> & {
   label?: string;
+  valueAsArray?: boolean;
 };
 
-const Checkbox: React.FC<Props> = ({ label, ...props }) => {
+const Checkbox: React.FC<Props> = ({ label, valueAsArray, ...props }) => {
   const { change, getValue } = useForm();
   const name = props.name as string;
   const fieldValue = getValue(name);
@@ -34,22 +35,35 @@ const Checkbox: React.FC<Props> = ({ label, ...props }) => {
 
   const update = (targetChecked: boolean) => {
     const checkboxValue = props.value?.toString() ?? targetChecked;
-    if (Array.isArray(fieldValue)) {
+    if (valueAsArray) {
+      const fieldValueAsArray = Array.isArray(fieldValue) && fieldValue ? fieldValue : [];
+
       if (targetChecked) {
-        change(name, [...fieldValue, checkboxValue] as FormFieldValue);
-      } else if (fieldValue.length === 1) {
-        change(name, undefined);
+        change(name, [...fieldValueAsArray, checkboxValue] as FormFieldValue);
       } else {
-        fieldValue.splice(fieldValue.indexOf(checkboxValue as never), 1);
-        change(name, [...fieldValue] as FormFieldValue);
+        fieldValueAsArray.splice(fieldValueAsArray.indexOf(checkboxValue as never), 1);
+        change(name, [...fieldValueAsArray] as FormFieldValue);
       }
-    } else if (fieldValue && targetChecked) {
-      change(name, [fieldValue, checkboxValue] as FormFieldValue);
-    } else if (targetChecked) {
-      change(name, checkboxValue);
     } else {
-      change(name, undefined);
+      change(name, checkboxValue);
     }
+
+    // if (Array.isArray(fieldValue)) {
+    //   if (targetChecked) {
+    //     change(name, [...fieldValue, checkboxValue] as FormFieldValue);
+    //   } else if (fieldValue.length === 1) {
+    //     change(name, undefined);
+    //   } else {
+    //     fieldValue.splice(fieldValue.indexOf(checkboxValue as never), 1);
+    //     change(name, [...fieldValue] as FormFieldValue);
+    //   }
+    // } else if (fieldValue && targetChecked) {
+    //   change(name, [fieldValue, checkboxValue] as FormFieldValue);
+    // } else if (targetChecked) {
+    //   change(name, checkboxValue);
+    // } else {
+    //   change(name, undefined);
+    // }
   };
 
   const handleClick = () => {

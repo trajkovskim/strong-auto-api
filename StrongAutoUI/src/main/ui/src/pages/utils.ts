@@ -1,8 +1,15 @@
 import { VehiclesState } from 'context/vehicles';
-import { VehicleColor, VehicleCondition, VehicleDriveType, VehicleFuelType, VehicleTransmission } from 'generated';
+import {
+  VehicleColor,
+  VehicleCondition,
+  VehicleDriveType,
+  VehicleFeature,
+  VehicleFuelType,
+  VehicleTransmission,
+} from 'generated';
 import { TranslationFunction } from 'hooks/useTranslation';
 import { priceOptions } from 'pages/constants';
-import { pageSizes, SortBy } from 'pages/shop/constants';
+import { pageSizes, SortBy, sortByToValue } from 'pages/shop/constants';
 
 export const convertMakesToOptions = (makes: VehiclesState['makes']) => {
   return Object.entries(makes ?? {}).map(([, make]) => ({ value: make.make, label: make.make })) ?? [];
@@ -45,7 +52,7 @@ export const convertVehicleColorsToOptions = (t: TranslationFunction) =>
 
 export const convertSortByToOptions = (t: TranslationFunction) =>
   Object.values(SortBy).map((sortBy) => ({
-    value: sortBy,
+    value: sortByToValue[sortBy],
     label: t(`strongauto.inventory.pagination.sortByInput.${sortBy}`),
   }));
 
@@ -60,3 +67,21 @@ export const convertPricesToOptions = (t: TranslationFunction) =>
     value: price.toString(),
     label: t(`price.${price}`),
   }));
+
+export const getFeaturesByGroup = (features: VehicleFeature[]) => {
+  const featuresMap = new Map<string, VehicleFeature[]>();
+
+  features?.forEach((feature) => {
+    if (!feature) {
+      return;
+    }
+
+    if (!featuresMap.has(feature.groupKey)) {
+      featuresMap.set(feature.groupKey, []);
+    }
+
+    featuresMap.get(feature.groupKey)?.push(feature);
+  });
+
+  return featuresMap;
+};

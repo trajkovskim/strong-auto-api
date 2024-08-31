@@ -1,511 +1,263 @@
 {
-  "strongauto": {
-    "telephone": "+38977648648",
-    "email": "vane.stamenov@gmail.com",
-    "openHours": "Mon-Sun: 08:00 - 20:00",
-    "followUs": "Follow us:",
-    "languages": {
-      "title": "Language",
-      "mk": "Macedonian",
-      "en": "English"
-    },
-    "productCards": {
-      "noPrice": "No price"
-    },
-    "notFound": {
-      "backToHomePageButton": "Back to home page"
-    },
-    "nav": {
-      "home": "Home",
-      "shop": "Inventory",
-      "aboutUs": "About Us",
-      "contact": "Contact",
-      "services": "Services",
-      "towingService": "Towing Service",
-      "dpfCleaningService": "DPF Cleaning",
-      "carService": "Car Service"
-    },
-    "footer": {
-      "description": "Strong auto is a Strong auto is a Strong auto is a Strong auto is a Strong auto is a auto is a Strong auto is a auto is a Strong auto is a",
-      "findUs": {
-        "title": "Find us",
-        "location": "15 Somewhere in strumica\nNorth Macedonia, MK\nStrumica 2400",
-        "openHours": {
-          "title": "Open hours:",
-          "label": "Mon-Sun: 08:00 - 20:00"
-        }
-      },
-      "contacts": {
-        "title": "Contacts",
-        "general": {
-          "title": "General:"
-        },
-        "email": {
-          "title": "Email:"
-        }
-      },
-      "usefulLinks": {
-        "title": "Useful links:",
-        "home": "Home",
-        "shop": "Shop",
-        "aboutUs": "About us",
-        "contact": "Contact"
-      },
-      "newsLetter": {
-        "title": "Join our newsletter",
-        "description": "Receive pricing updates, shopping tips & more!",
-        "emailInput": {
-          "placeholder": "Your email address"
-        },
-        "subscribeButton": "Subscribe"
-      }
-    },
-    "home": {
-      "carousel": {
-        "title": "Welcome to StrongAUTO",
-        "description": "Checkout the cars that we have in our inventory",
-        "inventoryButton": "Get to the inventory",
-        "scrollDownButton": "Scroll down"
-      },
-      "searchBox": {
-        "title": "Find what you are looking for",
-        "makeInput": {
-          "placeholder": "Any make"
-        },
-        "modelInput": {
-          "placeholder": "Any model"
-        },
-        "priceInput": {
-          "placeholder": "Any price"
-        },
-        "advancedButton": "Advanced",
-        "searchButton": "Search",
-        "popularSearches": "Popular searches:"
-      },
-      "vehiclesSection": {
-        "featured": "Featured",
-        "bodyTypes": "Body types",
-        "available": "{{n}} available"
-      },
-      "buyingACar": {
-        "title": "Buying a car?",
-        "description": "At StrongAUTO, we make buying a car an exciting and stress-free experience. Whether you’re looking for a brand-new vehicle or a reliable pre-owned option, our dedicated team is here to help you every step of the way.",
-        "visitButton": "Visit our cars shop"
-      },
-      "rentingACar": {
-        "title": "Renting a car?",
-        "description": "Whether you need a vehicle for a day, a week, or longer, StrongAUTO offers a comprehensive range of rental options to meet your needs. Our fleet of well-maintained, reliable vehicles is ready to get you where you need to go, whether you're traveling for business, vacationing, or just need a temporary ride.",
-        "visitButton": "Visit our cars shop"
-      },
-      "popularMakes": {
-        "title": "Popular makes",
-        "viewAllButton": "View all"
-      },
-      "whyChooseUs": {
-        "title": "Why choose our services",
-        "description": "Choosing StrongAUTO means choosing a dealership that values your time and investment. We are committed to providing an exceptional experience from start to finish, with a focus on personalized service and genuine care.",
-        "point1": {
-          "title": "Trusted Car Dealership",
-          "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-        },
-        "point2": {
-          "title": "Trusted Car Dealership",
-          "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-        },
-        "point3": {
-          "title": "Trusted Car Dealership",
-          "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-        },
-        "point4": {
-          "title": "Trusted Car Dealership",
-          "description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
-        }
-      },
-      "reviews": {
-        "title": "What our clients say about us",
-        "via": "via {{platform}}",
-        "starRating": "{{stars}}-star rating"
-      },
-      "newsLetterSubscription": {
-        "title": "Get Latest Updates And Best Offers",
-        "description": "Strong auto is the most enticing, creative, modern and multipurpose auto dealer",
-        "emailInput": {
-          "placeholder": "Enter your email"
-        },
-        "subscribeButton": "Subscribe"
-      },
-      "generalFaq": {
-        "title": "General FAQs",
-        "description": "Check out in our frequently asked questions that we have ready for you",
-        "questions": {
-          "0": {
-            "question": "Question 1?",
-            "answer": "Answer 1"
-          },
-          "1": {
-            "question": "Question 2?",
-            "answer": "Answer 2"
-          },
-          "2": {
-            "question": "Question 3?",
-            "answer": "Answer 3"
-          },
-          "3": {
-            "question": "Question 4?",
-            "answer": "Answer 4"
-          },
-          "4": {
-            "question": "Question 5?",
-            "answer": "Answer 5"
-          }
-        }
-      }
-    },
-    "vehicleState": {
-      "NO_STATE": "No state",
-      "SOLD": "Sold",
-      "FEATURED": "Featured"
-    },
-    "vehicleCondition": {
-      "NO_CONDITION": "No condition",
-      "NEW": "New",
-      "USED": "Used"
-    },
-    "vehicleBodyType": {
-      "NO_BODY_TYPE": "No body type",
-      "SEDAN": "Sedan",
-      "COUPE": "Coupe",
-      "SUV": "SUV",
-      "CONVERTIBLE": "Convertible",
-      "LIMOUSINE": "Limousine"
-    },
-    "vehicleTransmission": {
-      "NO_TRANSMISSION": "No transmission",
-      "AUTOMATIC": "Automatic",
-      "MANUAL": "Manual"
-    },
-    "vehicleDriveType": {
-      "NO_DRIVE_TYPE": "No transmission",
-      "AWD_4WD": "All wheel drive",
-      "2WD_FWD": "2 wheel drive (Front)",
-      "2WD_RWD": "2 wheel drive (Rear)"
-    },
-    "vehicleMileage": "{{mileage}}km",
-    "vehicleFuelType": {
-      "NO_FUEL_TYPE": "No fuel type",
-      "ELECTRIC": "Electric",
-      "DIESEL": "Diesel",
-      "PETROL": "Petrol",
-      "HYBRID": "Hybrid"
-    },
-    "color": {
-      "NO_COLOR": "No color",
-      "BLACK": "Black",
-      "WHITE": "White",
-      "RED": "Red"
-    },
-    "price": {
-      "0-3000": "0-3000",
-      "3000-10000": "3000-10000",
-      "10000-20000": "10000-20000",
-      "20000-50000": "20000-50000",
-      "50000-100000": "50000-100000",
-      "100000-any": "100000-any"
-    },
-    "inventory": {
-      "filters": {
-        "header": "Filtering",
-        "basic": {
-          "title": "Basic",
-          "makeInput": {
-            "placeholder": "Any make",
-            "label": "Make"
-          },
-          "modelInput": {
-            "placeholder": "Any model",
-            "label": "Model"
-          },
-          "priceInput": {
-            "placeholder": "Any price",
-            "label": "Price"
-          }
-        },
-        "technical": {
-          "title": "Technical",
-          "conditionInput": {
-            "placeholder": "Condition",
-            "label": "Condition"
-          },
-          "bodyType": {
-            "title": "Body type"
-          },
-          "transmissionInput": {
-            "placeholder": "Transmission",
-            "label": "Transmission"
-          },
-          "driveTypeInput": {
-            "placeholder": "Drive Type",
-            "label": "Drive Type"
-          },
-          "yearFromInput": {
-            "placeholder": "Year (From)",
-            "label": "Year"
-          },
-          "yearToInput": {
-            "placeholder": "Year (To)",
-            "label": "Year"
-          },
-          "mileageFromInput": {
-            "placeholder": "Mileage (From)",
-            "label": "Mileage"
-          },
-          "mileageToInput": {
-            "placeholder": "Mileage (To)",
-            "label": "Mileage"
-          },
-          "fuelTypeInput": {
-            "placeholder": "Fuel type",
-            "label": "Fuel type"
-          },
-          "colorInput": {
-            "placeholder": "Color",
-            "label": "Color"
-          }
-        },
-        "features": {
-          "title": "Features"
-        },
-        "searchButton": "Search cars",
-        "resetButton": "Reset search"
-      },
-      "pagination": {
-        "sortByInput": {
-          "label": "Sort by",
-          "UNSORTED": "Default",
-          "PRICE_ASC": "Price (Ascending)",
-          "PRICE_DESC": "Price (Descending)",
-          "ID_ASC": "Newest",
-          "ID_DESC": "Oldest"
-        },
-        "resultSizeInput": {
-          "label": "Result size",
-          "10": "10",
-          "20": "20",
-          "40": "40",
-          "60": "60",
-          "100": "100"
-        },
-        "resultsShown": "Results shown {{results}} of {{totalResults}}"
-      }
-    },
-    "aboutUs": {
-      "title": "About Us",
-      "whoWeAre": {
-        "title": "Who we are",
-        "description": "Welcome to StrongAUTO, where our passion for automobiles meets a commitment to exceptional customer service. Since 2010, we’ve been dedicated to providing our community with a superior car-buying and rental experience."
-      },
-      "ourMission": {
-        "title": "Our mission",
-        "description": "At StrongAUTO, our mission is simple: to deliver an unparalleled automotive experience through integrity, innovation, and dedication. We strive to exceed your expectations by offering a diverse selection of vehicles, personalized service, and a seamless process whether you're purchasing or renting a car."
-      }
-    },
-    "contact": {
-      "title": "Lets get in touch!",
-      "giveUsAMessage": {
-        "title": "Give us a message and let us know",
-        "description": "We will have a look at it and provide you with an answer as soon as possible",
-        "nameInput": {
-          "placeholder": "Your name"
-        },
-        "emailInput": {
-          "placeholder": "Your email"
-        },
-        "phoneInput": {
-          "placeholder": "Your phone"
-        },
-        "subjectInput": {
-          "placeholder": "Subject"
-        },
-        "messageInput": {
-          "placeholder": "Message"
-        },
-        "sendMessageButton": "Send message"
-      },
-      "location": {
-        "title": "Location",
-        "description": "15 Somewhere in strumica\nNorth Macedonia, MK\nStrumica 2400"
-      },
-      "callUs": {
-        "title": "Call us:"
-      },
-      "sendUsAnEmail": {
-        "title": "Send us an email:"
-      },
-      "socialMedia": {
-        "title": "Social media"
-      },
-      "openHours": {
-        "title": "Open hours:"
-      }
-    },
-    "viewDetails": {
-      "description": {
-        "title": "Description"
-      },
-      "carOverview": {
-        "title": "Car overview",
-        "bodyType": "Body",
-        "mileage": "Mileage",
-        "fuelType": "Fuel type",
-        "year": "Year",
-        "transmission": "Transmission",
-        "driveType": "Drive type",
-        "condition": "Condition",
-        "engineSize": "Engine Size",
-        "doors": "Doors",
-        "color": "Color"
-      },
-      "features": {
-        "title": "Features"
-      },
-      "featuredProducts": {
-        "title": "Featured products"
-      },
-      "offer": "Our offer:",
-      "sendMessageButton": "Send message",
-      "saving": "Saving: {{saving}}"
-    },
-    "services": {
-      "header": "Services",
-      "introCard": {
-        "title": "Наши сервиси",
-        "description": "StrongAUTO е најпримамливиот, креативен, модерен и повеќенаменски продавач на автомобили"
-      },
-      "servicesList": {
-        "title": "We Provide Best Vehicles Solution & Awesome Services"
-      },
-      "cards": {
-        "0": {
-          "title": "FAST AND INEXPENSIVE TOWING SERVICES",
-          "description": "When it is not possible to fix a vehicle on-site, we utilise our extensive network of l."
-        },
-        "1": {
-          "title": "DPF CLEANING",
-          "description": "When it is not possible to fix a vehicle on-site, we utilise our extensive network of l."
-        },
-        "2": {
-          "title": "CAR SERVICE",
-          "description": "mply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever It has survived not only five centuries, but"
-        }
-      },
-      "towingService": {
-        "header": "Towing Service",
-        "title": "Dependable Towing, Anytime, Anywhere",
-        "description": "When you’re stranded, you need quick and reliable help. At StrongAUTO, our Fast and Inexpensive Towing Services ensure you’re never left waiting. With our 24/7 availability and budget-friendly rates, you can trust us to get your vehicle safely to its destination without breaking the bank. Let us take the stress out of your roadside emergency – call us anytime!",
-        "whyChooseOurTowingServices": {
-          "title": "Why Choose Our Towing Services?",
-          "matrix": {
-            "0": {
-              "title": "Rapid Response Time",
-              "items": {
-                "0": "We offer 24/7 towing services, ensuring that help is always available when you need it. Our quick response times mean you’re never left waiting long, no matter the hour."
-              }
-            },
-            "1": {
-              "title": "Affordable Pricing",
-              "items": {
-                "0": "Our towing services are designed to be budget-friendly. We provide clear, upfront pricing with no hidden fees, so you can get the assistance you need without breaking the bank."
-              }
-            },
-            "2": {
-              "title": "Professional & Experienced Team",
-              "items": {
-                "0": "Our tow truck operators are highly trained and experienced. They handle all types of vehicles with care, from small cars to larger SUVs, ensuring safe and efficient transport."
-              }
-            },
-            "3": {
-              "title": "Local & Long-Distance Coverage",
-              "items": {
-                "0": "Whether you’re stuck in a nearby parking lot or need a tow across town or further, our fleet is equipped to handle both local and long-distance towing. We offer flexible solutions tailored to your needs."
-              }
-            },
-            "4": {
-              "title": "Comprehensive Towing Services",
-              "items": {
-                "0": "Emergency Towing: Quick and reliable service for unexpected roadside emergencies.",
-                "1": "Flatbed Towing: Safe transport for vehicles that require extra care, such as luxury or modified vehicles.",
-                "2": "Winch Outs: Assistance with vehicles that are stuck in difficult conditions like mud, snow, or ditches."
-              }
-            },
-            "5": {
-              "title": "Door-to-Door Service",
-              "items": {
-                "0": "We provide door-to-door towing, picking up your vehicle from its current location and delivering it directly to your chosen destination, whether it’s our service center, your home, or another repair shop."
-              }
-            }
-          }
-        }
-      },
-      "dpfCleaningService": {
-        "header": "DPF Cleaning",
-        "title": "What are DPFs?",
-        "description": "Diesel particulate filters (DPFs) are an essential component of modern diesel engines. They help reduce harmful emissions and ensure that the engine runs efficiently. However, over time, these filters can become clogged with soot and other particles, reducing their effectiveness and potentially causing damage to the engine. In this article, we will discuss the importance of cleaning DPFs and the services offered by Aros Filter AB.",
-        "cleaningProcess": {
-          "title": "What is the process?",
-          "list": {
-            "items": {
-              "0": "Remove the DPF from your car",
-              "1": "We conduct a pre-clean air flow test to verify there is a blockage and note the reading.",
-              "2": "We then use our DPF cleaning solution and soak the DPF",
-              "3": "We then place the DPF on the machine and use high-pressured air and water to force all the carbon, soot & ash from the filter until only clean water runs freely.",
-              "4": "We then connect the freshly cleaned DPF to a blower and dry the filter.",
-              "5": "Finally, we carry out a post-clean air flow test to ensure the blockage has been removed and note the reading.",
-              "6": "We would always recommend that a carbon clean is carried out in conjunction with the DPF clean. This will clear any carbon build-up upstream of the DPF."
-            }
-          }
-        },
-        "whyCleaning": {
-          "title": "Why clean your DPF?",
-          "description": "Cleaning diesel particulate filters is crucial for maintaining the engine’s performance and reducing harmful emissions. When a DPF becomes clogged, the engine may experience reduced power, increased fuel consumption, and potential engine damage. Furthermore, a clogged DPF can cause the engine to produce higher levels of harmful pollutants, such as nitrogen oxides (NOx) and particulate matter (PM)."
-        },
-        "whatCausesDpfBlockage": {
-          "title": "What causes a dpf blockage?",
-          "description": "Short journeys at low speeds are the main cause of blocked diesel particulate filters.Other things that are bad for DPFs include poor servicing, clogged EGR valve & excessive carbon build-up."
-        },
-        "howDoIKnowitNeedsCleaning": {
-          "title": "How do I know if my DPF needs cleaning?",
-          "list": {
-            "title": "Several signs indicate that your DPF may need cleaning:",
-            "items": {
-              "0": "Warning Light: Most modern vehicles are equipped with a DPF warning light that illuminates when the filter is becoming clogged",
-              "1": "Reduced Engine Performance: If you experience a noticeable drop in power or acceleration, it may be a sign of a blocked DPF",
-              "2": "Increased Fuel Consumption: A clogged DPF can lead to decreased fuel efficiency, resulting in more frequent refuelling",
-              "3": "Exhaust Smoke: Dark smoke emitting from the exhaust, especially during acceleration, may indicate a clogged DPF."
-            }
-          },
-          "descriptionAfter": "If you notice any of these signs, it’s essential to have your DPF inspected and cleaned promptly."
-        }
-      },
-      "carService": {
-        "header": "Car Service",
-        "title": "Dependable Towing, Anytime, Anywhere",
-        "description": "When you’re stranded, you need quick and reliable help. At StrongAUTO, our Fast and Inexpensive Towing Services ensure you’re never left waiting. With our 24/7 availability and budget-friendly rates, you can trust us to get your vehicle safely to its destination without breaking the bank. Let us take the stress out of your roadside emergency – call us anytime!"
-      },
-      "contactUs": {
-        "title": "Contact Us",
-        "description": "For fast, reliable, and affordable towing services, look no further than StrongAUTO. We’re here to assist you with all your towing needs, ensuring you get back on the road with minimal hassle.",
-        "callUsNowButton": "Call us now:"
-      }
-    },
-    "breadcrumb": {
-      "home": "Home",
-      "shop": "Inventory",
-      "aboutUs": "About Us",
-      "contact": "Contact",
-      "services": "Services",
-      "towingService": "Towing Service",
-      "dpfCleaningService": "DPF Cleaning",
-      "carService": "Car Service"
-    }
-  }
+  "strongauto.telephone": "+38977648648",
+  "strongauto.email": "vane.stamenov@gmail.com",
+  "strongauto.openHours": "Mon-Sun: 08:00 - 20:00",
+  "strongauto.followUs": "Follow us:",
+  "strongauto.languages.title": "Language",
+  "strongauto.languages.mk": "Macedonian",
+  "strongauto.languages.en": "English",
+  "strongauto.productCards.noPrice": "No price",
+  "strongauto.notFound.backToHomePageButton": "Back to home page",
+  "strongauto.nav.home": "Home",
+  "strongauto.nav.shop": "Inventory",
+  "strongauto.nav.aboutUs": "About Us",
+  "strongauto.nav.contact": "Contact",
+  "strongauto.nav.services": "Services",
+  "strongauto.nav.towingService": "Towing Service",
+  "strongauto.nav.dpfCleaningService": "DPF Cleaning",
+  "strongauto.nav.carService": "Car Service",
+  "strongauto.footer.description": "Strong auto is a Strong auto is a Strong auto is a Strong auto is a Strong auto is a auto is a Strong auto is a auto is a Strong auto is a",
+  "strongauto.footer.findUs.title": "Find us",
+  "strongauto.footer.findUs.location": "15 Somewhere in strumica\nNorth Macedonia, MK\nStrumica 2400",
+  "strongauto.footer.findUs.openHours.title": "Open hours:",
+  "strongauto.footer.findUs.openHours.label": "Mon-Sun: 08:00 - 20:00",
+  "strongauto.footer.contacts.title": "Contacts",
+  "strongauto.footer.contacts.general.title": "General:",
+  "strongauto.footer.contacts.email.title": "Email:",
+  "strongauto.footer.usefulLinks.title": "Useful links:",
+  "strongauto.footer.usefulLinks.home": "Home",
+  "strongauto.footer.usefulLinks.shop": "Shop",
+  "strongauto.footer.usefulLinks.aboutUs": "About us",
+  "strongauto.footer.usefulLinks.contact": "Contact",
+  "strongauto.footer.newsLetter.title": "Join our newsletter",
+  "strongauto.footer.newsLetter.description": "Receive pricing updates, shopping tips & more!",
+  "strongauto.footer.newsLetter.emailInput.placeholder": "Your email address",
+  "strongauto.footer.newsLetter.subscribeButton": "Subscribe",
+  "strongauto.home.carousel.title": "Welcome to StrongAUTO",
+  "strongauto.home.carousel.description": "Checkout the cars that we have in our inventory",
+  "strongauto.home.carousel.inventoryButton": "Get to the inventory",
+  "strongauto.home.carousel.scrollDownButton": "Scroll down",
+  "strongauto.home.searchBox.title": "Find what you are looking for",
+  "strongauto.home.searchBox.makeInput.placeholder": "Any make",
+  "strongauto.home.searchBox.modelInput.placeholder": "Any model",
+  "strongauto.home.searchBox.priceInput.placeholder": "Any price",
+  "strongauto.home.searchBox.advancedButton": "Advanced",
+  "strongauto.home.searchBox.searchButton": "Search",
+  "strongauto.home.searchBox.popularSearches": "Popular searches:",
+  "strongauto.home.vehiclesSection.featured": "Featured",
+  "strongauto.home.vehiclesSection.bodyTypes": "Body types",
+  "strongauto.home.vehiclesSection.available": "{{n}} available",
+  "strongauto.home.buyingACar.title": "Buying a car?",
+  "strongauto.home.buyingACar.description": "At StrongAUTO, we make buying a car an exciting and stress-free experience. Whether you’re looking for a brand-new vehicle or a reliable pre-owned option, our dedicated team is here to help you every step of the way.",
+  "strongauto.home.buyingACar.visitButton": "Visit our cars shop",
+  "strongauto.home.rentingACar.title": "Renting a car?",
+  "strongauto.home.rentingACar.description": "Whether you need a vehicle for a day, a week, or longer, StrongAUTO offers a comprehensive range of rental options to meet your needs. Our fleet of well-maintained, reliable vehicles is ready to get you where you need to go, whether you're traveling for business, vacationing, or just need a temporary ride.",
+  "strongauto.home.rentingACar.visitButton": "Visit our cars shop",
+  "strongauto.home.popularMakes.title": "Popular makes",
+  "strongauto.home.popularMakes.viewAllButton": "View all",
+  "strongauto.home.whyChooseUs.title": "Why choose our services",
+  "strongauto.home.whyChooseUs.description": "Choosing StrongAUTO means choosing a dealership that values your time and investment. We are committed to providing an exceptional experience from start to finish, with a focus on personalized service and genuine care.",
+  "strongauto.home.whyChooseUs.point1.title": "Trusted Car Dealership",
+  "strongauto.home.whyChooseUs.point1.description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  "strongauto.home.whyChooseUs.point2.title": "Trusted Car Dealership",
+  "strongauto.home.whyChooseUs.point2.description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  "strongauto.home.whyChooseUs.point3.title": "Trusted Car Dealership",
+  "strongauto.home.whyChooseUs.point3.description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  "strongauto.home.whyChooseUs.point4.title": "Trusted Car Dealership",
+  "strongauto.home.whyChooseUs.point4.description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  "strongauto.home.reviews.title": "What our clients say about us",
+  "strongauto.home.reviews.via": "via {{platform}}",
+  "strongauto.home.reviews.starRating": "{{stars}}-star rating",
+  "strongauto.home.newsLetterSubscription.title": "Get Latest Updates And Best Offers",
+  "strongauto.home.newsLetterSubscription.description": "Strong auto is the most enticing, creative, modern and multipurpose auto dealer",
+  "strongauto.home.newsLetterSubscription.emailInput.placeholder": "Enter your email",
+  "strongauto.home.newsLetterSubscription.subscribeButton": "Subscribe",
+  "strongauto.home.generalFaq.title": "General FAQs",
+  "strongauto.home.generalFaq.description": "Check out in our frequently asked questions that we have ready for you",
+  "strongauto.home.generalFaq.questions.0.question": "Question 1?",
+  "strongauto.home.generalFaq.questions.0.answer": "Answer 1",
+  "strongauto.home.generalFaq.questions.1.question": "Question 2?",
+  "strongauto.home.generalFaq.questions.1.answer": "Answer 2",
+  "strongauto.home.generalFaq.questions.2.question": "Question 3?",
+  "strongauto.home.generalFaq.questions.2.answer": "Answer 3",
+  "strongauto.home.generalFaq.questions.3.question": "Question 4?",
+  "strongauto.home.generalFaq.questions.3.answer": "Answer 4",
+  "strongauto.home.generalFaq.questions.4.question": "Question 5?",
+  "strongauto.home.generalFaq.questions.4.answer": "Answer 5",
+  "strongauto.vehicleState.SOLD": "Sold",
+  "strongauto.vehicleState.FEATURED": "Featured",
+  "strongauto.vehicleCondition.NEW": "New",
+  "strongauto.vehicleCondition.USED": "Used",
+  "strongauto.vehicleBodyType.SEDAN": "Sedan",
+  "strongauto.vehicleBodyType.COUPE": "Coupe",
+  "strongauto.vehicleBodyType.HATCHBACK": "Hatchback",
+  "strongauto.vehicleBodyType.SALOON": "Saloon",
+  "strongauto.vehicleBodyType.SUV": "SUV",
+  "strongauto.vehicleBodyType.CONVERTIBLE": "Convertible",
+  "strongauto.vehicleBodyType.LIMOUSINE": "Limousine",
+  "strongauto.vehicleTransmission.AUTOMATIC": "Automatic",
+  "strongauto.vehicleTransmission.MANUAL": "Manual",
+  "strongauto.vehicleDriveType.AWD_4WD": "All wheel drive",
+  "strongauto.vehicleDriveType.2WD_FWD": "2 wheel drive (Front)",
+  "strongauto.vehicleDriveType.2WD_RWD": "2 wheel drive (Rear)",
+  "strongauto.vehicleMileage": "{{mileage}}km",
+  "strongauto.vehicleFuelType.ELECTRIC": "Electric",
+  "strongauto.vehicleFuelType.DIESEL": "Diesel",
+  "strongauto.vehicleFuelType.PETROL": "Petrol",
+  "strongauto.vehicleFuelType.HYBRID": "Hybrid",
+  "strongauto.color.BLACK": "Black",
+  "strongauto.color.WHITE": "White",
+  "strongauto.color.RED": "Red",
+  "strongauto.price.0-3000": "0-3000",
+  "strongauto.price.3000-10000": "3000-10000",
+  "strongauto.price.10000-20000": "10000-20000",
+  "strongauto.price.20000-50000": "20000-50000",
+  "strongauto.price.50000-100000": "50000-100000",
+  "strongauto.price.100000-any": "100000-any",
+  "strongauto.inventory.filters.header": "Filtering",
+  "strongauto.inventory.filters.basic.title": "Basic",
+  "strongauto.inventory.filters.basic.makeInput.placeholder": "Any make",
+  "strongauto.inventory.filters.basic.makeInput.label": "Make",
+  "strongauto.inventory.filters.basic.modelInput.placeholder": "Any model",
+  "strongauto.inventory.filters.basic.modelInput.label": "Model",
+  "strongauto.inventory.filters.basic.priceInput.placeholder": "Any price",
+  "strongauto.inventory.filters.basic.priceInput.label": "Price",
+  "strongauto.inventory.filters.technical.title": "Technical",
+  "strongauto.inventory.filters.technical.conditionInput.placeholder": "Condition",
+  "strongauto.inventory.filters.technical.conditionInput.label": "Condition",
+  "strongauto.inventory.filters.technical.bodyType.title": "Body type",
+  "strongauto.inventory.filters.technical.transmissionInput.placeholder": "Transmission",
+  "strongauto.inventory.filters.technical.transmissionInput.label": "Transmission",
+  "strongauto.inventory.filters.technical.driveTypeInput.placeholder": "Drive Type",
+  "strongauto.inventory.filters.technical.driveTypeInput.label": "Drive Type",
+  "strongauto.inventory.filters.technical.yearFromInput.placeholder": "Year (From)",
+  "strongauto.inventory.filters.technical.yearFromInput.label": "Year",
+  "strongauto.inventory.filters.technical.yearToInput.placeholder": "Year (To)",
+  "strongauto.inventory.filters.technical.yearToInput.label": "Year",
+  "strongauto.inventory.filters.technical.mileageFromInput.placeholder": "Mileage (From)",
+  "strongauto.inventory.filters.technical.mileageFromInput.label": "Mileage",
+  "strongauto.inventory.filters.technical.mileageToInput.placeholder": "Mileage (To)",
+  "strongauto.inventory.filters.technical.mileageToInput.label": "Mileage",
+  "strongauto.inventory.filters.technical.fuelTypeInput.placeholder": "Fuel type",
+  "strongauto.inventory.filters.technical.fuelTypeInput.label": "Fuel type",
+  "strongauto.inventory.filters.technical.colorInput.placeholder": "Color",
+  "strongauto.inventory.filters.technical.colorInput.label": "Color",
+  "strongauto.inventory.filters.features.title": "Features",
+  "strongauto.inventory.filters.searchButton": "Search cars",
+  "strongauto.inventory.filters.resetButton": "Reset search",
+  "strongauto.inventory.pagination.title": "Pagination",
+  "strongauto.inventory.pagination.sortByInput.label": "Sort by",
+  "strongauto.inventory.pagination.sortByInput.UNSORTED": "Default",
+  "strongauto.inventory.pagination.sortByInput.PRICE_ASC": "Price (Ascending)",
+  "strongauto.inventory.pagination.sortByInput.PRICE_DESC": "Price (Descending)",
+  "strongauto.inventory.pagination.sortByInput.ID_ASC": "Newest",
+  "strongauto.inventory.pagination.sortByInput.ID_DESC": "Oldest",
+  "strongauto.inventory.pagination.resultSizeInput.10": "10",
+  "strongauto.inventory.pagination.resultSizeInput.20": "20",
+  "strongauto.inventory.pagination.resultSizeInput.40": "40",
+  "strongauto.inventory.pagination.resultSizeInput.60": "60",
+  "strongauto.inventory.pagination.resultSizeInput.100": "100",
+  "strongauto.inventory.pagination.resultSizeInput.label": "Result size",
+  "strongauto.inventory.pagination.resultsShown": "Results shown {{results}}",
+  "strongauto.aboutUs.title": "About Us",
+  "strongauto.aboutUs.whoWeAre.title": "Who we are",
+  "strongauto.aboutUs.whoWeAre.description": "Welcome to StrongAUTO, where our passion for automobiles meets a commitment to exceptional customer service. Since 2010, we’ve been dedicated to providing our community with a superior car-buying and rental experience.",
+  "strongauto.aboutUs.ourMission.title": "Our mission",
+  "strongauto.aboutUs.ourMission.description": "At StrongAUTO, our mission is simple: to deliver an unparalleled automotive experience through integrity, innovation, and dedication. We strive to exceed your expectations by offering a diverse selection of vehicles, personalized service, and a seamless process whether you're purchasing or renting a car.",
+  "strongauto.contact.title": "Lets get in touch!",
+  "strongauto.contact.giveUsAMessage.title": "Give us a message and let us know",
+  "strongauto.contact.giveUsAMessage.description": "We will have a look at it and provide you with an answer as soon as possible",
+  "strongauto.contact.giveUsAMessage.nameInput.placeholder": "Your name",
+  "strongauto.contact.giveUsAMessage.emailInput.placeholder": "Your email",
+  "strongauto.contact.giveUsAMessage.phoneInput.placeholder": "Your phone",
+  "strongauto.contact.giveUsAMessage.subjectInput.placeholder": "Subject",
+  "strongauto.contact.giveUsAMessage.messageInput.placeholder": "Message",
+  "strongauto.contact.giveUsAMessage.sendMessageButton": "Send message",
+  "strongauto.contact.location.title": "Location",
+  "strongauto.contact.location.description": "15 Somewhere in strumica\nNorth Macedonia, MK\nStrumica 2400",
+  "strongauto.contact.callUs.title": "Call us:",
+  "strongauto.contact.sendUsAnEmail.title": "Send us an email:",
+  "strongauto.contact.socialMedia.title": "Social media",
+  "strongauto.contact.openHours.title": "Open hours:",
+  "strongauto.viewDetails.description.title": "Description",
+  "strongauto.viewDetails.carOverview.title": "Car overview",
+  "strongauto.viewDetails.carOverview.bodyType": "Body",
+  "strongauto.viewDetails.carOverview.mileage": "Mileage",
+  "strongauto.viewDetails.carOverview.fuelType": "Fuel type",
+  "strongauto.viewDetails.carOverview.year": "Year",
+  "strongauto.viewDetails.carOverview.transmission": "Transmission",
+  "strongauto.viewDetails.carOverview.driveType": "Drive type",
+  "strongauto.viewDetails.carOverview.condition": "Condition",
+  "strongauto.viewDetails.carOverview.engineSize": "Engine Size",
+  "strongauto.viewDetails.carOverview.doors": "Doors",
+  "strongauto.viewDetails.carOverview.color": "Color",
+  "strongauto.viewDetails.features.title": "Features",
+  "strongauto.viewDetails.featuredProducts.title": "Featured products",
+  "strongauto.viewDetails.offer": "Our offer:",
+  "strongauto.viewDetails.sendMessageButton": "Send message",
+  "strongauto.viewDetails.saving": "Saving: {{saving}}",
+  "strongauto.services.header": "Services",
+  "strongauto.services.introCard.title": "Наши сервиси",
+  "strongauto.services.introCard.description": "StrongAUTO е најпримамливиот, креативен, модерен и повеќенаменски продавач на автомобили",
+  "strongauto.services.servicesList.title": "We Provide Best Vehicles Solution & Awesome Services",
+  "strongauto.services.cards.0.title": "FAST AND INEXPENSIVE TOWING SERVICES",
+  "strongauto.services.cards.0.description": "When it is not possible to fix a vehicle on-site, we utilise our extensive network of l.",
+  "strongauto.services.cards.1.title": "DPF CLEANING",
+  "strongauto.services.cards.1.description": "When it is not possible to fix a vehicle on-site, we utilise our extensive network of l.",
+  "strongauto.services.cards.2.title": "CAR SERVICE",
+  "strongauto.services.cards.2.description": "mply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever It has survived not only five centuries, but",
+  "strongauto.services.towingService.header": "Towing Service",
+  "strongauto.services.towingService.title": "Dependable Towing, Anytime, Anywhere",
+  "strongauto.services.towingService.description": "When you’re stranded, you need quick and reliable help. At StrongAUTO, our Fast and Inexpensive Towing Services ensure you’re never left waiting. With our 24/7 availability and budget-friendly rates, you can trust us to get your vehicle safely to its destination without breaking the bank. Let us take the stress out of your roadside emergency – call us anytime!",
+  "strongauto.services.towingService.whyChooseOurTowingServices.title": "Why Choose Our Towing Services?",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.0.title": "Rapid Response Time",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.0.items.0": "We offer 24/7 towing services, ensuring that help is always available when you need it. Our quick response times mean you’re never left waiting long, no matter the hour.",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.1.title": "Affordable Pricing",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.1.items.0": "Our towing services are designed to be budget-friendly. We provide clear, upfront pricing with no hidden fees, so you can get the assistance you need without breaking the bank.",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.2.title": "Professional & Experienced Team",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.2.items.0": "Our tow truck operators are highly trained and experienced. They handle all types of vehicles with care, from small cars to larger SUVs, ensuring safe and efficient transport.",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.3.title": "Local & Long-Distance Coverage",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.3.items.0": "Whether you’re stuck in a nearby parking lot or need a tow across town or further, our fleet is equipped to handle both local and long-distance towing. We offer flexible solutions tailored to your needs.",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.4.title": "Comprehensive Towing Services",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.4.items.0": "Emergency Towing: Quick and reliable service for unexpected roadside emergencies.",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.4.items.1": "Flatbed Towing: Safe transport for vehicles that require extra care, such as luxury or modified vehicles.",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.4.items.2": "Winch Outs: Assistance with vehicles that are stuck in difficult conditions like mud, snow, or ditches.",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.5.title": "Door-to-Door Service",
+  "strongauto.services.towingService.whyChooseOurTowingServices.matrix.5.items.0": "We provide door-to-door towing, picking up your vehicle from its current location and delivering it directly to your chosen destination, whether it’s our service center, your home, or another repair shop.",
+  "strongauto.services.dpfCleaningService.header": "DPF Cleaning",
+  "strongauto.services.dpfCleaningService.title": "What are DPFs?",
+  "strongauto.services.dpfCleaningService.description": "Diesel particulate filters (DPFs) are an essential component of modern diesel engines. They help reduce harmful emissions and ensure that the engine runs efficiently. However, over time, these filters can become clogged with soot and other particles, reducing their effectiveness and potentially causing damage to the engine. In this article, we will discuss the importance of cleaning DPFs and the services offered by Aros Filter AB.",
+  "strongauto.services.dpfCleaningService.cleaningProcess.title": "What is the process?",
+  "strongauto.services.dpfCleaningService.cleaningProcess.list.items.0": "Remove the DPF from your car",
+  "strongauto.services.dpfCleaningService.cleaningProcess.list.items.1": "We conduct a pre-clean air flow test to verify there is a blockage and note the reading.",
+  "strongauto.services.dpfCleaningService.cleaningProcess.list.items.2": "We then use our DPF cleaning solution and soak the DPF",
+  "strongauto.services.dpfCleaningService.cleaningProcess.list.items.3": "We then place the DPF on the machine and use high-pressured air and water to force all the carbon, soot & ash from the filter until only clean water runs freely.",
+  "strongauto.services.dpfCleaningService.cleaningProcess.list.items.4": "We then connect the freshly cleaned DPF to a blower and dry the filter.",
+  "strongauto.services.dpfCleaningService.cleaningProcess.list.items.5": "Finally, we carry out a post-clean air flow test to ensure the blockage has been removed and note the reading.",
+  "strongauto.services.dpfCleaningService.cleaningProcess.list.items.6": "We would always recommend that a carbon clean is carried out in conjunction with the DPF clean. This will clear any carbon build-up upstream of the DPF.",
+  "strongauto.services.dpfCleaningService.whyCleaning.title": "Why clean your DPF?",
+  "strongauto.services.dpfCleaningService.whyCleaning.description": "Cleaning diesel particulate filters is crucial for maintaining the engine’s performance and reducing harmful emissions. When a DPF becomes clogged, the engine may experience reduced power, increased fuel consumption, and potential engine damage. Furthermore, a clogged DPF can cause the engine to produce higher levels of harmful pollutants, such as nitrogen oxides (NOx) and particulate matter (PM).",
+  "strongauto.services.dpfCleaningService.whatCausesDpfBlockage.title": "What causes a dpf blockage?",
+  "strongauto.services.dpfCleaningService.whatCausesDpfBlockage.description": "Short journeys at low speeds are the main cause of blocked diesel particulate filters.Other things that are bad for DPFs include poor servicing, clogged EGR valve & excessive carbon build-up.",
+  "strongauto.services.dpfCleaningService.howDoIKnowitNeedsCleaning.title": "How do I know if my DPF needs cleaning?",
+  "strongauto.services.dpfCleaningService.howDoIKnowitNeedsCleaning.list.title": "Several signs indicate that your DPF may need cleaning:",
+  "strongauto.services.dpfCleaningService.howDoIKnowitNeedsCleaning.list.items.0": "Warning Light: Most modern vehicles are equipped with a DPF warning light that illuminates when the filter is becoming clogged",
+  "strongauto.services.dpfCleaningService.howDoIKnowitNeedsCleaning.list.items.1": "Reduced Engine Performance: If you experience a noticeable drop in power or acceleration, it may be a sign of a blocked DPF",
+  "strongauto.services.dpfCleaningService.howDoIKnowitNeedsCleaning.list.items.2": "Increased Fuel Consumption: A clogged DPF can lead to decreased fuel efficiency, resulting in more frequent refuelling",
+  "strongauto.services.dpfCleaningService.howDoIKnowitNeedsCleaning.list.items.3": "Exhaust Smoke: Dark smoke emitting from the exhaust, especially during acceleration, may indicate a clogged DPF.",
+  "strongauto.services.dpfCleaningService.howDoIKnowitNeedsCleaning.descriptionAfter": "If you notice any of these signs, it’s essential to have your DPF inspected and cleaned promptly.",
+  "strongauto.services.carService.header": "Car Service",
+  "strongauto.services.carService.title": "Dependable Towing, Anytime, Anywhere",
+  "strongauto.services.carService.description": "When you’re stranded, you need quick and reliable help. At StrongAUTO, our Fast and Inexpensive Towing Services ensure you’re never left waiting. With our 24/7 availability and budget-friendly rates, you can trust us to get your vehicle safely to its destination without breaking the bank. Let us take the stress out of your roadside emergency – call us anytime!",
+  "strongauto.services.contactUs.title": "Contact Us",
+  "strongauto.services.contactUs.description": "For fast, reliable, and affordable towing services, look no further than StrongAUTO. We’re here to assist you with all your towing needs, ensuring you get back on the road with minimal hassle.",
+  "strongauto.services.contactUs.callUsNowButton": "Call us now:",
+  "strongauto.breadcrumb.home": "Home",
+  "strongauto.breadcrumb.shop": "Inventory",
+  "strongauto.breadcrumb.aboutUs": "About Us",
+  "strongauto.breadcrumb.contact": "Contact",
+  "strongauto.breadcrumb.services": "Services",
+  "strongauto.breadcrumb.towingService": "Towing Service",
+  "strongauto.breadcrumb.dpfCleaningService": "DPF Cleaning",
+  "strongauto.breadcrumb.carService": "Car Service"
 }
