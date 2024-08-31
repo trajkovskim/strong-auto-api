@@ -9,7 +9,7 @@ import java.util.List;
  * Localization text list dto.
  */
 @Getter
-@Builder
+@Builder(toBuilder = true)
 public class LocalizedTextListDto {
 
   private Long id;

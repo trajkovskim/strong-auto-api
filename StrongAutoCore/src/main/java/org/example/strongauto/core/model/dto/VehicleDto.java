@@ -12,6 +12,7 @@ import org.example.strongauto.core.model.enums.VehicleStateEnum;
 import org.example.strongauto.core.model.enums.VehicleTransmissionEnum;
 
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Builder(toBuilder = true)

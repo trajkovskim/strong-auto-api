@@ -9,6 +9,9 @@
       "mk": "Македонски",
       "en": "Англиски"
     },
+    "productCards": {
+      "noPrice": "Нема цена"
+    },
     "notFound": {
       "backToHomePageButton": "Back to home page"
     },
@@ -176,14 +179,17 @@
       }
     },
     "vehicleState": {
+      "NO_STATE": "No state",
       "SOLD": "Продадено",
       "FEATURED": "Истакнато"
     },
     "vehicleCondition": {
+      "NO_CONDITION": "No condition",
       "NEW": "Ново",
       "USED": "Користено"
     },
     "vehicleBodyType": {
+      "NO_BODY_TYPE": "No body type",
       "SEDAN": "Sedan",
       "COUPE": "Coupe",
       "SUV": "SUV",
@@ -191,22 +197,26 @@
       "LIMOUSINE": "Limousine"
     },
     "vehicleTransmission": {
+      "NO_TRANSMISSION": "No transmission",
       "AUTOMATIC": "Автоматски",
       "MANUAL": "Рачен"
     },
     "vehicleDriveType": {
+      "NO_DRIVE_TYPE": "No transmission",
       "AWD_4WD": "Погон на сите тркала",
       "2WD_FWD": "Погон на 2 тркала (Предна)",
       "2WD_RWD": "Погон на 2 тркала (Задна)"
     },
     "vehicleMileage": "{{mileage}}km",
     "vehicleFuelType": {
+      "NO_FUEL_TYPE": "No fuel type",
       "ELECTRIC": "Електричен",
       "DIESEL": "Дизел",
       "PETROL": "Бензин",
       "HYBRID": "Хибрид"
     },
     "color": {
+      "NO_COLOR": "No color",
       "BLACK": "Црна",
       "WHITE": "Бела",
       "RED": "Црвена"

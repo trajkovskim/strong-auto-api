@@ -23,7 +23,7 @@ import org.example.strongauto.persistence.model.constants.RepositoryConstants;
 @Entity
 @Table(name = RepositoryConstants.VEHICLE_FEATURE_TABLE, schema = RepositoryConstants.SCHEMA)
 @NoArgsConstructor
-public class VehicleFeature {
+public class VehicleFeature extends BaseEntity<Long> {
 
   public static final String VEHICLE_FEATURE_TABLE_SEQUENCE = "vehicle_feature_sequence_generator";
   public static final String VEHICLE_FEATURE_TABLE_SEQUENCE_NAME = "vehicle_feature_sequence";

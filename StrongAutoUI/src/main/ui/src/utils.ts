@@ -129,5 +129,5 @@ export const createMatrixFromTranslations = (prefixKey: string, t: TranslationFu
 };
 
 export const transformBase64Image = (image: Image) => {
-  return `data:${image.contentType};base64,${image.image}`;
+  return `data:${image.contentType};base64,${image.data}`;
 };

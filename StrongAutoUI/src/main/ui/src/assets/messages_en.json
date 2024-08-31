@@ -162,14 +162,17 @@
       }
     },
     "vehicleState": {
+      "NO_STATE": "No state",
       "SOLD": "Sold",
       "FEATURED": "Featured"
     },
     "vehicleCondition": {
+      "NO_CONDITION": "No condition",
       "NEW": "New",
       "USED": "Used"
     },
     "vehicleBodyType": {
+      "NO_BODY_TYPE": "No body type",
       "SEDAN": "Sedan",
       "COUPE": "Coupe",
       "SUV": "SUV",
@@ -177,22 +180,26 @@
       "LIMOUSINE": "Limousine"
     },
     "vehicleTransmission": {
+      "NO_TRANSMISSION": "No transmission",
       "AUTOMATIC": "Automatic",
       "MANUAL": "Manual"
     },
     "vehicleDriveType": {
+      "NO_DRIVE_TYPE": "No transmission",
       "AWD_4WD": "All wheel drive",
       "2WD_FWD": "2 wheel drive (Front)",
       "2WD_RWD": "2 wheel drive (Rear)"
     },
     "vehicleMileage": "{{mileage}}km",
     "vehicleFuelType": {
+      "NO_FUEL_TYPE": "No fuel type",
       "ELECTRIC": "Electric",
       "DIESEL": "Diesel",
       "PETROL": "Petrol",
       "HYBRID": "Hybrid"
     },
     "color": {
+      "NO_COLOR": "No color",
       "BLACK": "Black",
       "WHITE": "White",
       "RED": "Red"

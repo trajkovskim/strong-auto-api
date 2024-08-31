@@ -23,7 +23,7 @@ import org.example.strongauto.persistence.model.enums.Language;
 @Entity
 @Table(name = RepositoryConstants.LOCALIZED_TEXT_TABLE, schema = RepositoryConstants.SCHEMA)
 @NoArgsConstructor
-public class LocalizedText {
+public class LocalizedText extends BaseEntity<Long> {
 
   public static final String LOCALIZED_TEXT_TABLE_SEQUENCE = "localized_text_sequence_generator";
   public static final String LOCALIZED_TEXT_TABLE_SEQUENCE_NAME = "localized_text_sequence";

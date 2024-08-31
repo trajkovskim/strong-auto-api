@@ -8,7 +8,7 @@ import com.example.rest.model.VehicleMakesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.dto.VehicleMakeDto;
 import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
-import org.example.strongauto.core.service.VehicleService;
+import org.example.strongauto.core.service.VehicleMakeService;
 import org.example.strongauto.rest.converter.VehicleMakeRestConverter;
 import org.example.strongauto.rest.factory.VehicleMakeResponseFactory;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +20,14 @@ import java.util.List;
 @StrongAutoController
 public class VehicleMakesController implements VehicleMakesApi {
 
-  private final VehicleService vehicleService;
+  private final VehicleMakeService vehicleMakeService;
   private final VehicleMakeResponseFactory vehicleMakeResponseFactory;
   private final VehicleMakeRestConverter vehicleMakeRestConverter;
 
   @Override
   public ResponseEntity<VehicleMakesResponse> getVehicleMakeEntries(String acceptLanguage) {
 
-    List<VehicleMakeEmbeddedDto> vehicleMakes = vehicleService.findVehicleMakes();
+    List<VehicleMakeEmbeddedDto> vehicleMakes = vehicleMakeService.findVehicleMakes();
 
     VehicleMakesResponse vehicleMakesResponse =
         vehicleMakeResponseFactory.createVehicleMakesResponse(vehicleMakes, acceptLanguage);
@@ -38,7 +38,7 @@ public class VehicleMakesController implements VehicleMakesApi {
   @Override
   public ResponseEntity<VehicleMakeResponse> getVehicleMakeEntry(String make, String acceptLanguage) {
 
-    VehicleMakeDto vehicleMakeDto = vehicleService.findVehicleMakeByMake(make);
+    VehicleMakeDto vehicleMakeDto = vehicleMakeService.findByMakeName(make);
 
     VehicleMakeResponse vehicleMake = vehicleMakeResponseFactory.createVehicleMake(vehicleMakeDto, acceptLanguage);
 
@@ -50,10 +50,9 @@ public class VehicleMakesController implements VehicleMakesApi {
 
     VehicleMakeDto vehicleMakeDto = vehicleMakeRestConverter.convertVehicleMake(vehicleMakeRequest);
 
-    String savedVehicleMake = vehicleService.createVehicleMake(vehicleMakeDto);
+    String savedVehicleMake = vehicleMakeService.createVehicleMake(vehicleMakeDto);
 
-    CreatedResponse createdResponse =
-        vehicleMakeResponseFactory.createVehicleMakeCreatedResponse(savedVehicleMake);
+    CreatedResponse createdResponse = vehicleMakeResponseFactory.createVehicleMakeCreatedResponse(savedVehicleMake);
 
     return ResponseEntity.created(URI.create(createdResponse.getLinks().getSelf().getHref())).body(createdResponse);
   }
@@ -63,7 +62,7 @@ public class VehicleMakesController implements VehicleMakesApi {
 
     VehicleMakeDto vehicleMakeDto = vehicleMakeRestConverter.convertVehicleMake(vehicleMakeRequest);
 
-    vehicleService.updateVehicleMake(make, vehicleMakeDto);
+    vehicleMakeService.updateVehicleMake(make, vehicleMakeDto);
 
     return ResponseEntity.noContent().build();
   }
@@ -71,7 +70,7 @@ public class VehicleMakesController implements VehicleMakesApi {
   @Override
   public ResponseEntity<Void> deleteVehicleMakeEntry(String make) {
 
-    vehicleService.deleteVehicleMake(make);
+    vehicleMakeService.deleteVehicleMake(make);
 
     return ResponseEntity.noContent().build();
   }

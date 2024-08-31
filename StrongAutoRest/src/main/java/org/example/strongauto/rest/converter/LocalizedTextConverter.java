@@ -7,6 +7,7 @@ import org.example.strongauto.core.model.enums.LanguageEnum;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,11 +33,14 @@ public interface LocalizedTextConverter {
       return null;
     }
 
-    LanguageEnum languageEnum = LanguageEnum.valueOf(language.toUpperCase());
+    LanguageEnum parsedLanguage = Arrays.stream(LanguageEnum.values())
+        .filter(value -> language.contains(value.toString().toLowerCase()))
+        .findFirst()
+        .orElse(LanguageEnum.EN);
 
     return localizedTextListDto.getTextList()
         .stream()
-        .filter(localizedTextDto -> languageEnum.equals(localizedTextDto.getLanguage()))
+        .filter(localizedTextDto -> parsedLanguage.equals(localizedTextDto.getLanguage()))
         .findAny()
         .map(LocalizedTextDto::getText)
         .orElse(null);

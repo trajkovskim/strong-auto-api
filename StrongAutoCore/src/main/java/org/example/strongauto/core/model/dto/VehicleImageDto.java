@@ -12,6 +12,6 @@ public class VehicleImageDto {
 
   private Long id;
   private String name;
-  private byte[] image;
+  private byte[] data;
   private String contentType;
 }

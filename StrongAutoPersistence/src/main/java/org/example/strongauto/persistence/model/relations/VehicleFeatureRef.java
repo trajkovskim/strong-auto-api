@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.strongauto.persistence.model.BaseEntity;
 import org.example.strongauto.persistence.model.Vehicle;
 import org.example.strongauto.persistence.model.VehicleFeature;
 import org.example.strongauto.persistence.model.constants.RepositoryConstants;
@@ -24,7 +25,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = RepositoryConstants.VEHICLE_FEATURE_REF_TABLE, schema = RepositoryConstants.SCHEMA)
 @NoArgsConstructor
-public class VehicleFeatureRef {
+public class VehicleFeatureRef extends BaseEntity<VehicleFeatureRef.Id> {
 
   /**
    * Vehicle feature ref embeddable id.
@@ -32,6 +33,7 @@ public class VehicleFeatureRef {
   @Getter
   @Setter
   @EqualsAndHashCode
+  @NoArgsConstructor
   public static class Id implements Serializable {
 
     @Serial

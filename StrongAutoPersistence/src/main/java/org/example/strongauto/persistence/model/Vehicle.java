@@ -2,7 +2,6 @@ package org.example.strongauto.persistence.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -29,9 +27,9 @@ import org.example.strongauto.persistence.model.enums.VehicleDriveType;
 import org.example.strongauto.persistence.model.enums.VehicleFuelType;
 import org.example.strongauto.persistence.model.enums.VehicleState;
 import org.example.strongauto.persistence.model.enums.VehicleTransmission;
-import org.example.strongauto.persistence.model.relations.VehicleFeatureRef;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Vehicle persistence model.
@@ -41,7 +39,7 @@ import java.util.List;
 @Entity
 @Table(name = RepositoryConstants.VEHICLE_TABLE, schema = RepositoryConstants.SCHEMA)
 @NoArgsConstructor
-public class Vehicle {
+public class Vehicle extends BaseEntity<Long> {
 
   public static final String VEHICLE_TABLE_SEQUENCE = "vehicle_sequence_generator";
   public static final String VEHICLE_TABLE_SEQUENCE_NAME = "vehicle_sequence";
@@ -132,9 +130,9 @@ public class Vehicle {
       joinColumns = @JoinColumn(name = "vehicle_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "vehicle_feature_id", referencedColumnName = "id"))
   @ManyToMany(cascade = CascadeType.ALL)
-  private List<VehicleFeature> features;
+  private Set<VehicleFeature> features = new HashSet<>();
 
   @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<VehicleImage> images;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<VehicleImage> images = new HashSet<>();
 }

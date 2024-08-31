@@ -18,6 +18,7 @@ import org.example.strongauto.persistence.model.enums.VehicleTransmission;
 import org.example.strongauto.persistence.model.filters.IntervalFilter;
 import org.example.strongauto.persistence.model.filters.VehicleFilters;
 import org.example.strongauto.persistence.model.projections.VehicleEmbeddedProjection;
+import org.example.strongauto.persistence.model.relations.VehicleFeatureRef;
 import org.example.strongauto.persistence.repository.configuration.RepositoryTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,8 +33,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,36 +58,19 @@ public class VehicleRepositoryTest {
   @Autowired
   private VehicleMakeRepository vehicleMakeRepository;
 
-  /** See method name. */
-  @Test
-  void shouldCreateVehicle() {
+  @Autowired
+  private VehicleFeatureRefRepository vehicleFeatureRefRepository;
 
-    // Given
-    VehicleModel audiB8 = new VehicleModel();
-    audiB8.setModel("B8");
+  @Autowired
+  private LocalizedTextListRepository localizedTextListRepository;
 
-    VehicleModel audiB9 = new VehicleModel();
-    audiB9.setModel("B9");
-
-    VehicleMake audi = new VehicleMake();
-    audi.setMake("AUDI");
-    audi.setModels(List.of(audiB8, audiB9));
-
-    vehicleMakeRepository.saveAllAndFlush(List.of(audi));
-
-    LocalizedText descriptionMK = new LocalizedText();
-    descriptionMK.setText("Audi B8 2.0 TDI");
-    descriptionMK.setLanguage(Language.MK);
-
-    LocalizedTextList description = new LocalizedTextList();
-    description.setTextList(List.of(descriptionMK));
+  private Vehicle createVehicle(
+      LocalizedTextList title, VehicleMake make, VehicleModel model, Set<VehicleFeature> features) {
 
     Vehicle vehicle = new Vehicle();
-    vehicle.setTitle(description);
-    vehicle.setDescription(description);
-    vehicle.setSummary(description);
-    vehicle.setMake(audi);
-    vehicle.setModel(audiB8);
+    vehicle.setTitle(title);
+    vehicle.setMake(make);
+    vehicle.setModel(model);
     vehicle.setState(VehicleState.SOLD);
     vehicle.setCondition(VehicleCondition.NEW);
     vehicle.setTransmission(VehicleTransmission.AUTOMATIC);
@@ -98,13 +84,141 @@ public class VehicleRepositoryTest {
     vehicle.setTotalAmount(10000.0);
     vehicle.setCurrency(Currency.EUR);
     vehicle.setColor(Color.BLACK);
+    vehicle.setFeatures(features);
 
-    LocalizedText feature1Mk = new LocalizedText();
-    feature1Mk.setText("feature1Mk");
-    feature1Mk.setLanguage(Language.MK);
+    return vehicle;
+  }
+
+  private VehicleMake createVehicleMake(String make, Set<VehicleModel> models) {
+
+    VehicleMake vehicleMake = new VehicleMake();
+    vehicleMake.setMake(make);
+    vehicleMake.setModels(models);
+
+    return vehicleMake;
+  }
+
+  private LocalizedText createLocalizedText(String text, Language language) {
+
+    LocalizedText localizedText = new LocalizedText();
+    localizedText.setText(text);
+    localizedText.setLanguage(language);
+
+    return localizedText;
+  }
+
+  /** See method name. */
+  @Test
+  void shouldDeleteVehicleLocalizedTexts() {
+
+    // Given
+    LocalizedTextList title = new LocalizedTextList();
+    title.setTextList(new HashSet<>(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK))));
+
+    Vehicle vehicle = createVehicle(title, null, null, null);
+    vehicleRepository.saveAndFlush(vehicle);
+
+    // When
+    LocalizedTextList description = new LocalizedTextList();
+    description.setTextList(new HashSet<>(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK))));
+    vehicle.setDescription(description);
+
+    LocalizedTextList summary = new LocalizedTextList();
+    summary.setTextList(new HashSet<>(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK))));
+    vehicle.setSummary(summary);
+
+    vehicleRepository.saveAndFlush(vehicle);
+
+    // Then
+    List<LocalizedTextList> all = localizedTextListRepository.findAll();
+    assertThat(all).isEmpty();
+  }
+
+  /** See method name. */
+  @Test
+  void shouldUpdateVehicleFeatures() {
+
+    // Given
+    VehicleModel audiB8 = new VehicleModel();
+    audiB8.setModel("B8");
+
+    VehicleModel audiB9 = new VehicleModel();
+    audiB9.setModel("B9");
+
+    VehicleMake audi = createVehicleMake("AUDI", Set.of(audiB8, audiB9));
+
+    vehicleMakeRepository.saveAllAndFlush(Set.of(audi));
 
     LocalizedTextList feature1LocalizedTextList = new LocalizedTextList();
-    feature1LocalizedTextList.setTextList(List.of(feature1Mk));
+    feature1LocalizedTextList.setTextList(new HashSet<>(Set.of(createLocalizedText("feature1Mk", Language.MK))));
+
+    VehicleFeature vehicleFeature1 = new VehicleFeature();
+    vehicleFeature1.setGroupKey("group1");
+    vehicleFeature1.setFeatureKey("feature1");
+    vehicleFeature1.setGroupName(feature1LocalizedTextList);
+    vehicleFeature1.setFeatureName(feature1LocalizedTextList);
+
+    VehicleFeature vehicleFeature2 = new VehicleFeature();
+    vehicleFeature2.setGroupKey("group2");
+    vehicleFeature2.setFeatureKey("feature2");
+    vehicleFeature2.setGroupName(feature1LocalizedTextList);
+    vehicleFeature2.setFeatureName(feature1LocalizedTextList);
+
+    LocalizedTextList title = new LocalizedTextList();
+    title.setTextList(new HashSet<>(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK))));
+
+    Set<VehicleFeature> vehicleFeatures = new HashSet<>();
+    vehicleFeatures.add(vehicleFeature1);
+    vehicleFeatures.add(vehicleFeature2);
+
+    Vehicle saved = vehicleRepository.saveAndFlush(createVehicle(title, audi, audiB8, vehicleFeatures));
+
+    Vehicle updateModel = createVehicle(title, audi, audiB8, new HashSet<>(Set.of(vehicleFeature2)));
+    updateModel.setId(saved.getId());
+
+    // When
+    Vehicle updated = vehicleRepository.saveAndFlush(updateModel);
+
+    // Then
+    Vehicle foundUpdated = vehicleRepository.findById(updated.getId()).orElseThrow();
+    Optional<VehicleFeatureRef> vehicleFeatureRef1 = findVehicleFeatureRef(foundUpdated, vehicleFeature1);
+    Optional<VehicleFeatureRef> vehicleFeatureRef2 = findVehicleFeatureRef(foundUpdated, vehicleFeature2);
+
+    assertThat(foundUpdated).isNotNull();
+    assertThat(foundUpdated.getFeatures()).hasSize(1);
+    assertThat(vehicleFeatureRef1).isEmpty();
+    assertThat(vehicleFeatureRef2).isPresent();
+  }
+
+  Optional<VehicleFeatureRef> findVehicleFeatureRef(Vehicle vehicle, VehicleFeature vehicleFeature) {
+
+    VehicleFeatureRef.Id vehicleFeatureRefId = new VehicleFeatureRef.Id();
+    vehicleFeatureRefId.setVehicle(vehicle);
+    vehicleFeatureRefId.setVehicleFeature(vehicleFeature);
+
+    return vehicleFeatureRefRepository.findById(vehicleFeatureRefId);
+  }
+
+  /** See method name. */
+  @Test
+  void shouldCreateVehicle() {
+
+    // Given
+    VehicleModel audiB8 = new VehicleModel();
+    audiB8.setModel("B8");
+
+    VehicleModel audiB9 = new VehicleModel();
+    audiB9.setModel("B9");
+
+    VehicleMake audi = createVehicleMake("AUDI", Set.of(audiB8, audiB9));
+    vehicleMakeRepository.saveAllAndFlush(Set.of(audi));
+
+    LocalizedText titleMK = createLocalizedText("Audi B8 2.0 TDI", Language.MK);
+    LocalizedTextList title = new LocalizedTextList();
+    title.setTextList(Set.of(titleMK));
+
+    LocalizedTextList feature1LocalizedTextList = new LocalizedTextList();
+    feature1LocalizedTextList.setTextList(Set.of(createLocalizedText("feature1Mk", Language.MK)));
 
     VehicleFeature vehicleFeature1 = new VehicleFeature();
     vehicleFeature1.setGroupKey("group1");
@@ -118,7 +232,9 @@ public class VehicleRepositoryTest {
     vehicleFeature2.setGroupName(feature1LocalizedTextList);
     vehicleFeature2.setFeatureName(feature1LocalizedTextList);
 
-    vehicle.setFeatures(List.of(vehicleFeature1, vehicleFeature2));
+    Vehicle vehicle = createVehicle(title, audi, audiB8, Set.of(vehicleFeature1, vehicleFeature2));
+    vehicle.setDescription(title);
+    vehicle.setSummary(title);
 
     // When
     Vehicle saved = vehicleRepository.saveAndFlush(vehicle);
@@ -129,15 +245,15 @@ public class VehicleRepositoryTest {
 
     assertThat(saved.getTitle().getTextList()).hasSize(1)
         .first()
-        .returns(descriptionMK.getText(), LocalizedText::getText);
+        .returns(titleMK.getText(), LocalizedText::getText);
 
     assertThat(saved.getDescription().getTextList()).hasSize(1)
         .first()
-        .returns(descriptionMK.getText(), LocalizedText::getText);
+        .returns(titleMK.getText(), LocalizedText::getText);
 
     assertThat(saved.getSummary().getTextList()).hasSize(1)
         .first()
-        .returns(descriptionMK.getText(), LocalizedText::getText);
+        .returns(titleMK.getText(), LocalizedText::getText);
 
     assertThat(saved.getMake()).isNotNull().returns(audi.getMake(), VehicleMake::getMake);
 
@@ -221,114 +337,40 @@ public class VehicleRepositoryTest {
     // Given
     VehicleModel audiB8 = new VehicleModel();
     audiB8.setModel("B8");
-
     VehicleModel audiB9 = new VehicleModel();
     audiB9.setModel("B9");
-
-    VehicleMake audi = new VehicleMake();
-    audi.setMake("AUDI");
-    audi.setModels(List.of(audiB8, audiB9));
+    VehicleMake audi = createVehicleMake("AUDI", Set.of(audiB8, audiB9));
 
     VehicleModel bmwX1 = new VehicleModel();
     bmwX1.setModel("X1");
+    VehicleMake bmw = createVehicleMake("BMW", Set.of(bmwX1));
 
-    VehicleMake bmw = new VehicleMake();
-    bmw.setMake("BMW");
-    bmw.setModels(List.of(bmwX1));
+    vehicleMakeRepository.saveAllAndFlush(Set.of(audi, bmw));
 
-    vehicleMakeRepository.saveAllAndFlush(List.of(audi, bmw));
+    LocalizedText titleMK = createLocalizedText("Audi B8 2.0 TDI", Language.MK);
+    LocalizedTextList title = new LocalizedTextList();
+    title.setTextList(Set.of(titleMK));
 
-    LocalizedText descriptionMK = new LocalizedText();
-    descriptionMK.setText("Audi B8 2.0 TDI");
-    descriptionMK.setLanguage(Language.MK);
+    Vehicle vehicle1 = createVehicle(title, audi, audiB8, null);
 
-    LocalizedTextList description = new LocalizedTextList();
-    description.setTextList(List.of(descriptionMK));
-
-    Vehicle vehicle1 = new Vehicle();
-    vehicle1.setTitle(description);
-    vehicle1.setDescription(description);
-    vehicle1.setSummary(description);
-    vehicle1.setMake(audi);
-    vehicle1.setModel(audiB8);
-    vehicle1.setState(VehicleState.SOLD);
-    vehicle1.setCondition(VehicleCondition.NEW);
-    vehicle1.setTransmission(VehicleTransmission.AUTOMATIC);
-    vehicle1.setBodyType(VehicleBodyType.SEDAN);
-    vehicle1.setDriveType(VehicleDriveType._2WD_FWD);
-    vehicle1.setFuelType(VehicleFuelType.DIESEL);
-    vehicle1.setEngineSize("2.0");
-    vehicle1.setYear(2010);
-    vehicle1.setMileage(150000);
-    vehicle1.setDoors(4);
-    vehicle1.setTotalAmount(10000.0);
-    vehicle1.setCurrency(Currency.EUR);
-    vehicle1.setColor(Color.BLACK);
-
-    Vehicle vehicle2 = new Vehicle();
-    vehicle2.setTitle(description);
-    vehicle2.setDescription(description);
-    vehicle2.setSummary(description);
-    vehicle2.setMake(audi);
-    vehicle2.setModel(audiB9);
-    vehicle2.setState(VehicleState.SOLD);
-    vehicle2.setCondition(VehicleCondition.NEW);
-    vehicle2.setTransmission(VehicleTransmission.AUTOMATIC);
-    vehicle2.setBodyType(VehicleBodyType.SEDAN);
-    vehicle2.setDriveType(VehicleDriveType._2WD_FWD);
-    vehicle2.setFuelType(VehicleFuelType.DIESEL);
-    vehicle2.setEngineSize("2.0");
+    Vehicle vehicle2 = createVehicle(title, audi, audiB9, null);
     vehicle2.setYear(2014);
-    vehicle2.setMileage(150000);
-    vehicle2.setDoors(4);
-    vehicle2.setTotalAmount(10000.0);
-    vehicle2.setCurrency(Currency.EUR);
-    vehicle2.setColor(Color.BLACK);
 
-    Vehicle vehicle3 = new Vehicle();
-    vehicle3.setTitle(description);
-    vehicle3.setDescription(description);
-    vehicle3.setSummary(description);
-    vehicle3.setMake(bmw);
-    vehicle3.setModel(bmwX1);
+    Vehicle vehicle3 = createVehicle(title, bmw, bmwX1, null);
     vehicle3.setState(VehicleState.FEATURED);
-    vehicle3.setCondition(VehicleCondition.NEW);
-    vehicle3.setTransmission(VehicleTransmission.AUTOMATIC);
     vehicle3.setBodyType(VehicleBodyType.SUV);
-    vehicle3.setDriveType(VehicleDriveType._2WD_FWD);
-    vehicle3.setFuelType(VehicleFuelType.DIESEL);
-    vehicle3.setEngineSize("2.0");
     vehicle3.setYear(2023);
-    vehicle3.setMileage(150000);
-    vehicle3.setDoors(4);
-    vehicle3.setTotalAmount(10000.0);
-    vehicle3.setCurrency(Currency.EUR);
-    vehicle3.setColor(Color.BLACK);
 
-    Vehicle vehicle4 = new Vehicle();
-    vehicle4.setTitle(description);
-    vehicle4.setDescription(description);
-    vehicle4.setSummary(description);
+    Vehicle vehicle4 = createVehicle(title, null, null, null);
     vehicle4.setState(VehicleState.FEATURED);
-    vehicle4.setCondition(VehicleCondition.NEW);
-    vehicle4.setTransmission(VehicleTransmission.AUTOMATIC);
     vehicle4.setBodyType(VehicleBodyType.TRUCK);
-    vehicle4.setDriveType(VehicleDriveType._2WD_FWD);
-    vehicle4.setFuelType(VehicleFuelType.DIESEL);
-    vehicle4.setEngineSize("2.0");
     vehicle4.setYear(2023);
-    vehicle4.setMileage(150000);
-    vehicle4.setDoors(4);
-    vehicle4.setTotalAmount(10000.0);
-    vehicle4.setCurrency(Currency.EUR);
-    vehicle4.setColor(Color.BLACK);
 
-    vehicleRepository.saveAllAndFlush(List.of(vehicle1, vehicle2, vehicle3, vehicle4));
+    vehicleRepository.saveAllAndFlush(Set.of(vehicle1, vehicle2, vehicle3, vehicle4));
 
     Pageable pageable = PageRequest.of(0, 100);
 
     // When
-    Page<Vehicle> all = vehicleRepository.findAll(pageable);
     Page<VehicleEmbeddedProjection> filtered = vehicleRepository.findAllBy(filters, pageable);
 
     // Then

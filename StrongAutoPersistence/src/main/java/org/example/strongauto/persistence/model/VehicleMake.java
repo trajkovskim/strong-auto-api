@@ -16,14 +16,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.strongauto.persistence.model.constants.RepositoryConstants;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
 @Entity
 @Table(name = RepositoryConstants.VEHICLE_MAKE_TABLE, schema = RepositoryConstants.SCHEMA)
 @NoArgsConstructor
-public class VehicleMake {
+public class VehicleMake extends BaseEntity<Long>  {
 
   public static final String VEHICLE_MAKE_TABLE_SEQUENCE = "vehicle_make_sequence_generator";
   public static final String VEHICLE_MAKE_TABLE_SEQUENCE_NAME = "vehicle_make_sequence";
@@ -43,5 +44,5 @@ public class VehicleMake {
 
   @JoinColumn(name = "make_id", referencedColumnName = "id")
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<VehicleModel> models;
+  private Set<VehicleModel> models = new HashSet<>();
 }

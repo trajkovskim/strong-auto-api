@@ -6,7 +6,7 @@ import com.example.rest.model.VehicleFeatureRequest;
 import com.example.rest.model.VehicleFeaturesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.dto.VehicleFeatureDto;
-import org.example.strongauto.core.service.VehicleService;
+import org.example.strongauto.core.service.VehicleFeatureService;
 import org.example.strongauto.rest.converter.VehicleFeatureRestConverter;
 import org.springframework.http.ResponseEntity;
 
@@ -17,15 +17,14 @@ import java.util.List;
 public class VehicleFeaturesController implements VehicleFeaturesApi {
 
   private final VehicleFeatureRestConverter vehicleFeatureRestConverter;
-  private final VehicleService vehicleService;
+  private final VehicleFeatureService vehicleFeatureService;
 
   @Override
   public ResponseEntity<Void> createVehicleFeatureEntry(VehicleFeatureRequest vehicleFeatureRequest) {
 
-    VehicleFeatureDto vehicleFeatureDto =
-        vehicleFeatureRestConverter.convertVehicleFeature(vehicleFeatureRequest);
+    VehicleFeatureDto vehicleFeatureDto = vehicleFeatureRestConverter.convertVehicleFeature(vehicleFeatureRequest);
 
-    vehicleService.createVehicleFeature(vehicleFeatureDto);
+    vehicleFeatureService.createVehicleFeature(vehicleFeatureDto);
 
     return ResponseEntity.noContent().build();
   }
@@ -33,7 +32,7 @@ public class VehicleFeaturesController implements VehicleFeaturesApi {
   @Override
   public ResponseEntity<VehicleFeaturesResponse> getVehicleFeatureEntries(String acceptLanguage) {
 
-    List<VehicleFeature> vehicleFeatures = vehicleService.findVehicleFeatures()
+    List<VehicleFeature> vehicleFeatures = vehicleFeatureService.findVehicleFeatures()
         .stream()
         .map(feature -> vehicleFeatureRestConverter.convertVehicleFeature(feature, acceptLanguage))
         .toList();
@@ -46,10 +45,17 @@ public class VehicleFeaturesController implements VehicleFeaturesApi {
   @Override
   public ResponseEntity<Void> updateVehicleFeatureEntry(Long id, VehicleFeatureRequest vehicleFeatureRequest) {
 
-    VehicleFeatureDto vehicleFeatureDto =
-        vehicleFeatureRestConverter.convertVehicleFeature(vehicleFeatureRequest);
+    VehicleFeatureDto vehicleFeatureDto = vehicleFeatureRestConverter.convertVehicleFeature(vehicleFeatureRequest);
 
-    vehicleService.updateVehicleFeature(id, vehicleFeatureDto);
+    vehicleFeatureService.updateVehicleFeature(id, vehicleFeatureDto);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  @Override
+  public ResponseEntity<Void> deleteVehicleFeatureEntry(Long id) {
+
+    vehicleFeatureService.deleteVehicleFeature(id);
 
     return ResponseEntity.noContent().build();
   }

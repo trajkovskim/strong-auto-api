@@ -10,8 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,7 +40,7 @@ public class VehicleMakeRepositoryTest {
     VehicleModel model2 = new VehicleModel();
     model2.setModel("B9");
 
-    List<VehicleModel> models = List.of(model1, model2);
+    Set<VehicleModel> models = Set.of(model1, model2);
     make.setModels(models);
 
     // When
@@ -66,16 +66,16 @@ public class VehicleMakeRepositoryTest {
 
     VehicleMake audi = new VehicleMake();
     audi.setMake("AUDI");
-    audi.setModels(List.of(audiB8, audiB9));
+    audi.setModels(Set.of(audiB8, audiB9));
 
     VehicleModel bmwX1 = new VehicleModel();
     bmwX1.setModel("X1");
 
     VehicleMake bmw = new VehicleMake();
     bmw.setMake("BMW");
-    bmw.setModels(List.of(bmwX1));
+    bmw.setModels(Set.of(bmwX1));
 
-    vehicleMakeRepository.saveAllAndFlush(List.of(audi, bmw));
+    vehicleMakeRepository.saveAllAndFlush(Set.of(audi, bmw));
 
     // When
     Optional<VehicleMake> foundMake = vehicleMakeRepository.findByMake("AUDI");

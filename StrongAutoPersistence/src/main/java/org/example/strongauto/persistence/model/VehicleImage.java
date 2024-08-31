@@ -9,10 +9,9 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.strongauto.persistence.model.constants.RepositoryConstants;
-
-import java.io.InputStream;
 
 /**
  * Vehicle image.
@@ -21,7 +20,8 @@ import java.io.InputStream;
 @Setter
 @Entity
 @Table(name = RepositoryConstants.VEHICLE_IMAGE_TABLE, schema = RepositoryConstants.SCHEMA)
-public class VehicleImage {
+@NoArgsConstructor
+public class VehicleImage extends BaseEntity<Long> {
 
   public static final String VEHICLE_IMAGE_TABLE_SEQUENCE = "vehicle_image_sequence_generator";
   public static final String VEHICLE_IMAGE_TABLE_SEQUENCE_NAME = "vehicle_image_sequence";
@@ -43,6 +43,6 @@ public class VehicleImage {
   private String contentType;
 
   @Lob
-  @Column(name = "image")
-  private byte[] image;
+  @Column(name = "data")
+  private byte[] data;
 }

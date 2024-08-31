@@ -18,7 +18,7 @@ public class RestErrorHandler {
     ErrorResponse errorResponse =
         new ErrorResponse()
             .code(error.getCode())
-            .message(error.getMessage())
+            .message(exception.getMessage())
             .status(error.getStatus());
 
     return ResponseEntity.status(error.getStatus()).body(errorResponse);

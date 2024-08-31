@@ -13,6 +13,6 @@ public class VehicleFeatureDto {
   private Long id;
   private String groupKey;
   private String featureKey;
-  private LocalizedTextListDto featureName;
   private LocalizedTextListDto groupName;
+  private LocalizedTextListDto featureName;
 }

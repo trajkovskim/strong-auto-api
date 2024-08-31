@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -16,7 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.strongauto.persistence.model.constants.RepositoryConstants;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Localized text list.
@@ -26,7 +26,7 @@ import java.util.List;
 @Entity
 @Table(name = RepositoryConstants.LOCALIZED_TEXT_REF_TABLE, schema = RepositoryConstants.SCHEMA)
 @NoArgsConstructor
-public class LocalizedTextList {
+public class LocalizedTextList extends BaseEntity<Long> {
 
   public static final String LOCALIZED_TEXT_REF_TABLE_SEQUENCE = "localized_text_ref_sequence_generator";
   public static final String LOCALIZED_TEXT_REF_TABLE_SEQUENCE_NAME = "localized_text_ref_sequence";
@@ -42,6 +42,6 @@ public class LocalizedTextList {
   private Long id;
 
   @JoinColumn(name = "localized_text_ref_id", referencedColumnName = "id")
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<LocalizedText> textList;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<LocalizedText> textList = new HashSet<>();
 }

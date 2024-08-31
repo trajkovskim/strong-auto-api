@@ -1,31 +1,24 @@
 package org.example.strongauto.core.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.converter.VehicleConverter;
-import org.example.strongauto.core.converter.VehicleFeatureConverter;
-import org.example.strongauto.core.converter.VehicleMakeConverter;
-import org.example.strongauto.core.exception.EntityAlreadyExistsException;
-import org.example.strongauto.core.exception.EntityNotFoundException;
-import org.example.strongauto.core.exception.VehicleMakeNotFoundException;
+import org.example.strongauto.core.exception.VehicleFeaturesMissingException;
 import org.example.strongauto.core.exception.VehicleModelNotPresentInMakeException;
 import org.example.strongauto.core.exception.VehicleNotFoundException;
+import org.example.strongauto.core.model.dto.LocalizedTextListDto;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleDto;
 import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
 import org.example.strongauto.core.model.dto.VehicleFeatureDto;
 import org.example.strongauto.core.model.dto.VehicleFiltersDto;
 import org.example.strongauto.core.model.dto.VehicleMakeDto;
-import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
 import org.example.strongauto.core.model.dto.VehicleModelDto;
 import org.example.strongauto.core.utils.PageUtils;
 import org.example.strongauto.persistence.model.Vehicle;
 import org.example.strongauto.persistence.model.VehicleFeature;
-import org.example.strongauto.persistence.model.VehicleMake;
 import org.example.strongauto.persistence.model.filters.VehicleFilters;
 import org.example.strongauto.persistence.model.projections.VehicleEmbeddedProjection;
 import org.example.strongauto.persistence.repository.VehicleFeatureRepository;
-import org.example.strongauto.persistence.repository.VehicleMakeRepository;
 import org.example.strongauto.persistence.repository.VehicleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,20 +26,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class VehicleService {
 
-  private final VehicleRepository vehicleRepository;
-  private final VehicleMakeRepository vehicleMakeRepository;
+  private final VehicleMakeService vehicleMakeService;
   private final VehicleFeatureRepository vehicleFeatureRepository;
 
+  private final VehicleRepository vehicleRepository;
+
   private final VehicleConverter vehicleConverter;
-  private final VehicleMakeConverter vehicleMakeConverter;
-  private final VehicleFeatureConverter vehicleFeatureConverter;
 
   public VehicleDto findById(Long id) {
     final Vehicle vehicle =
@@ -72,28 +66,36 @@ public class VehicleService {
         .build();
   }
 
-  VehicleDto finalizeVehicleDto(VehicleDto vehicleDto) {
+  private Optional<VehicleModelDto> getModelFromMake(VehicleMakeDto make, String model) {
 
-    if (vehicleDto.getMake() == null) {
+    return make.getModels().stream().filter(makeModel -> model.equals(makeModel.getModel())).findFirst();
+  }
+
+  private VehicleDto finalizeVehicleDto(VehicleDto vehicleDto) {
+
+    VehicleMakeDto vehicleMakeDto = vehicleDto.getMake();
+
+    if (vehicleMakeDto == null) {
       return vehicleDto;
     }
 
-    VehicleMakeDto foundVehicleMake = findVehicleMakeByMake(vehicleDto.getMake().getMake());
+    VehicleMakeDto foundVehicleMakeDto = vehicleMakeService.findByMakeName(vehicleMakeDto.getMake());
+    VehicleModelDto vehicleModelDto = vehicleDto.getModel();
 
-    String vehicleMakeStr = vehicleDto.getMake().getMake();
-    String vehicleModelStr = vehicleDto.getModel().getModel();
+    if(vehicleModelDto == null) {
 
-    VehicleModelDto foundVehicleModel = foundVehicleMake.getModels()
-        .stream()
-        .filter(model -> vehicleModelStr.equals(model.getModel()))
-        .findFirst()
-        .orElseThrow(() -> new VehicleModelNotPresentInMakeException(String.format("Model %s not present in %s",
-            vehicleModelStr,
-            vehicleMakeStr)));
+      return vehicleDto.toBuilder()
+          .make(foundVehicleMakeDto)
+          .build();
+    }
+
+    VehicleModelDto foundVehicleModelDto = getModelFromMake(foundVehicleMakeDto, vehicleModelDto.getModel())
+        .orElseThrow(() -> new VehicleModelNotPresentInMakeException(
+            "Model %s not present in %s".formatted(foundVehicleMakeDto.getMake(), vehicleModelDto.getModel())));
 
     return vehicleDto.toBuilder()
-        .make(foundVehicleMake)
-        .model(foundVehicleModel)
+        .make(foundVehicleMakeDto)
+        .model(foundVehicleModelDto)
         .build();
   }
 
@@ -108,25 +110,73 @@ public class VehicleService {
     return savedVehicle.getId();
   }
 
+  public VehicleDto finalizeVehicleDto(VehicleDto vehicleDto, VehicleDto foundVehicleDto) {
+
+    LocalizedTextListDto title = vehicleDto.getTitle().toBuilder()
+        .id(foundVehicleDto.getTitle().getId())
+        .build();
+
+
+    LocalizedTextListDto description = Optional.ofNullable(foundVehicleDto.getDescription())
+        .map(LocalizedTextListDto::getId)
+        .flatMap(foundVehicleDescriptionId ->
+            Optional.ofNullable(vehicleDto.getDescription())
+                .map(LocalizedTextListDto::toBuilder)
+                .map(x -> x.id(foundVehicleDescriptionId)))
+        .map(LocalizedTextListDto.LocalizedTextListDtoBuilder::build)
+        .orElse(null);
+
+    LocalizedTextListDto summary = Optional.ofNullable(foundVehicleDto.getSummary())
+        .map(LocalizedTextListDto::getId)
+        .flatMap(localizedTextListId ->
+            Optional.of(vehicleDto.getSummary())
+                .map(LocalizedTextListDto::toBuilder)
+                .map(x -> x.id(localizedTextListId)))
+        .map(LocalizedTextListDto.LocalizedTextListDtoBuilder::build)
+        .orElse(null);
+
+    return vehicleDto.toBuilder()
+        .id(foundVehicleDto.getId())
+        .title(title)
+        .description(description)
+        .summary(summary)
+        .build();
+  }
+
   public Long updateVehicle(Long id, VehicleDto vehicleDto) {
 
     VehicleDto foundVehicle = findById(id);
-
-    VehicleDto vehicleDtoWithId = vehicleDto.toBuilder().id(foundVehicle.getId()).build();
-
-    VehicleDto finalizedVehicleDto = finalizeVehicleDto(vehicleDtoWithId);
+    VehicleDto finalizedVehicleDto = finalizeVehicleDto(vehicleDto, foundVehicle);
 
     Vehicle vehicle = vehicleConverter.convertVehicle(finalizedVehicleDto);
 
-    List<VehicleFeature> features = vehicleDto.getFeatures()
-        .stream()
-        .map(feature -> vehicleFeatureRepository.findByGroupKeyAndFeatureKey(feature.getGroupKey(),
-            feature.getFeatureKey()))
-        .map(feature -> feature.orElse(null))
-        .filter(Objects::nonNull)
-        .toList();
+    List<VehicleFeatureDto> vehicleFeatures = finalizedVehicleDto.getFeatures();
 
-    vehicle.setFeatures(features);
+    if(vehicleFeatures != null) {
+
+      Map<VehicleFeatureDto, Optional<VehicleFeature>> vehicleFeaturesMap = vehicleFeatures
+          .parallelStream()
+          .collect(Collectors.toMap(
+              vehicleFeatureDto -> vehicleFeatureDto,
+              feature -> vehicleFeatureRepository.findByGroupKeyAndFeatureKey(
+                  feature.getGroupKey(), feature.getFeatureKey())));
+
+      String missingVehicleFeatures = vehicleFeaturesMap.entrySet()
+          .parallelStream()
+          .filter(entry -> entry.getValue().isEmpty())
+          .map(Map.Entry::getKey)
+          .map(feature -> "%s:%s".formatted(feature.getGroupKey(), feature.getFeatureKey()))
+          .collect(Collectors.joining(", "));
+
+      if (!missingVehicleFeatures.isEmpty()) {
+        throw new VehicleFeaturesMissingException("Vehicle features missing: " + missingVehicleFeatures);
+      }
+
+      Set<VehicleFeature> vehicleFeatureEntities =
+          vehicleFeaturesMap.values().parallelStream().map(Optional::get).collect(Collectors.toSet());
+
+      vehicle.setFeatures(vehicleFeatureEntities);
+    }
 
     Vehicle savedVehicle = vehicleRepository.save(vehicle);
 
@@ -135,80 +185,5 @@ public class VehicleService {
   public void deleteVehicle(Long id) {
 
     vehicleRepository.deleteById(id);
-  }
-
-  public VehicleMakeDto findVehicleMakeByMake(String make) {
-
-    VehicleMake foundVehicleMake = vehicleMakeRepository.findByMake(make)
-        .orElseThrow(() -> new VehicleMakeNotFoundException("Vehicle make not found: " + make));
-
-    return vehicleMakeConverter.convertVehicleMake(foundVehicleMake);
-  }
-
-  public String createVehicleMake(VehicleMakeDto vehicleMakeDto) {
-
-    VehicleMake vehicleMake = vehicleMakeConverter.convertVehicleMake(vehicleMakeDto);
-
-    VehicleMake savedVehicleMake = vehicleMakeRepository.save(vehicleMake);
-
-    return savedVehicleMake.getMake();
-  }
-
-  public String updateVehicleMake(String make, VehicleMakeDto vehicleMakeDto) {
-
-    VehicleMakeDto foundVehicleMake = findVehicleMakeByMake(make);
-
-    VehicleMakeDto vehicleMakeDtoWithId = vehicleMakeDto.toBuilder().id(foundVehicleMake.getId()).build();
-
-    VehicleMake vehicleMake = vehicleMakeConverter.convertVehicleMake(vehicleMakeDtoWithId);
-
-    VehicleMake savedVehicleMake = vehicleMakeRepository.save(vehicleMake);
-
-    return savedVehicleMake.getMake();
-  }
-
-  @Transactional
-  public void deleteVehicleMake(String make) {
-
-    vehicleMakeRepository.deleteByMake(make);
-  }
-
-  public List<VehicleMakeEmbeddedDto> findVehicleMakes() {
-
-    List<VehicleMake> foundVehicleMake = vehicleMakeRepository.findAll();
-
-    return foundVehicleMake.stream().map(vehicleMakeConverter::convertVehicleMakeEmbedded).toList();
-  }
-
-  public List<VehicleFeatureDto> findVehicleFeatures() {
-
-    return vehicleFeatureRepository.findAll().stream().map(vehicleFeatureConverter::convertVehicleMake).toList();
-  }
-
-  public void createVehicleFeature(VehicleFeatureDto vehicleFeatureDto) {
-
-    Optional<VehicleFeature> byGroupKeyAndFeatureKey = vehicleFeatureRepository.findByGroupKeyAndFeatureKey(
-        vehicleFeatureDto.getGroupKey(),
-        vehicleFeatureDto.getFeatureKey());
-
-    if (byGroupKeyAndFeatureKey.isPresent()) {
-      throw new EntityAlreadyExistsException("Vehicle feature with group key %s and feature key %s already exists".formatted(
-          vehicleFeatureDto.getGroupKey(),
-          vehicleFeatureDto.getFeatureKey()));
-    }
-
-    VehicleFeature vehicleFeature = vehicleFeatureConverter.convertVehicleMake(vehicleFeatureDto);
-    vehicleFeatureRepository.save(vehicleFeature);
-  }
-
-  public void updateVehicleFeature(Long id, VehicleFeatureDto vehicleFeatureDto) {
-
-    VehicleFeature found = vehicleFeatureRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Vehicle feature not found with id " + id));
-
-    VehicleFeatureDto finalized = vehicleFeatureDto.toBuilder().id(found.getId()).build();
-
-    VehicleFeature vehicleFeature = vehicleFeatureConverter.convertVehicleMake(finalized);
-    vehicleFeatureRepository.save(vehicleFeature);
   }
 }

@@ -3,6 +3,8 @@ package org.example.strongauto.persistence.repository;
 import org.example.strongauto.persistence.model.VehicleFeature;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**

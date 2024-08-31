@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface VehicleFeatureConverter {
 
-  VehicleFeatureDto convertVehicleMake(VehicleFeature vehicleMake);
+  VehicleFeatureDto convertVehicleFeature(VehicleFeature vehicleMake);
 
-  VehicleFeature convertVehicleMake(VehicleFeatureDto vehicleMake);
+  VehicleFeature convertVehicleFeature(VehicleFeatureDto vehicleMake);
 }

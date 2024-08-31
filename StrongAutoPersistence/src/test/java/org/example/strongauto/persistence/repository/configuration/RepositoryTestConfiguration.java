@@ -12,5 +12,4 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = "org.example.strongauto.persistence.model")
 @EnableAutoConfiguration
 public class RepositoryTestConfiguration {
-
 }

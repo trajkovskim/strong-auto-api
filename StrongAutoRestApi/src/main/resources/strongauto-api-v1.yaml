@@ -238,6 +238,21 @@ paths:
           $ref: "#/components/responses/BadRequestResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
+    delete:
+      operationId: deleteVehicleFeatureEntry
+      tags:
+        - vehicle-features
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        204:
+          $ref: "#/components/responses/NoContentResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
 components:
   schemas:
     Decimal:
@@ -264,12 +279,12 @@ components:
     Image:
       type: object
       properties:
-        image:
-          type: string
-          format: byte
         name:
           type: string
           example: "image.png"
+        data:
+          type: string
+          format: byte
         contentType:
           type: string
           example: "image/png"
