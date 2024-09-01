@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 @RestController
 public class StrongAutoUIController {
 
-  @GetMapping("/*")
+  @GetMapping({"/{route:^(?!\\/api\\/).*}/**"})
   public ResponseEntity<String> index() {
 
     try (var inputStream = new ClassPathResource("dist/index.html").getInputStream()) {

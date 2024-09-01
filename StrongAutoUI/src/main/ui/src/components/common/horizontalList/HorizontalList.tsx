@@ -217,7 +217,7 @@ const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, noAutoScroll, ...
         onMouseLeave={() => horizontalListHandlers?.mouseLeaveHandler()}
         // onWheel={(event) => horizontalListHandlers?.wheelHandler(event)}
         ref={setRef}
-        styleConfig={{ direction: 'row', gap: props.chunkGap }}
+        styleConfig={{ direction: 'row', gap: props.chunkGap, alignItems: 'center' }}
       >
         {React.Children.map(props.children, (child, index) => {
           return (
