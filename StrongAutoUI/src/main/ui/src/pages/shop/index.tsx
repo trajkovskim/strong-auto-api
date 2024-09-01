@@ -1,5 +1,5 @@
 import ShopProductCard from 'components/card/ShopProductCard';
-import { BoxAnimation, Button, Container, ElementIntersection, Spinner, Text } from 'components/common';
+import { BoxAnimation, Button, Container, Spinner, Text } from 'components/common';
 import { setVehicleFiltersAction, VehicleFiltersForm } from 'context/vehicles';
 import { VehiclesResponse } from 'generated';
 import { useApplicationContext, useLanguage, useRequest, useTranslation } from 'hooks';

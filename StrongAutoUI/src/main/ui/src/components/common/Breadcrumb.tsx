@@ -7,14 +7,18 @@ import { FaHome } from 'react-icons/fa';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Routes } from 'routes';
 
-const Breadcrumb: React.FC = () => {
+type Props = {
+  idLabel?: React.ReactNode;
+};
+
+const Breadcrumb: React.FC<Props> = (props) => {
   const t = useTranslation('breadcrumb');
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
 
   const paths: {
-    label: string;
+    label: React.ReactNode;
     pathname?: string;
     icon?: React.ReactNode;
   }[] = [
@@ -49,8 +53,8 @@ const Breadcrumb: React.FC = () => {
     paths.push({ label: t('carService'), pathname: Routes.CAR_SERVICE });
   }
 
-  if (id) {
-    paths.push({ label: id });
+  if (props.idLabel || id) {
+    paths.push({ label: props.idLabel ?? id });
   }
 
   return (

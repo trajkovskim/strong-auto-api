@@ -17,6 +17,7 @@ import org.example.strongauto.persistence.model.enums.VehicleDriveType;
 import org.example.strongauto.persistence.model.enums.VehicleFuelType;
 import org.example.strongauto.persistence.model.enums.VehicleState;
 import org.example.strongauto.persistence.model.enums.VehicleTransmission;
+import org.example.strongauto.persistence.model.filters.VehicleFeatureFilter;
 import org.example.strongauto.persistence.model.filters.VehicleFilters;
 import org.example.strongauto.persistence.model.projections.VehicleEmbeddedProjection;
 import org.example.strongauto.persistence.model.relations.VehicleFeatureRef;
@@ -61,10 +62,10 @@ public class VehicleRepositoryTest {
   private VehicleMakeRepository vehicleMakeRepository;
 
   @Autowired
-  private VehicleFeatureRefRepository vehicleFeatureRefRepository;
+  private VehicleFeatureRepository vehicleFeatureRepository;
 
   @Autowired
-  private LocalizedTextListRepository localizedTextListRepository;
+  private VehicleFeatureRefRepository vehicleFeatureRefRepository;
 
   private Vehicle createVehicle(
       LocalizedTextList title, VehicleMake make, VehicleModel model, Set<VehicleFeature> features) {
@@ -107,6 +108,27 @@ public class VehicleRepositoryTest {
     localizedText.setLanguage(language);
 
     return localizedText;
+  }
+
+  private VehicleFeature createVehicleFeature(String groupKey, String featureKey) {
+
+    LocalizedTextList groupName = new LocalizedTextList();
+    groupName.setTextList(Set.of(
+        createLocalizedText("Внатрешно", Language.MK),
+        createLocalizedText("Interior", Language.EN)));
+
+    LocalizedTextList featureName = new LocalizedTextList();
+    featureName.setTextList(Set.of(
+        createLocalizedText("Карактеристика 1", Language.MK),
+        createLocalizedText("Feature 1", Language.EN)));
+
+    VehicleFeature vehicleFeature = new VehicleFeature();
+    vehicleFeature.setGroupKey(groupKey);
+    vehicleFeature.setFeatureKey(featureKey);
+    vehicleFeature.setGroupName(groupName);
+    vehicleFeature.setFeatureName(featureName);
+
+    return vehicleFeature;
   }
 
   /** See method name. */
@@ -287,6 +309,12 @@ public class VehicleRepositoryTest {
     VehicleFilters amountToFilter = new VehicleFilters();
     amountToFilter.setAmountTo(10000.0);
 
+    VehicleFilters groupKey1FeatureKey1FeatureFilter = new VehicleFilters();
+    VehicleFeatureFilter vehicleFeatureFilter = new VehicleFeatureFilter();
+    vehicleFeatureFilter.setFeatureKey("featureKey1");
+    vehicleFeatureFilter.setGroupKey("groupKey1");
+    groupKey1FeatureKey1FeatureFilter.setFeatures(List.of(vehicleFeatureFilter));
+
     VehicleFilters noFilters = new VehicleFilters();
 
     return Stream.of(arguments(to2019Filter, 2),
@@ -300,6 +328,7 @@ public class VehicleRepositoryTest {
         arguments(BMWFilter, 1),
         arguments(transmissionManualFilter, 1),
         arguments(amountToFilter, 3),
+//        arguments(groupKey1FeatureKey1FeatureFilter, 2),
         arguments(noFilters, 4));
   }
 
@@ -325,14 +354,19 @@ public class VehicleRepositoryTest {
     LocalizedTextList title = new LocalizedTextList();
     title.setTextList(Set.of(titleMK));
 
-    Vehicle vehicle1 = createVehicle(title, audi, audiB8, null);
+    VehicleFeature feature1 = createVehicleFeature("groupKey1", "featureKey1");
+    VehicleFeature feature2 = createVehicleFeature("groupKey1", "featureKey2");
+    VehicleFeature feature3 = createVehicleFeature("groupKey2", "featureKey1");
+    vehicleFeatureRepository.saveAllAndFlush(Set.of(feature1, feature2, feature3));
 
-    Vehicle vehicle2 = createVehicle(title, audi, audiB9, null);
+    Vehicle vehicle1 = createVehicle(title, audi, audiB8, Set.of(feature1, feature2));
+
+    Vehicle vehicle2 = createVehicle(title, audi, audiB9, Set.of(feature3));
     vehicle2.setTransmission(VehicleTransmission.MANUAL);
     vehicle2.setYear(2014);
     vehicle2.setTotalAmount(13000.0);
 
-    Vehicle vehicle3 = createVehicle(title, bmw, bmwX1, null);
+    Vehicle vehicle3 = createVehicle(title, bmw, bmwX1, Set.of(feature1));
     vehicle3.setState(VehicleState.FEATURED);
     vehicle3.setBodyType(VehicleBodyType.SUV);
     vehicle3.setYear(2023);

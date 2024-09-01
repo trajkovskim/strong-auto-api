@@ -1,23 +1,25 @@
-import { VehicleFeature } from 'generated';
+import { setVehicleFeaturesAction } from 'context/vehicles';
+import useApplicationContext from 'hooks/useApplicationContext';
 import useLanguage from 'hooks/useLanguage';
 import useRequest from 'hooks/useRequest';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getVehicleFeatureEntries } from 'services/VehicleService';
 
 const useFetchFeatures = () => {
-  const [features, setFeatures] = useState<VehicleFeature[]>();
+  const { getState, dispatch } = useApplicationContext();
+
   const { language } = useLanguage();
   const { send: fetchVehicleFeatureEntries, loading: loadingGetVehicleFeatureEntriesRequest } = useRequest();
 
   useEffect(() => {
     fetchVehicleFeatureEntries(
       getVehicleFeatureEntries({ acceptLanguage: language }).then((vehicleFeatures) =>
-        setFeatures(vehicleFeatures.features)
+        dispatch(setVehicleFeaturesAction(vehicleFeatures.features ?? []))
       )
     );
-  }, [fetchVehicleFeatureEntries, language]);
+  }, [dispatch, fetchVehicleFeatureEntries, language]);
 
-  return { loadingGetVehicleFeatureEntriesRequest, features };
+  return { loadingGetVehicleFeatureEntriesRequest, features: getState().vehicles.features };
 };
 
 export default useFetchFeatures;

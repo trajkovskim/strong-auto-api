@@ -19,10 +19,10 @@ import org.example.strongauto.persistence.model.enums.VehicleDriveType;
 import org.example.strongauto.persistence.model.enums.VehicleFuelType;
 import org.example.strongauto.persistence.model.enums.VehicleState;
 import org.example.strongauto.persistence.model.enums.VehicleTransmission;
+import org.example.strongauto.persistence.repository.VehicleFeatureRepository;
 import org.example.strongauto.persistence.repository.VehicleMakeRepository;
 import org.example.strongauto.persistence.repository.VehicleRepository;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +38,7 @@ public class DatabaseBootstrapper {
 
   private final VehicleRepository vehicleRepository;
   private final VehicleMakeRepository vehicleMakeRepository;
+  private final VehicleFeatureRepository vehicleFeatureRepository;
 
   private VehicleImage createVehicleImage(String name, String contentType, byte[] data) {
 
@@ -54,16 +55,13 @@ public class DatabaseBootstrapper {
   private Vehicle createVehicle(VehicleMake make, VehicleModel model, Set<VehicleFeature> features) {
 
     LocalizedTextList title = new LocalizedTextList();
-    title.setTextList(Set.of(
-        createLocalizedText("Audi B8 2.0 TDI", Language.MK),
+    title.setTextList(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK),
         createLocalizedText("Audi B8 2.0 TDI", Language.EN)));
     LocalizedTextList summary = new LocalizedTextList();
-    summary.setTextList(Set.of(
-        createLocalizedText("Краток Опис", Language.MK),
+    summary.setTextList(Set.of(createLocalizedText("Краток Опис", Language.MK),
         createLocalizedText("Short summary", Language.EN)));
     LocalizedTextList description = new LocalizedTextList();
-    description.setTextList(Set.of(
-        createLocalizedText("Опис", Language.MK),
+    description.setTextList(Set.of(createLocalizedText("Опис", Language.MK),
         createLocalizedText("Description", Language.EN)));
 
     Vehicle vehicle = new Vehicle();
@@ -87,13 +85,10 @@ public class DatabaseBootstrapper {
     vehicle.setColor(Color.BLACK);
     vehicle.setFeatures(features);
 
-    vehicle.setImages(Set.of(
-        createVehicleImage(
-            "passat1.jpg",
+    vehicle.setImages(Set.of(createVehicleImage("passat1.jpg",
             "image/jpeg",
             new ClassPathResource("images/passat1.jpg").getInputStream().readAllBytes()),
-        createVehicleImage(
-            "passat2.jpg",
+        createVehicleImage("passat2.jpg",
             "image/jpeg",
             new ClassPathResource("images/passat2.jpg").getInputStream().readAllBytes())));
 
@@ -109,6 +104,14 @@ public class DatabaseBootstrapper {
     return vehicleMake;
   }
 
+  private VehicleModel createVehicleModel(String model) {
+
+    VehicleModel vehicleModel = new VehicleModel();
+    vehicleModel.setModel(model);
+
+    return vehicleModel;
+  }
+
   private LocalizedText createLocalizedText(String text, Language language) {
 
     LocalizedText localizedText = new LocalizedText();
@@ -116,6 +119,27 @@ public class DatabaseBootstrapper {
     localizedText.setLanguage(language);
 
     return localizedText;
+  }
+
+  private VehicleFeature createVehicleFeature(String groupKey, String featureKey) {
+
+    LocalizedTextList groupName = new LocalizedTextList();
+    groupName.setTextList(Set.of(
+        createLocalizedText("Внатрешно", Language.MK),
+        createLocalizedText("Interior", Language.EN)));
+
+    LocalizedTextList featureName = new LocalizedTextList();
+    featureName.setTextList(Set.of(
+        createLocalizedText("Карактеристика 1", Language.MK),
+        createLocalizedText("Feature 1", Language.EN)));
+
+    VehicleFeature vehicleFeature = new VehicleFeature();
+    vehicleFeature.setGroupKey(groupKey);
+    vehicleFeature.setFeatureKey(featureKey);
+    vehicleFeature.setGroupName(groupName);
+    vehicleFeature.setFeatureName(featureName);
+
+    return vehicleFeature;
   }
 
   @PostConstruct
@@ -130,71 +154,75 @@ public class DatabaseBootstrapper {
     bmwX1.setModel("X1");
 
     Map<String, VehicleMake> make = new HashMap<>();
-    make.put("ABARTH", createVehicleMake("ABARTH", Set.of()));
-    make.put("ACURA", createVehicleMake("ACURA", Set.of()));
-    make.put("ROMEO", createVehicleMake("ROMEO", Set.of()));
-    make.put("MARTIN", createVehicleMake("MARTIN", Set.of()));
+    make.put("ABARTH", createVehicleMake("ABARTH", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("ACURA", createVehicleMake("ACURA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("ROMEO", createVehicleMake("ROMEO", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("MARTIN", createVehicleMake("MARTIN", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
     make.put("AUDI", createVehicleMake("AUDI", Set.of(audiA4, audiA5)));
-    make.put("BENTLEY", createVehicleMake("BENTLEY", Set.of()));
+    make.put("BENTLEY", createVehicleMake("BENTLEY", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
     make.put("BMW", createVehicleMake("BMW", Set.of(bmwX1)));
-    make.put("BUICK", createVehicleMake("BUICK", Set.of()));
-    make.put("CADILLAC", createVehicleMake("CADILLAC", Set.of()));
-    make.put("CHEVROLET", createVehicleMake("CHEVROLET", Set.of()));
-    make.put("CHRYSLER", createVehicleMake("CHRYSLER", Set.of()));
-    make.put("CITROEN", createVehicleMake("CITROEN", Set.of()));
-    make.put("DACIA", createVehicleMake("DACIA", Set.of()));
-    make.put("DODGE", createVehicleMake("DODGE", Set.of()));
-    make.put("FERRARI", createVehicleMake("FERRARI", Set.of()));
-    make.put("FIAT", createVehicleMake("FIAT", Set.of()));
-    make.put("FORD", createVehicleMake("FORD", Set.of()));
-    make.put("GMC", createVehicleMake("GMC", Set.of()));
-    make.put("HONDA", createVehicleMake("HONDA", Set.of()));
-    make.put("HUMMER", createVehicleMake("HUMMER", Set.of()));
-    make.put("HYUNDAI", createVehicleMake("HYUNDAI", Set.of()));
-    make.put("INFINITI", createVehicleMake("INFINITI", Set.of()));
-    make.put("ISUZU", createVehicleMake("ISUZU", Set.of()));
-    make.put("JAGUAR", createVehicleMake("JAGUAR", Set.of()));
-    make.put("JEEP", createVehicleMake("JEEP", Set.of()));
-    make.put("KIA", createVehicleMake("KIA", Set.of()));
-    make.put("LAMBORGHINI", createVehicleMake("LAMBORGHINI", Set.of()));
-    make.put("LANCIA", createVehicleMake("LANCIA", Set.of()));
-    make.put("ROVER", createVehicleMake("ROVER", Set.of()));
-    make.put("LEXUS", createVehicleMake("LEXUS", Set.of()));
-    make.put("LINCOLN", createVehicleMake("LINCOLN", Set.of()));
-    make.put("LOTUS", createVehicleMake("LOTUS", Set.of()));
-    make.put("MASERATI", createVehicleMake("MASERATI", Set.of()));
-    make.put("MAZDA", createVehicleMake("MAZDA", Set.of()));
-    make.put("MERCEDES_BENZ", createVehicleMake("MERCEDES_BENZ", Set.of()));
-    make.put("MERCURY", createVehicleMake("MERCURY", Set.of()));
-    make.put("MINI", createVehicleMake("MINI", Set.of()));
-    make.put("MITSUBISHI", createVehicleMake("MITSUBISHI", Set.of()));
-    make.put("NISSAN", createVehicleMake("NISSAN", Set.of()));
-    make.put("OPEL", createVehicleMake("OPEL", Set.of()));
-    make.put("PEUGEOT", createVehicleMake("PEUGEOT", Set.of()));
-    make.put("PONTIAC", createVehicleMake("PONTIAC", Set.of()));
-    make.put("PORSCHE", createVehicleMake("PORSCHE", Set.of()));
-    make.put("RAM", createVehicleMake("RAM", Set.of()));
-    make.put("RENAULT", createVehicleMake("RENAULT", Set.of()));
-    make.put("SAAB", createVehicleMake("SAAB", Set.of()));
-    make.put("SATURN", createVehicleMake("SATURN", Set.of()));
-    make.put("SCION", createVehicleMake("SCION", Set.of()));
-    make.put("SEAT", createVehicleMake("SEAT", Set.of()));
-    make.put("SKODA", createVehicleMake("SKODA", Set.of()));
-    make.put("SMART", createVehicleMake("SMART", Set.of()));
-    make.put("SSANGYONG", createVehicleMake("SSANGYONG", Set.of()));
-    make.put("SUBARU", createVehicleMake("SUBARU", Set.of()));
-    make.put("SUZUKI", createVehicleMake("SUZUKI", Set.of()));
-    make.put("TESLA", createVehicleMake("TESLA", Set.of()));
-    make.put("TOYOTA", createVehicleMake("TOYOTA", Set.of()));
-    make.put("VOLKSWAGEN", createVehicleMake("VOLKSWAGEN", Set.of()));
-    make.put("VOLVO", createVehicleMake("VOLVO", Set.of()));
-    make.put("WIESMANN", createVehicleMake("WIESMANN", Set.of()));
+    make.put("BUICK", createVehicleMake("BUICK", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("CADILLAC", createVehicleMake("CADILLAC", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("CHEVROLET", createVehicleMake("CHEVROLET", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("CHRYSLER", createVehicleMake("CHRYSLER", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("CITROEN", createVehicleMake("CITROEN", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("DACIA", createVehicleMake("DACIA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("DODGE", createVehicleMake("DODGE", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("FERRARI", createVehicleMake("FERRARI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("FIAT", createVehicleMake("FIAT", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("FORD", createVehicleMake("FORD", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("GMC", createVehicleMake("GMC", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("HONDA", createVehicleMake("HONDA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("HUMMER", createVehicleMake("HUMMER", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("HYUNDAI", createVehicleMake("HYUNDAI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("INFINITI", createVehicleMake("INFINITI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("ISUZU", createVehicleMake("ISUZU", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("JAGUAR", createVehicleMake("JAGUAR", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("JEEP", createVehicleMake("JEEP", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("KIA", createVehicleMake("KIA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("LAMBORGHINI", createVehicleMake("LAMBORGHINI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("LANCIA", createVehicleMake("LANCIA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("ROVER", createVehicleMake("ROVER", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("LEXUS", createVehicleMake("LEXUS", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("LINCOLN", createVehicleMake("LINCOLN", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("LOTUS", createVehicleMake("LOTUS", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("MASERATI", createVehicleMake("MASERATI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("MAZDA", createVehicleMake("MAZDA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("MERCEDES_BENZ", createVehicleMake("MERCEDES_BENZ", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("MERCURY", createVehicleMake("MERCURY", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("MINI", createVehicleMake("MINI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("MITSUBISHI", createVehicleMake("MITSUBISHI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("NISSAN", createVehicleMake("NISSAN", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("OPEL", createVehicleMake("OPEL", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("PEUGEOT", createVehicleMake("PEUGEOT", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("PONTIAC", createVehicleMake("PONTIAC", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("PORSCHE", createVehicleMake("PORSCHE", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("RAM", createVehicleMake("RAM", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("RENAULT", createVehicleMake("RENAULT", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SAAB", createVehicleMake("SAAB", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SATURN", createVehicleMake("SATURN", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SCION", createVehicleMake("SCION", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SEAT", createVehicleMake("SEAT", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SKODA", createVehicleMake("SKODA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SMART", createVehicleMake("SMART", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SSANGYONG", createVehicleMake("SSANGYONG", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SUBARU", createVehicleMake("SUBARU", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("SUZUKI", createVehicleMake("SUZUKI", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("TESLA", createVehicleMake("TESLA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("TOYOTA", createVehicleMake("TOYOTA", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("VOLKSWAGEN", createVehicleMake("VOLKSWAGEN", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("VOLVO", createVehicleMake("VOLVO", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
+    make.put("WIESMANN", createVehicleMake("WIESMANN", Set.of(createVehicleModel("A4"), createVehicleModel("A5"))));
 
     vehicleMakeRepository.saveAllAndFlush(make.values());
 
-    Vehicle vehicle1 = createVehicle(make.get("AUDI"), audiA4, null);
+    VehicleFeature feature1 = createVehicleFeature("groupKey1", "featureKey1");
+    VehicleFeature feature2 = createVehicleFeature("groupKey1", "featureKey2");
+    VehicleFeature feature3 = createVehicleFeature("groupKey2", "featureKey1");
 
-    Vehicle vehicle2 = createVehicle(make.get("AUDI"), audiA5, null);
+    Vehicle vehicle1 = createVehicle(make.get("AUDI"), audiA4, Set.of(feature3));
+
+    Vehicle vehicle2 = createVehicle(make.get("AUDI"), audiA5, Set.of(feature1, feature2));
     vehicle2.setYear(2014);
 
     Vehicle vehicle3 = createVehicle(make.get("BMW"), bmwX1, null);

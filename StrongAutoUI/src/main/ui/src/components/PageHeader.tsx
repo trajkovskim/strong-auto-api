@@ -1,4 +1,4 @@
-import { Breadcrumb, Container } from 'components/common';
+import { Breadcrumb, Container, Spinner } from 'components/common';
 import { PAGE_MAX_WIDTH } from 'pages/constants';
 import React from 'react';
 import styled from 'styled-components';
@@ -31,11 +31,25 @@ const StyledPageHeader = styled(Container)<StyledPageHeaderProps>`
   }
 `;
 
-type Props = React.PropsWithChildren & StyledPageHeaderProps & React.ComponentProps<typeof Container>;
+const StyledSpinner = styled(Spinner)`
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transform-origin: top left;
+  top: 50%;
+  left: 50%;
+`;
 
-const PageHeader: React.FC<Props> = ({ children, imageSrc, ...props }) => {
+type Props = React.PropsWithChildren &
+  StyledPageHeaderProps &
+  React.ComponentProps<typeof Container> & {
+    loading?: boolean;
+    idLabel?: React.ReactNode;
+  };
+
+const PageHeader: React.FC<Props> = ({ children, imageSrc, loading, idLabel, ...props }) => {
   return (
     <StyledPageHeader imageSrc={imageSrc}>
+      {loading && <StyledSpinner />}
       <Container
         {...props}
         xs={PAGE_MAX_WIDTH}
@@ -52,7 +66,7 @@ const PageHeader: React.FC<Props> = ({ children, imageSrc, ...props }) => {
           ...props.lgStyle,
         }}
       >
-        <Breadcrumb />
+        <Breadcrumb idLabel={idLabel} />
         {children}
       </Container>
     </StyledPageHeader>
