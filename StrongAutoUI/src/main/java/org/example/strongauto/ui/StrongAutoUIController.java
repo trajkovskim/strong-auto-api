@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@RequestMapping("/")
+@RequestMapping
 @RestController
 public class StrongAutoUIController {
 
-  @GetMapping({"/{route:^(?!\\/api\\/).*}/**"})
+  @GetMapping(value = "/**", produces = "text/html")
   public ResponseEntity<String> index() {
 
     try (var inputStream = new ClassPathResource("dist/index.html").getInputStream()) {
