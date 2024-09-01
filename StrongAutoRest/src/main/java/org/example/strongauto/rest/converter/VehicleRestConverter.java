@@ -22,8 +22,8 @@ public interface VehicleRestConverter {
   @Mapping(target = "year.from", source = "yearFrom")
   @Mapping(target = "mileage.to", source = "mileageTo")
   @Mapping(target = "mileage.from", source = "mileageFrom")
-  @Mapping(target = "price.to", source = "priceTo")
-  @Mapping(target = "price.from", source = "priceFrom")
+  @Mapping(target = "amount.to", source = "priceTo")
+  @Mapping(target = "amount.from", source = "priceFrom")
   VehicleFiltersDto convertVehicleFilters(VehicleFilters vehicleFilters);
 
   @Mapping(target = "vehicles", source = "pageInfoDto.items")

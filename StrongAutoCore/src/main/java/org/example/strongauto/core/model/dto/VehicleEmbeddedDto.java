@@ -29,5 +29,5 @@ public class VehicleEmbeddedDto {
   private Integer mileage;
   private Integer year;
   private VehicleAmount amount;
-  private List<VehicleImageDto> images;
+  private List<VehicleImageEmbeddedDto> images;
 }

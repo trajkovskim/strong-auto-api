@@ -27,6 +27,7 @@ public class VehicleResponseFactory {
 
   private final VehicleRestConverter vehicleRestConverter;
   private final LinksFactory linksFactory;
+  private final VehicleImageResponseFactory vehicleImageResponseFactory;
 
   private SelfLink createVehicleSelfLink(Long id, String acceptLanguage) {
 
@@ -48,8 +49,16 @@ public class VehicleResponseFactory {
 
     VehiclesResponse vehiclesResponse = vehicleRestConverter.convertVehiclePage(vehicleEmbeddedPage, acceptLanguage);
 
-    vehiclesResponse.getVehicles().forEach(vehicle -> vehicle
-        .links(createVehicleSelfLink(vehicle.getId(), acceptLanguage)));
+    vehiclesResponse.getVehicles().forEach(vehicle -> {
+
+      vehicle.getImages()
+          .forEach(vehicleImage -> vehicleImage.links(
+              vehicleImageResponseFactory.createVehicleImageSelfLink(vehicle.getId(),
+                  vehicleImage.getId(),
+                  acceptLanguage)));
+
+      vehicle.links(createVehicleSelfLink(vehicle.getId(), acceptLanguage));
+    });
 
     PaginationLinks paginationLinks = linksFactory.createPaginationLinks(vehicleEmbeddedPage,
         (pageNumber, pageSize) -> methodOn(VehiclesController.class)

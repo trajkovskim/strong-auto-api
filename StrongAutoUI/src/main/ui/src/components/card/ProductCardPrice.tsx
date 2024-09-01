@@ -38,4 +38,4 @@ const ProductCardPrice: React.FC<Props> = ({ amount, fontSize, ...props }) => {
   );
 };
 
-export default ProductCardPrice;
+export default React.memo(ProductCardPrice);

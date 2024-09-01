@@ -1,17 +1,17 @@
 package org.example.strongauto.core.model.dto;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
- * Image dto.
+ * Vehicle image dto.
  */
 @Getter
-@Setter
+@Builder
 public class VehicleImageDto {
 
   private Long id;
   private String name;
-  private byte[] data;
   private String contentType;
+  private byte[] data;
 }

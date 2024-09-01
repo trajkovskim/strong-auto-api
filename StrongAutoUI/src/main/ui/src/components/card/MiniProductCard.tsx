@@ -1,57 +1,13 @@
 import BookmarkedButton from 'components/card/BookmarkedButton';
+import { StyledCard } from 'components/card/card.styled';
 import { ribbons } from 'components/card/constants';
+import ProductCardImages from 'components/card/ProductCardImages';
 import ProductCardPrice from 'components/card/ProductCardPrice';
 import ProductTitle from 'components/card/ProductTitle';
 import { ProductProps } from 'components/card/types';
-import { BoxAnimation, Container, Ribbon } from 'components/common';
-import Card from 'components/common/card/Card';
-import { OnImageContainer, StyledCarousel, StyledImage } from 'components/common/card/Card.styled';
+import { Container, Ribbon } from 'components/common';
+import { OnImageContainer } from 'components/common/card/Card.styled';
 import React from 'react';
-import styled from 'styled-components';
-import theme from 'theme';
-import { transformBase64Image } from 'utils';
-
-const StyledCard = styled(Card)`
-  transition: all 200ms;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-
-  & > *:first-child {
-    max-height: 600px;
-    flex: 1 0 0;
-  }
-
-  position: relative;
-
-  cursor: pointer;
-
-  .carousel_change-options {
-    z-index: 3;
-  }
-
-  color: white;
-
-  .carousel_change-options > *::before {
-    border-color: ${theme.productCard.carouselChangeOptionsBorder} !important;
-  }
-
-  .carousel_change-option_active::before {
-    background-color: ${theme.productCard.carouselChangeOptionsFillColor} !important;
-    border-color: ${theme.productCard.carouselChangeOptionsFillBorder} !important;
-  }
-
-  &:hover {
-    color: #075ebb;
-
-    .carousel_change-options > *::before {
-      border-color: ${theme.productCard.carouselChangeOptionsBorderHover} !important;
-    }
-
-    .carousel_change-option_active::before {
-      background-color: ${theme.productCard.carouselChangeOptionsFillColorHover} !important;
-      border-color: ${theme.productCard.carouselChangeOptionsFillBorderHover} !important;
-    }
-  }
-`;
 
 const MiniProductCard: React.FC<ProductProps> = (props) => {
   const productCardTitlePrice = (
@@ -75,23 +31,16 @@ const MiniProductCard: React.FC<ProductProps> = (props) => {
       {productCardTitlePrice}
     </OnImageContainer>
   );
-  const image = (
-    <StyledCarousel noChangeOptions>
-      {props.images?.map((image, index) => (
-        <StyledImage key={index} shadow objectFit="cover" height="350px" src={transformBase64Image(image)} />
-      ))}
-    </StyledCarousel>
-  );
+  const image = <ProductCardImages id={props.id} images={props.images} height="350px" />;
 
   return (
-    <BoxAnimation fullheight>
-      <StyledCard
-        fullwidth={props.fullwidth}
-        image={image}
-        onImageContainer={onImageContainer}
-        onClick={props.onView}
-      />
-    </BoxAnimation>
+    <StyledCard
+      className={props.className}
+      fullwidth={props.fullwidth}
+      image={image}
+      onImageContainer={onImageContainer}
+      onClick={props.onView}
+    />
   );
 };
 

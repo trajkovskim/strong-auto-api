@@ -1,4 +1,5 @@
 {
+  "strongauto.loading": "Loading...",
   "strongauto.telephone": "+38977648648",
   "strongauto.email": "vane.stamenov@gmail.com",
   "strongauto.openHours": "Mon-Sun: 08:00 - 20:00",
@@ -55,6 +56,7 @@
   "strongauto.home.rentingACar.visitButton": "Visit our cars shop",
   "strongauto.home.popularMakes.title": "Popular makes",
   "strongauto.home.popularMakes.viewAllButton": "View all",
+  "strongauto.home.popularMakes.noVehiclesAvailable": "No cars available",
   "strongauto.home.whyChooseUs.title": "Why choose our services",
   "strongauto.home.whyChooseUs.description": "Choosing StrongAUTO means choosing a dealership that values your time and investment. We are committed to providing an exceptional experience from start to finish, with a focus on personalized service and genuine care.",
   "strongauto.home.whyChooseUs.point1.title": "Trusted Car Dealership",
@@ -158,7 +160,7 @@
   "strongauto.inventory.pagination.resultSizeInput.60": "60",
   "strongauto.inventory.pagination.resultSizeInput.100": "100",
   "strongauto.inventory.pagination.resultSizeInput.label": "Result size",
-  "strongauto.inventory.pagination.resultsShown": "Results shown {{results}}",
+  "strongauto.inventory.pagination.resultsShown": "Results shown {{results}} of {{totalResults}}",
   "strongauto.aboutUs.title": "About Us",
   "strongauto.aboutUs.whoWeAre.title": "Who we are",
   "strongauto.aboutUs.whoWeAre.description": "Welcome to StrongAUTO, where our passion for automobiles meets a commitment to exceptional customer service. Since 2010, we’ve been dedicated to providing our community with a superior car-buying and rental experience.",

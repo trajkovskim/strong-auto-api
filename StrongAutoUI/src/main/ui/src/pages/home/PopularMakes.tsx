@@ -1,5 +1,15 @@
 import { MiniProductCard } from 'components/card';
-import { Button, ButtonProps, ButtonsGroup, Container, HorizontalList, StyledSpinner, Title } from 'components/common';
+import {
+  BoxAnimation,
+  Button,
+  ButtonProps,
+  ButtonsGroup,
+  Container,
+  HorizontalList,
+  StyledSpinner,
+  Text,
+  Title,
+} from 'components/common';
 import { VehicleEmbedded } from 'generated';
 import { useLanguage, useRequest, useTranslation } from 'hooks';
 import { DarkBackgroundContainer } from 'pages/common.styled';
@@ -47,33 +57,50 @@ const PopularMakes: React.FC = () => {
           styleConfig={{ centered: true, alignItems: 'center', gap: '2rem' }}
           lgStyle={{ gap: '3rem' }}
         >
-          <Container
-            xs={12}
-            styleConfig={{ gap: '1rem', direction: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-          >
-            <Container xs={0} lg={2} />
-            <Container xs={12} styleConfig={{ alignItems: 'center' }}>
-              <Title title={t('title')} fontSize="2xl" bold />
+          <BoxAnimation fullwidth>
+            <Container
+              xs={12}
+              styleConfig={{ gap: '1rem', direction: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            >
+              <Container xs={0} lg={2} />
+              <Container xs={12} styleConfig={{ alignItems: 'center' }}>
+                <Title title={t('title')} fontSize="2xl" bold />
+              </Container>
+              <Container xs="max-content" md={2}>
+                <Button themeType="link" maxContent size="lg" iconRight={<BsArrowUpRight />}>
+                  {t('viewAllButton')}
+                </Button>
+              </Container>
             </Container>
-            <Container xs="max-content" md={2}>
-              <Button themeType="link" maxContent size="lg" iconRight={<BsArrowUpRight />}>
-                {t('viewAllButton')}
-              </Button>
-            </Container>
-          </Container>
-          <ButtonsGroup buttons={tabs} active={activeTab} onChange={(tab) => setActiveTab(tab.value)} />
+          </BoxAnimation>
+          <BoxAnimation>
+            <ButtonsGroup buttons={tabs} active={activeTab} onChange={(tab) => setActiveTab(tab.value)} />
+          </BoxAnimation>
         </Container>
         {loading && <StyledSpinner centered />}
-        {!loading && vehiclesByMake[activeTab] && (
-          <HorizontalList gap="2rem" chunkGap="1rem" chunkSize={{ xs: 12, md: 6, lg: 4.8, xl: 3.6 }} centered circular>
-            {vehiclesByMake[activeTab].map((product) => (
-              <MiniProductCard
-                {...product}
-                key={product.id}
-                onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
-              />
-            ))}
-          </HorizontalList>
+        {!loading && !!vehiclesByMake?.[activeTab]?.length && (
+          <BoxAnimation>
+            <HorizontalList
+              gap="2rem"
+              chunkGap="1rem"
+              chunkSize={{ xs: 12, md: 6, lg: 4.8, xl: 3.6 }}
+              centered
+              circular
+            >
+              {vehiclesByMake[activeTab].map((product) => (
+                <MiniProductCard
+                  {...product}
+                  key={product.id}
+                  onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
+                />
+              ))}
+            </HorizontalList>
+          </BoxAnimation>
+        )}
+        {!loading && !vehiclesByMake?.[activeTab]?.length && (
+          <Container styleConfig={{ centered: true }}>
+            <Text fontSize="lg">{t('noVehiclesAvailable')}</Text>
+          </Container>
         )}
       </Container>
     </DarkBackgroundContainer>

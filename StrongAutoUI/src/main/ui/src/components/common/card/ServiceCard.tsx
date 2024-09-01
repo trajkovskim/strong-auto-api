@@ -34,7 +34,7 @@ const ServiceCard: React.FC<Props> = (props) => {
 
   const image = <Image src={props.image} objectFit="cover" height="250px" />;
 
-  return <StyledCard body={body} image={image} onClick={props.onClick} />;
+  return <StyledCard {...props} body={body} image={image} onClick={props.onClick} />;
 };
 
 export default ServiceCard;

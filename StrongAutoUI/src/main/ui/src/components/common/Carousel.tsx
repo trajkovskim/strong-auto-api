@@ -2,15 +2,7 @@ import { css as emitionCss } from '@emotion/css';
 import Button from 'components/common/Button';
 import Container from 'components/common/Container';
 import Transition, { TransitionHandle } from 'components/common/Transition';
-import React, {
-  TouchEventHandler,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { TouchEventHandler, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 import theme from 'theme';
@@ -60,7 +52,6 @@ const StyledRightArrowButton = styled(Button)`
 const StyledCarousel = styled.div<StyledCarouselProps>`
   display: grid;
   width: 100%;
-  /* overflow: hidden; */
   height: 100%;
   position: ${(props) => (props.absolute ? 'absolute' : 'relative')};
   user-select: none;
@@ -101,34 +92,28 @@ const CarouselChangeOptionsWrapper = styled.div`
   left: 50%;
 `;
 
-const StyledCarouselItem = styled.div<{
+type StyledCarouselItemProps = {
   absolute?: boolean;
   maxHeight?: string;
   minHeight?: string;
-}>`
+  className?: string;
+};
+
+const StyledCarouselItem = styled.div<StyledCarouselItemProps>`
   width: 100%;
   height: 100%;
   grid-row-start: 1;
   grid-column-start: 1;
+  align-content: center;
 
   position: ${(props) => props.absolute && 'absolute'};
   min-height: ${(props) => props.minHeight};
   max-height: ${(props) => props.maxHeight};
 `;
 
-type Props = React.PropsWithChildren &
-  StyledCarouselProps & {
-    ms?: number;
-    noArrows?: boolean;
-    noChangeOptions?: boolean;
-    justifyContent?: string;
-  };
-
 export type CarouselHandle = {
   next: (index?: number) => void;
   prev: () => void;
-  size: number;
-  current: number;
 };
 
 enum SwipeDirection {
@@ -137,21 +122,20 @@ enum SwipeDirection {
 }
 
 type ChangeOptionsProps = {
-  onChange?: (index: number) => void;
+  onChange?: (currentIndex: number) => void;
   size?: number;
   current?: number;
   carousel?: CarouselHandle | null;
 };
 
 export const CarouselChangeOptions: React.FC<ChangeOptionsProps> = (props) => {
-  const current = props.carousel?.current ?? props.current;
-  const size = props.carousel?.size ?? props.size;
+  const current = props.current;
   const onChange = props.carousel?.next ?? props.onChange;
 
   const rectangles = useMemo(
     () =>
-      Number(size) > 1 &&
-      new Array(size).fill(0).map((_, index) => (
+      Number(props.size) > 1 &&
+      new Array(props.size).fill(0).map((_, index) => (
         <SmallRectangle
           className={current === index ? 'carousel_change-option_active' : undefined}
           fill={current === index}
@@ -162,10 +146,10 @@ export const CarouselChangeOptions: React.FC<ChangeOptionsProps> = (props) => {
           }}
         />
       )),
-    [current, onChange, size]
+    [current, onChange, props.size]
   );
 
-  if (Number(size) <= 1) {
+  if (Number(props.size) <= 1) {
     return <></>;
   }
 
@@ -184,56 +168,59 @@ export const CarouselChangeOptions: React.FC<ChangeOptionsProps> = (props) => {
   return element;
 };
 
+type Props = React.PropsWithChildren &
+  StyledCarouselProps & {
+    ms?: number;
+    noArrows?: boolean;
+    noChangeOptions?: boolean;
+    justifyContent?: string;
+    onChange?: (prevIndex: number, nextIndex: number) => void;
+  };
+
 const Carousel = React.forwardRef<CarouselHandle, Props>(
-  ({ ms = 10000, noArrows: noArrows = false, noChangeOptions = false, ...props }, ref) => {
+  ({ ms = 10000, noArrows: noArrows = false, noChangeOptions = false, onChange, ...props }, ref) => {
     const touchStart = useRef<number>();
     const touchEnd = useRef<number>();
 
     const minSwipeDistance = 50;
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const children = React.Children.toArray(props.children);
+    const currentIndex = useRef<number>(0);
 
-    const transitionRefs = useRef<(TransitionHandle | null)[]>(new Array(children.length).fill(null));
+    const childrenLength = React.Children.count(props.children);
+
+    const transitionRefs = useRef<(TransitionHandle | null)[]>(new Array(childrenLength).fill(null));
 
     const getPrevIndex = useCallback(
-      (currentIndex: number) => (currentIndex === 0 ? children.length - 1 : currentIndex - 1),
-      [children.length]
+      (currentIndex: number) => (currentIndex <= 0 ? childrenLength - 1 : currentIndex - 1),
+      [childrenLength]
     );
 
-    const getAfterIndex = useCallback(
-      (currentIndex: number) => (currentIndex + 1) % children.length,
-      [children.length]
-    );
+    const getAfterIndex = useCallback((currentIndex: number) => (currentIndex + 1) % childrenLength, [childrenLength]);
 
-    const change = useCallback((prevIndex: number, nextIndex: number) => {
-      transitionRefs.current[prevIndex]?.gotoInitialState();
-      transitionRefs.current[nextIndex]?.gotoFinalState();
-    }, []);
+    const change = useCallback(
+      (prevIndex: number, nextIndex: number) => {
+        transitionRefs.current[prevIndex]?.gotoInitialState();
+        transitionRefs.current[nextIndex]?.gotoFinalState();
+        currentIndex.current = nextIndex;
+        onChange && onChange(prevIndex, nextIndex);
+      },
+      [onChange]
+    );
 
     const handleOnBackward = useCallback(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = getPrevIndex(prevIndex);
-
-        change(prevIndex, nextIndex);
-
-        return nextIndex;
-      });
+      const nextIndex = getPrevIndex(currentIndex.current);
+      change(currentIndex.current, nextIndex);
     }, [getPrevIndex, change]);
 
     const handleOnForward = useCallback(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = getAfterIndex(prevIndex);
-
-        change(prevIndex, nextIndex);
-
-        return nextIndex;
-      });
+      const nextIndex = getAfterIndex(currentIndex.current);
+      change(currentIndex.current, nextIndex);
     }, [getAfterIndex, change]);
 
     useEffect(() => {
+      onChange && onChange(0, 0);
       transitionRefs.current[0]?.gotoFinalState();
-    }, []);
+    }, [onChange]);
 
     useEffect(() => {
       const interval = setInterval(handleOnBackward, ms);
@@ -248,10 +235,7 @@ const Carousel = React.forwardRef<CarouselHandle, Props>(
         if (nextIndex === undefined || nextIndex === null) {
           handleOnForward();
         } else {
-          setCurrentIndex((prevIndex) => {
-            change(prevIndex, nextIndex);
-            return nextIndex;
-          });
+          change(currentIndex.current, nextIndex);
         }
       },
       [change, handleOnForward]
@@ -301,10 +285,8 @@ const Carousel = React.forwardRef<CarouselHandle, Props>(
       () => ({
         next: handleChange,
         prev: handleOnBackward,
-        size: children.length,
-        current: currentIndex,
       }),
-      [children.length, currentIndex, handleChange, handleOnBackward]
+      [handleChange, handleOnBackward]
     );
 
     return (
@@ -317,18 +299,16 @@ const Carousel = React.forwardRef<CarouselHandle, Props>(
         maxHeight={props.maxHeight}
         minHeight={props.minHeight}
       >
-        {children.map((child, index) => (
+        {React.Children.map(props.children, (child, index) => (
           <Transition
             key={index}
             ref={(ref) => (transitionRefs.current[index] = ref)}
             transition={{
               initial: emitionCss`
                 opacity: 0;
-                visibility: hidden;
               `,
               final: emitionCss`
                 opacity: 1;
-                visibility: visible;
               `,
             }}
           >
@@ -339,10 +319,10 @@ const Carousel = React.forwardRef<CarouselHandle, Props>(
         ))}
         {!noChangeOptions && (
           <CarouselChangeOptionsWrapper>
-            <CarouselChangeOptions size={children.length} current={currentIndex} onChange={handleChange} />
+            <CarouselChangeOptions size={childrenLength} current={currentIndex.current} onChange={handleChange} />
           </CarouselChangeOptionsWrapper>
         )}
-        {!noArrows && children.length > 1 && (
+        {!noArrows && childrenLength > 1 && (
           <>
             <StyledLeftArrowButton
               icon={<MdArrowBackIos />}

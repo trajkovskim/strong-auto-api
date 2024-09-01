@@ -1,12 +1,8 @@
 import { VehicleFiltersForm } from 'context/vehicles';
-import env from 'env';
 import { SearchVehicleEntriesRequest, VehicleApi, VehicleFeaturesApi, VehicleMakeApi } from 'generated';
 import { baseConfiguration } from 'services/api';
-import { MOCK_VEHICLE_API, MOCK_VEHICLE_FEATURES_API, MOCK_VEHICLE_MAKE_API } from 'services/MockVehicleService';
 
-const AXIOS_VEHICLE_API = new VehicleApi(baseConfiguration);
-
-const VEHICLE_API = env.USE_MOCK === 'true' ? MOCK_VEHICLE_API : AXIOS_VEHICLE_API;
+const VEHICLE_API = new VehicleApi(baseConfiguration);
 
 export const searchVehicles = ({
   vehicleFilters,
@@ -40,9 +36,13 @@ export const searchVehicles = ({
 export const getVehicleEntry = (...params: Parameters<typeof VEHICLE_API.getVehicleEntry>) =>
   VEHICLE_API.getVehicleEntry(...params);
 
-const AXIOS_VEHICLE_MAKE_API = new VehicleMakeApi(baseConfiguration);
+export const getVehicleImageEntries = (...params: Parameters<typeof VEHICLE_API.getVehicleImageEntries>) =>
+  VEHICLE_API.getVehicleImageEntries(...params);
 
-const VEHICLE_MAKE_API = env.USE_MOCK === 'true' ? MOCK_VEHICLE_MAKE_API : AXIOS_VEHICLE_MAKE_API;
+export const getVehicleImageEntry = (...params: Parameters<typeof VEHICLE_API.getVehicleImageEntry>) =>
+  VEHICLE_API.getVehicleImageEntry(...params);
+
+const VEHICLE_MAKE_API = new VehicleMakeApi(baseConfiguration);
 
 export const getVehicleMakeEntries = (...params: Parameters<typeof VEHICLE_MAKE_API.getVehicleMakeEntries>) =>
   VEHICLE_MAKE_API.getVehicleMakeEntries(...params);
@@ -50,9 +50,7 @@ export const getVehicleMakeEntries = (...params: Parameters<typeof VEHICLE_MAKE_
 export const getVehicleMakeEntry = (...params: Parameters<typeof VEHICLE_MAKE_API.getVehicleMakeEntry>) =>
   VEHICLE_MAKE_API.getVehicleMakeEntry(...params);
 
-const AXIOS_VEHICLE_FEATURES_API = new VehicleFeaturesApi(baseConfiguration);
-
-const VEHICLE_FEATURES_API = env.USE_MOCK === 'true' ? MOCK_VEHICLE_FEATURES_API : AXIOS_VEHICLE_FEATURES_API;
+const VEHICLE_FEATURES_API = new VehicleFeaturesApi(baseConfiguration);
 
 export const getVehicleFeatureEntries = (...params: Parameters<typeof VEHICLE_FEATURES_API.getVehicleFeatureEntries>) =>
   VEHICLE_FEATURES_API.getVehicleFeatureEntries(...params);

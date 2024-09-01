@@ -54,7 +54,7 @@ const ProductsSection: React.FC = () => {
         padding: { left: 'md', right: 'md' },
       }}
     >
-      <BoxAnimation threshold={0.2}>
+      <BoxAnimation>
         <ButtonsGroup
           buttons={tabs}
           onChange={(tab) => setExploreVehiclesActiveTab(tab.value)}
@@ -62,7 +62,7 @@ const ProductsSection: React.FC = () => {
         />
       </BoxAnimation>
 
-      <BoxAnimation fullwidth threshold={0.2}>
+      <BoxAnimation fullwidth>
         <Container styleConfig={{ direction: 'row', relative: true }} xs={12}>
           {exploreVehiclesActiveTab === tabs[0].value && (
             <HorizontalList chunkGap="1rem" chunkSize={{ xs: 12, md: 6, lg: 4, xl: 3 }} centered circular>

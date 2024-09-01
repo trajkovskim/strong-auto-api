@@ -45,5 +45,5 @@ public interface VehicleEmbeddedProjection {
 
   Currency getCurrency();
 
-  List<VehicleImage> getImages();
+  List<VehicleImageEmbeddedProjection> getImages();
 }

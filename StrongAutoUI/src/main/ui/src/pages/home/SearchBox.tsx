@@ -36,7 +36,11 @@ const StyledSearchButton = styled(Button)`
   overflow: hidden;
 `;
 
-const SearchBox: React.FC = () => {
+type Props = {
+  className?: string;
+};
+
+const SearchBox: React.FC<Props> = (props) => {
   const { dispatch } = useApplicationContext();
   const navigate = useNavigate();
   const t = useTranslation('home.searchBox');
@@ -63,6 +67,7 @@ const SearchBox: React.FC = () => {
   return (
     <SearchBoxWrapper
       xs={PAGE_MAX_WIDTH}
+      className={props.className}
       styleConfig={{
         gap: '2rem',
         padding: 'md',

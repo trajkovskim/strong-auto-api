@@ -1,4 +1,5 @@
 {
+  "strongauto.loading": "Вчитување...",
   "strongauto.telephone": "+38977648648",
   "strongauto.email": "vane.stamenov@gmail.com",
   "strongauto.openHours": "Од понеделник до недела: 08: 00-20: 00",
@@ -55,6 +56,7 @@
   "strongauto.home.rentingACar.visitButton": "Посетете ја нашата продавница за автомобили",
   "strongauto.home.popularMakes.title": "Популарни прави",
   "strongauto.home.popularMakes.viewAllButton": "Погледнете ги сите",
+  "strongauto.home.popularMakes.noVehiclesAvailable": "Празно",
   "strongauto.home.whyChooseUs.title": "Зошто да ги избереме нашите услуги",
   "strongauto.home.whyChooseUs.description": "Изборот на Строгауто значи избор на застапништво што го цени вашето време и инвестиција. Ние сме посветени да обезбедиме исклучително искуство од почеток до крај, со фокус на персонализирана услуга и вистинска нега.",
   "strongauto.home.whyChooseUs.point1.title": "Доверливи дилери на автомобили",
@@ -157,7 +159,7 @@
   "strongauto.inventory.pagination.resultSizeInput.60": "60",
   "strongauto.inventory.pagination.resultSizeInput.100": "100",
   "strongauto.inventory.pagination.resultSizeInput.label": "Големина на резултат",
-  "strongauto.inventory.pagination.resultsShown": "Прикажани резултати {{results}}",
+  "strongauto.inventory.pagination.resultsShown": "Прикажани резултати {{results}} од {{totalResults}}",
   "strongauto.aboutUs.title": "За нас",
   "strongauto.aboutUs.whoWeAre.title": "Кои сме ние",
   "strongauto.aboutUs.whoWeAre.description": "Добредојдовте во Строгауто, каде нашата страст кон автомобилите исполнува заложба за исклучителна услуга на клиентите. Од 2010 година, ние сме посветени на обезбедување на нашата заедница супериорно искуство за купување автомобили и изнајмување.",

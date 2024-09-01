@@ -95,7 +95,7 @@ export type TransitionHandle = {
 type AnimationEventFunction = () => void;
 
 type StyledAnimatedProps = {
-  transition: { initial?: string; final: string };
+  transition: { initial?: string; initialFinished?: string; final: string; finalFinished?: string };
   property?: React.CSSProperties['transitionProperty'];
   duration?: React.CSSProperties['transitionDuration'];
   delay?: React.CSSProperties['transitionDelay'];
@@ -194,7 +194,9 @@ const Transition = React.forwardRef<TransitionHandle, Props>(
           ${child.props.className ? child.props.className : ''} 
           ${transitionCss}
           ${transition?.initial ? transition?.initial : ''}
-          ${isInFinalState() ? transition.final : ''}`;
+          ${isInFinalState() ? transition.final : ''}
+          ${isInFinalState() && isFinished() ? transition.finalFinished : ''}
+          ${isInInitialState() && isFinished() ? transition.initialFinished : ''}`;
             // passing all other props to be able to pass parentGap property
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return React.cloneElement<any>(child, {

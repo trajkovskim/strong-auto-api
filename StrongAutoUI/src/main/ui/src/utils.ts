@@ -1,4 +1,4 @@
-import { Image } from 'generated';
+import { VehicleImage } from 'generated';
 import { TranslationFunction } from 'hooks';
 import { css } from 'styled-components';
 import theme, { Breakpoints, LARGEST_BREAKPOINT } from 'theme';
@@ -153,6 +153,6 @@ export const createMatrixFromTranslations = (prefixKey: string, t: TranslationFu
   return matrix;
 };
 
-export const transformBase64Image = (image: Image) => {
+export const transformBase64Image = (image: VehicleImage) => {
   return `data:${image.contentType};base64,${image.data}`;
 };

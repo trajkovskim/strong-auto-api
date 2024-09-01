@@ -20,62 +20,49 @@ public class VehicleFilters {
 
   private String make;
   private String model;
-  private IntervalFilter<Integer> price;
   private List<VehicleState> states;
   private VehicleCondition condition;
   private List<VehicleBodyType> bodyTypes;
   private VehicleTransmission transmission;
-  private IntervalFilter<Integer> year;
-  private IntervalFilter<Integer> mileage;
+  private Integer yearFrom;
+  private Integer yearTo;
+  private Integer mileageFrom;
+  private Integer mileageTo;
+  private Double amountFrom;
+  private Double amountTo;
   private VehicleFuelType fuelType;
   private Color color;
   private List<VehicleFeatureFilter> features;
 
-  public Integer getPriceFrom() {
-    if (price == null) {
+  public List<VehicleCondition> getConditionAsList() {
+    if (condition == null) {
       return null;
     }
 
-    return price.getFrom();
+    return List.of(condition);
   }
 
-  public Integer getPriceTo() {
-    if (price == null) {
+  public List<VehicleTransmission> getTransmissionAsList() {
+    if (transmission == null) {
       return null;
     }
 
-    return price.getFrom();
+    return List.of(transmission);
   }
 
-  public Integer getYearFrom() {
-    if (year == null) {
+  public List<VehicleFuelType> getFuelTypeAsList() {
+    if (fuelType == null) {
       return null;
     }
 
-    return year.getFrom();
+    return List.of(fuelType);
   }
 
-  public Integer getYearTo() {
-    if (year == null) {
+  public List<Color> getColorAsList() {
+    if (color == null) {
       return null;
     }
 
-    return year.getTo();
-  }
-
-  public Integer getMileageFrom() {
-    if (mileage == null) {
-      return null;
-    }
-
-    return mileage.getFrom();
-  }
-
-  public Integer getMileageTo() {
-    if (mileage == null) {
-      return null;
-    }
-
-    return mileage.getTo();
+    return List.of(color);
   }
 }

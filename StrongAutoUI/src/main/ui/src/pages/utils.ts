@@ -20,6 +20,21 @@ export const convertMakeModelsToOptions = (makes: VehiclesState['makes'], values
   return makes?.[values.make]?.models?.map((model) => ({ value: model.model, label: model.model })) ?? [];
 };
 
+export const convertYearsToOptions = () => {
+  const yearNow = new Date().getFullYear();
+
+  return new Array(30)
+    .fill(0)
+    .map((_, index) => yearNow - index)
+    .map((year) => ({ value: year.toString() }));
+};
+
+export const convertFeaturesToOptions = (features: VehicleFeature[]) =>
+  features.map((feature) => ({
+    label: feature.featureName,
+    value: `${feature.groupKey}:${feature.featureKey}`,
+  }));
+
 export const convertVehicleConditionsToOptions = (t: TranslationFunction) =>
   Object.values(VehicleCondition).map((condition) => ({
     value: condition,

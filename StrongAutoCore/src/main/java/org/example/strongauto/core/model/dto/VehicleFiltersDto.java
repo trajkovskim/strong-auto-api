@@ -20,7 +20,7 @@ public class VehicleFiltersDto {
 
   String make;
   String model;
-  IntervalFilterDto<Integer> price;
+  IntervalFilterDto<Integer> amount;
   List<VehicleStateEnum> states;
   VehicleConditionEnum condition;
   List<VehicleBodyTypeEnum> bodyTypes;

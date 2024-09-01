@@ -1,4 +1,5 @@
 import { Breadcrumb, Button, Container, Line, Text } from 'components/common';
+import { PageInfo } from 'generated';
 import { useTranslation } from 'hooks';
 import SortAndSizeDropdowns from 'pages/shop/SortAndSizeDropdowns';
 import React from 'react';
@@ -15,19 +16,24 @@ type Props = {
   filtersOpen?: boolean;
   onFiltersClick: () => void;
   onPaginationClick: () => void;
-  page: number;
+  pageInfo: PageInfo | undefined;
+  resultsShown: number;
+  loading?: boolean;
 } & Omit<React.ComponentProps<typeof SortAndSizeDropdowns>, 'fullwidth'>;
 
 const ListHeader: React.FC<Props> = (props) => {
   const t = useTranslation('inventory');
+  const tBase = useTranslation();
 
+  const loadingText = tBase('loading');
   return (
     <Wrapper styleConfig={{ padding: 'md', gap: '1.5rem', bordered: true, rounded: true }} lgStyle={{ padding: 'lg' }}>
       <Container xs={12} styleConfig={{ gap: '1rem' }}>
         <Breadcrumb />
         <Text type="sub" fontSize="sm">
           {t('pagination.resultsShown', {
-            results: props.pageSize + 1 * props.page,
+            results: props.loading ? loadingText : props.resultsShown,
+            totalResults: props.loading ? loadingText : props.pageInfo?.totalElements,
           })}
         </Text>
         <Container xs={0} lg={12} styleConfig={{ gap: '1rem', direction: 'row', justifyContent: 'space-between' }}>

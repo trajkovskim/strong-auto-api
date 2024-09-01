@@ -33,6 +33,12 @@ public interface VehicleConverter {
   @Mapping(target = "amount.currency", source = "currency")
   VehicleEmbeddedDto convertVehicle(VehicleEmbeddedProjection vehicle);
 
+  @Mapping(target = "mileageFrom", source = "mileage.from")
+  @Mapping(target = "mileageTo", source = "mileage.to")
+  @Mapping(target = "amountFrom", source = "amount.from")
+  @Mapping(target = "amountTo", source = "amount.to")
+  @Mapping(target = "yearFrom", source = "year.from")
+  @Mapping(target = "yearTo", source = "year.to")
   VehicleFilters convertVehicleFilters(VehicleFiltersDto vehicle);
 
   @ValueMapping(target = MappingConstants.NULL, source = MappingConstants.ANY_UNMAPPED)

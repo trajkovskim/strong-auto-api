@@ -9,6 +9,7 @@ import java.util.Collection;
 @Value
 public class PageInfoDto<T> {
 
+  long totalElements;
   int totalPages;
   int pageSize;
   int pageNumber;

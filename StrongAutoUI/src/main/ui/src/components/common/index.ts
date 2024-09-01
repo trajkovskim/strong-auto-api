@@ -13,6 +13,7 @@ export { default as SimpleTable } from 'components/common/SimpleTable';
 export { default as Spinner } from 'components/common/Spinner';
 export { default as Sticky } from 'components/common/Sticky';
 export { default as Transition, type TransitionHandle } from 'components/common/Transition';
+export { default as ElementIntersection } from 'components/common/ElementIntersection';
 
 // HorizontaList
 export * from 'components/common/horizontalList';

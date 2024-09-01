@@ -107,6 +107,48 @@ paths:
           $ref: "#/components/responses/NoContentResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
+  /vehicles/{id}/images:
+    get:
+      operationId: getVehicleImageEntries
+      tags:
+        - vehicle
+      description: Get vehicle images entries
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/Size"
+        - $ref: "#/components/parameters/Sort"
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleImagesResponse"
+  /vehicles/{id}/images/{imageId}:
+    get:
+      operationId: getVehicleImageEntry
+      tags:
+        - vehicle
+      description: Get vehicle image entry
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleImageResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
   /vehicle-makes:
     get:
       operationId: getVehicleMakeEntries
@@ -276,18 +318,71 @@ components:
         - MKD
         - EUR
       example: "MKD"
-    Image:
+
+    VehicleImageEmbedded:
+      type: object
+      required:
+        - id
+        - name
+        - contentType
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: "image.png"
+        contentType:
+          type: string
+          example: "image/png"
+    VehicleImageEmbeddedResponse:
+      allOf:
+        - $ref: "#/components/schemas/VehicleImageEmbedded"
+        - type: object
+          properties:
+            links:
+              $ref: "#/components/schemas/SelfLink"
+    VehicleImage:
+      allOf:
+        - $ref: "#/components/schemas/VehicleImageEmbedded"
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: string
+              format: byte
+    VehicleImageResponse:
+      allOf:
+        - $ref: "#/components/schemas/VehicleImage"
+        - type: object
+          properties:
+            links:
+              $ref: "#/components/schemas/SelfLink"
+    VehicleImagesResponse:
+      type: object
+      properties:
+        info:
+          $ref: "#/components/schemas/PageInfo"
+        images:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleImageResponse"
+        links:
+          $ref: "#/components/schemas/PaginationLinks"
+    VehicleImageRequest:
       type: object
       properties:
         name:
           type: string
           example: "image.png"
-        data:
-          type: string
-          format: byte
         contentType:
           type: string
           example: "image/png"
+        data:
+          type: string
+          format: byte
+
     Amount:
       type: object
       properties:
@@ -463,7 +558,7 @@ components:
         images:
           type: array
           items:
-            $ref: "#/components/schemas/Image"
+            $ref: "#/components/schemas/VehicleImageRequest"
         make:
           type: string
           example: "Audi"
@@ -542,7 +637,7 @@ components:
         images:
           type: array
           items:
-           $ref: "#/components/schemas/Image"
+           $ref: "#/components/schemas/VehicleImageEmbeddedResponse"
         make:
           type: string
           example: "Audi"
@@ -768,7 +863,12 @@ components:
         - totalPages
         - pageSize
         - pageNumber
+        - totalElements
       properties:
+        totalElements:
+          type: number
+          format: int64
+          example: 1000
         totalPages:
           type: number
           example: 5
@@ -806,6 +906,18 @@ components:
         links:
           $ref: "#/components/schemas/SelfLink"
   responses:
+    VehicleImagesResponse:
+      description: Vehicle image data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehicleImagesResponse"
+    VehicleImageResponse:
+      description: Vehicle image data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehicleImageResponse"
     VehicleFeaturesResponse:
       description: List of vehicle features entries
       content:

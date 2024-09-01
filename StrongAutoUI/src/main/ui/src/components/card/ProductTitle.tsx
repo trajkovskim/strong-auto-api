@@ -33,4 +33,4 @@ const ProductTitle: React.FC<Props> = (props) => {
   );
 };
 
-export default ProductTitle;
+export default React.memo(ProductTitle);

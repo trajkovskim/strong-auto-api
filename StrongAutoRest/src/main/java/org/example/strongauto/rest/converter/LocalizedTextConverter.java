@@ -29,7 +29,7 @@ public interface LocalizedTextConverter {
   }
 
   default String convert(LocalizedTextListDto localizedTextListDto, @Context String language) {
-    if(language == null) {
+    if (language == null || localizedTextListDto == null || localizedTextListDto.getTextList() == null) {
       return null;
     }
 

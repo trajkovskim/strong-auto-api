@@ -1,9 +1,11 @@
 package org.example.strongauto.persistence.repository;
 
+import lombok.SneakyThrows;
 import org.example.strongauto.persistence.model.LocalizedText;
 import org.example.strongauto.persistence.model.LocalizedTextList;
 import org.example.strongauto.persistence.model.Vehicle;
 import org.example.strongauto.persistence.model.VehicleFeature;
+import org.example.strongauto.persistence.model.VehicleImage;
 import org.example.strongauto.persistence.model.VehicleMake;
 import org.example.strongauto.persistence.model.VehicleModel;
 import org.example.strongauto.persistence.model.enums.Color;
@@ -15,7 +17,6 @@ import org.example.strongauto.persistence.model.enums.VehicleDriveType;
 import org.example.strongauto.persistence.model.enums.VehicleFuelType;
 import org.example.strongauto.persistence.model.enums.VehicleState;
 import org.example.strongauto.persistence.model.enums.VehicleTransmission;
-import org.example.strongauto.persistence.model.filters.IntervalFilter;
 import org.example.strongauto.persistence.model.filters.VehicleFilters;
 import org.example.strongauto.persistence.model.projections.VehicleEmbeddedProjection;
 import org.example.strongauto.persistence.model.relations.VehicleFeatureRef;
@@ -26,6 +27,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -248,37 +250,28 @@ public class VehicleRepositoryTest {
 
   private static Stream<Arguments> vehicleFilters() {
 
-    IntervalFilter<Integer> to2019 = new IntervalFilter<>();
-    to2019.setTo(2019);
-
-    IntervalFilter<Integer> from2019 = new IntervalFilter<>();
-    from2019.setFrom(2019);
-
-    IntervalFilter<Integer> from2010 = new IntervalFilter<>();
-    from2010.setFrom(2010);
-
     VehicleFilters to2019Filter = new VehicleFilters();
-    to2019Filter.setYear(to2019);
+    to2019Filter.setYearTo(2019);
 
     VehicleFilters stateSoldFilter = new VehicleFilters();
     stateSoldFilter.setStates(List.of(VehicleState.SOLD));
 
     VehicleFilters stateSoldTo2019Filter = new VehicleFilters();
     stateSoldTo2019Filter.setStates(List.of(VehicleState.SOLD));
-    stateSoldTo2019Filter.setYear(to2019);
+    stateSoldTo2019Filter.setYearTo(2019);
 
     VehicleFilters from2019Filter = new VehicleFilters();
-    from2019Filter.setYear(from2019);
+    from2019Filter.setYearFrom(2019);
 
     VehicleFilters from2010Filter = new VehicleFilters();
-    from2010Filter.setYear(from2010);
+    from2010Filter.setYearFrom(2010);
 
     VehicleFilters from2010AudiFilter = new VehicleFilters();
-    from2010AudiFilter.setYear(from2010);
+    from2010AudiFilter.setYearFrom(2010);
     from2010AudiFilter.setMake("AUDI");
 
     VehicleFilters from2010AudiB8Filter = new VehicleFilters();
-    from2010AudiB8Filter.setYear(from2010);
+    from2010AudiB8Filter.setYearFrom(2010);
     from2010AudiB8Filter.setMake("AUDI");
     from2010AudiB8Filter.setModel("B8");
 
@@ -287,6 +280,12 @@ public class VehicleRepositoryTest {
 
     VehicleFilters BMWFilter = new VehicleFilters();
     BMWFilter.setMake("BMW");
+
+    VehicleFilters transmissionManualFilter = new VehicleFilters();
+    transmissionManualFilter.setTransmission(VehicleTransmission.MANUAL);
+
+    VehicleFilters amountToFilter = new VehicleFilters();
+    amountToFilter.setAmountTo(10000.0);
 
     VehicleFilters noFilters = new VehicleFilters();
 
@@ -299,6 +298,8 @@ public class VehicleRepositoryTest {
         arguments(from2010AudiB8Filter, 1),
         arguments(bodyTypeSUV_TRUCKFilter, 2),
         arguments(BMWFilter, 1),
+        arguments(transmissionManualFilter, 1),
+        arguments(amountToFilter, 3),
         arguments(noFilters, 4));
   }
 
@@ -327,12 +328,16 @@ public class VehicleRepositoryTest {
     Vehicle vehicle1 = createVehicle(title, audi, audiB8, null);
 
     Vehicle vehicle2 = createVehicle(title, audi, audiB9, null);
+    vehicle2.setTransmission(VehicleTransmission.MANUAL);
     vehicle2.setYear(2014);
+    vehicle2.setTotalAmount(13000.0);
 
     Vehicle vehicle3 = createVehicle(title, bmw, bmwX1, null);
     vehicle3.setState(VehicleState.FEATURED);
     vehicle3.setBodyType(VehicleBodyType.SUV);
     vehicle3.setYear(2023);
+    vehicle3.setTotalAmount(15000.0);
+    vehicle3.setTotalPromoAmount(9000.0);
 
     Vehicle vehicle4 = createVehicle(title, null, null, null);
     vehicle4.setState(VehicleState.FEATURED);
@@ -348,5 +353,58 @@ public class VehicleRepositoryTest {
 
     // Then
     assertEquals(expected, filtered.getContent().size());
+  }
+
+
+  private static Stream<Arguments> vehicleImagesPageRequest() {
+    return Stream.of(
+        arguments(PageRequest.of(0, 3), 2),
+        arguments(PageRequest.of(0, 10), 2)
+    );
+  }
+
+  /** See method name. */
+  @ParameterizedTest
+  @MethodSource("vehicleImagesPageRequest")
+  @SneakyThrows
+  void shouldFindVehicleImages(Pageable pageable, int expected) {
+  
+    // Given
+    LocalizedTextList title1 = new LocalizedTextList();
+    title1.setTextList(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK)));
+
+    Vehicle vehicle1 = createVehicle(title1, null, null, null);
+
+    VehicleImage vehicleImage1 = new VehicleImage();
+    vehicleImage1.setName("name1");
+    vehicleImage1.setContentType("image/type");
+    vehicleImage1.setData(new ClassPathResource("passat1.jpg").getInputStream().readAllBytes());
+
+    vehicle1.setImages(Set.of(vehicleImage1));
+
+    LocalizedTextList title2 = new LocalizedTextList();
+    title2.setTextList(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK)));
+
+    Vehicle vehicle2 = createVehicle(title2, null, null, null);
+
+    VehicleImage vehicleImage2 = new VehicleImage();
+    vehicleImage2.setName("name2");
+    vehicleImage2.setContentType("image/type");
+    vehicleImage2.setData(new ClassPathResource("passat1.jpg").getInputStream().readAllBytes());
+
+    VehicleImage vehicleImage3 = new VehicleImage();
+    vehicleImage3.setName("name3");
+    vehicleImage3.setContentType("image/type");
+    vehicleImage3.setData(new ClassPathResource("passat1.jpg").getInputStream().readAllBytes());
+
+    vehicle2.setImages(Set.of(vehicleImage2, vehicleImage3));
+
+    vehicleRepository.saveAllAndFlush(Set.of(vehicle1, vehicle2));
+
+    // When
+    Page<VehicleImage> vehicleImagesPage = vehicleRepository.findVehicleImagesById(vehicle2.getId(), pageable);
+
+    // Then
+    assertThat(vehicleImagesPage).hasSize(expected);
   }
 }

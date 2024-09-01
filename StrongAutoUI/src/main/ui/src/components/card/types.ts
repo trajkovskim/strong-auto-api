@@ -3,6 +3,7 @@ import { Vehicle, VehicleState } from 'generated';
 export type RibbonType = VehicleState;
 
 export type ProductProps = {
+  id: number;
   rating?: number;
   title: Vehicle['title'];
   summary?: Vehicle['summary'];
@@ -17,4 +18,5 @@ export type ProductProps = {
   fuelType?: Vehicle['fuelType'];
   year?: Vehicle['year'];
   transmission?: Vehicle['transmission'];
+  className?: string;
 };

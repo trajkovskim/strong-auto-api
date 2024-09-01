@@ -60,8 +60,10 @@ public class VehicleService {
     Collection<VehicleEmbeddedDto> items = page.get().map(vehicleConverter::convertVehicle).toList();
 
     return PageInfoDto.<VehicleEmbeddedDto>builder()
-        .pageNumber(page.getNumber())
         .totalPages(page.getTotalPages())
+        .totalElements(page.getTotalElements())
+        .pageSize(page.getSize())
+        .pageNumber(page.getNumber())
         .items(items)
         .build();
   }

@@ -11,6 +11,7 @@ import styled, { css } from 'styled-components';
 import theme from 'theme';
 
 type HorizontalListWrapperProps = {
+  className?: string;
   centered?: boolean;
   maxWidth?: string;
   gap?: React.CSSProperties['gap'];
@@ -199,7 +200,12 @@ const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, noAutoScroll, ...
   };
 
   return (
-    <HorizontalListWrapper gap={props.gap} centered={props.centered} maxWidth={props.maxWidth}>
+    <HorizontalListWrapper
+      className={props.className}
+      gap={props.gap}
+      centered={props.centered}
+      maxWidth={props.maxWidth}
+    >
       <HorizontalListChildrenWrapper
         onMouseUp={handleMouseUp}
         onMouseDown={() => horizontalListHandlers?.mouseDownHandler()}
@@ -242,6 +248,4 @@ const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, noAutoScroll, ...
   );
 };
 
-const memoHorizontalList = React.memo(HorizontalList);
-
-export default memoHorizontalList;
+export default React.memo(HorizontalList);

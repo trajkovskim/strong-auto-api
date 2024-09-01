@@ -36,6 +36,7 @@ export const StyledTitle = styled.span<StyledTitleProps>`
 `;
 
 type Props = Omit<StyledTitleProps, 'bold' | 'fontSize' | 'textAlign'> & {
+  className?: string;
   title: string;
   description?: string;
   gap?: string;
@@ -43,15 +44,14 @@ type Props = Omit<StyledTitleProps, 'bold' | 'fontSize' | 'textAlign'> & {
   fontSize?: TitleAndDescription<FontSize> | FontSize;
   textAlign?: TitleAndDescription<React.CSSProperties['textAlign']> | React.CSSProperties['textAlign'];
   maxWidth?: TitleAndDescription<string> | string;
-  relative?: boolean;
 };
 
 const Title: React.FC<Props> = (props) => {
   return (
     <Container
+      className={props.className}
       xs={typeof props.maxWidth === 'string' ? props.maxWidth : undefined}
       styleConfig={{
-        relative: props.relative,
         gap: props.gap ?? '0.5rem',
         itemsCentered: props.centered,
         textCentered: props.centered,

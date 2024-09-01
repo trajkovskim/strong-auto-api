@@ -47,7 +47,7 @@ const themes: Record<ThemeType, Record<string, string>> = {
   link: {
     'background-color': 'transparent',
     'color-hover': '#075ebb',
-    'color-active': '#255b9475',
+    'color-active': '#046af2',
     border: '0px',
   },
   delete: {

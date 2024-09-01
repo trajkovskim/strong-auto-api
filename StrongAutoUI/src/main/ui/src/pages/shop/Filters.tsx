@@ -17,6 +17,7 @@ import { VehicleBodyType, VehicleState } from 'generated';
 import { useFetchMakes, useTranslation } from 'hooks';
 import useFetchFeatures from 'hooks/useFetchFeatures';
 import {
+  convertFeaturesToOptions,
   convertMakeModelsToOptions,
   convertMakesToOptions,
   convertPricesToOptions,
@@ -25,6 +26,7 @@ import {
   convertVehicleDriveTypesToOptions,
   convertVehicleFuelTypesToOptions,
   convertVehicleTransmissionsToOptions,
+  convertYearsToOptions,
 } from 'pages/utils';
 import React, { useRef } from 'react';
 import { BiSearch } from 'react-icons/bi';
@@ -57,8 +59,6 @@ type Props = {
 const Filters: React.FC<Props> = (props) => {
   const t = useTranslation('inventory.filters');
   const baseT = useTranslation();
-  const yearNow = new Date().getFullYear();
-  const years = new Array(30).fill(0).map((_, index) => yearNow - index);
   const { fetchModels, loadingGetVehicleMakeEntryRequest, loadingGetVehicleMakesEntriesRequest, makes } =
     useFetchMakes();
   const { features, loadingGetVehicleFeatureEntriesRequest } = useFetchFeatures();
@@ -78,10 +78,16 @@ const Filters: React.FC<Props> = (props) => {
     }
   };
 
+  const handleReset = () => {
+    props.onReset && props.onReset();
+    props.onClose && props.onClose();
+  };
+
   return (
     <Form
       initValues={props.filters}
       onSubmit={(values) => {
+        console.log(values);
         props.onClose && props.onClose();
         props.onSubmit && props.onSubmit(values);
       }}
@@ -102,7 +108,7 @@ const Filters: React.FC<Props> = (props) => {
             {t('header')}
           </Text>
           <Container styleConfig={{ gap: '1rem', direction: 'row' }}>
-            <Button size="md" fullwidth themeType="delete" icon={<MdRestore />} maxContent onClick={props.onReset} />
+            <Button size="md" fullwidth themeType="delete" icon={<MdRestore />} maxContent onClick={handleReset} />
             <Button type="submit" size="md" fullwidth themeType="success" icon={<MdCheck />} maxContent />
             {!props.noCloseButton && (
               <Button size="md" fullwidth themeType="link" icon={<MdClose />} maxContent onClick={props.onClose} />
@@ -216,14 +222,14 @@ const Filters: React.FC<Props> = (props) => {
                   placeholder={t('technical.yearFromInput.placeholder')}
                   label={t('technical.yearFromInput.label')}
                   size="md"
-                  options={years.map((year) => ({ value: year.toString() }))}
+                  options={convertYearsToOptions()}
                 />
                 <Autocomplete
                   name="yearTo"
                   placeholder={t('technical.yearToInput.placeholder')}
                   label={t('technical.yearToInput.label')}
                   size="md"
-                  options={years.map((year) => ({ value: year.toString() }))}
+                  options={convertYearsToOptions()}
                 />
               </Container>
               <Container styleConfig={{ gap: '3px', direction: 'row', alignItems: 'center' }}>
@@ -232,14 +238,14 @@ const Filters: React.FC<Props> = (props) => {
                   placeholder={t('technical.mileageFromInput.placeholder')}
                   label={t('technical.mileageFromInput.label')}
                   size="md"
-                  options={years.map((year) => ({ value: year.toString() }))}
+                  options={convertYearsToOptions()}
                 />
                 <Autocomplete
                   name="mileageTo"
                   placeholder={t('technical.mileageToInput.placeholder')}
                   label={t('technical.mileageToInput.label')}
                   size="md"
-                  options={years.map((year) => ({ value: year.toString() }))}
+                  options={convertYearsToOptions()}
                 />
               </Container>
               <Autocomplete
@@ -267,12 +273,12 @@ const Filters: React.FC<Props> = (props) => {
           >
             <CheckboxWrapper styleConfig={{ gap: '0.5rem' }}>
               {loadingGetVehicleFeatureEntriesRequest && <StyledSpinner />}
-              {features?.map((feature, index) => (
+              {convertFeaturesToOptions(features ?? [])?.map((feature) => (
                 <Checkbox
                   name="features"
-                  key={`${feature.featureKey}-${index}`}
-                  label={feature.featureName}
-                  value={`${feature.groupKey}:${feature.featureKey}`}
+                  key={feature.value}
+                  label={feature.label}
+                  value={feature.value}
                   valueAsArray
                   size="sm"
                 />
@@ -289,7 +295,7 @@ const Filters: React.FC<Props> = (props) => {
               iconRight={<MdRestore />}
               iconSize="lg"
               size="md"
-              onClick={props.onReset}
+              onClick={handleReset}
             >
               {t('resetButton')}
             </Button>

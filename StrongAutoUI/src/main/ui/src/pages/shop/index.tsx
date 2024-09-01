@@ -1,10 +1,9 @@
 import ShopProductCard from 'components/card/ShopProductCard';
-import { Button, Container, Spinner, Text } from 'components/common';
+import { BoxAnimation, Button, Container, ElementIntersection, Spinner, Text } from 'components/common';
 import { setVehicleFiltersAction, VehicleFiltersForm } from 'context/vehicles';
 import { VehiclesResponse } from 'generated';
 import { useApplicationContext, useLanguage, useRequest, useTranslation } from 'hooks';
 import Filters from 'pages/shop/Filters';
-import ElementIntersectionObserver from 'pages/shop/LastElementObserver';
 import ListHeader from 'pages/shop/ListHeader';
 import Sidebar from 'pages/shop/Sidebar';
 import SortAndSizeDropdowns from 'pages/shop/SortAndSizeDropdowns';
@@ -97,7 +96,9 @@ const Shop: React.FC = () => {
       onFiltersClick={() => setFiltersSidebarShow(true)}
       filtersOpen={filtersSidebarShow}
       onPaginationClick={() => setSortAndSizeSidebarShow(true)}
-      page={vehiclesResponse?.info?.pageNumber ?? 0}
+      pageInfo={vehiclesResponse?.info}
+      resultsShown={vehiclesResponse?.vehicles.length ?? 0}
+      loading={loading}
       pageSize={pageSize}
       onPageSizeChange={setPageSize}
       onSortByChange={setSortBy}
@@ -151,43 +152,36 @@ const Shop: React.FC = () => {
           </Container>
 
           <Container styleConfig={{ gap: '1rem', direction: 'row', wrap: true }}>
-            {vehiclesResponse?.vehicles.map((product, index, allProducts) => {
-              const productCard = (
-                <ShopProductCard
-                  key={product.id}
-                  onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
-                  fullwidth
-                  {...product}
-                />
-              );
-
-              return (
-                <Container xs={12} lg={6} xl={4} key={product.id}>
-                  {!loading && !isLastPage && index === allProducts.length - 1 ? (
-                    <ElementIntersectionObserver
-                      callback={() => {
-                        sendSearchVehiclesRequest(
-                          filters,
-                          Number(vehiclesResponse.info?.pageNumber) + 1,
-                          pageSize,
-                          sortBy,
-                          (response) => {
-                            setVehiclesResponse((prev) => ({
-                              ...response,
-                              vehicles: [...(prev?.vehicles ?? []), ...response.vehicles],
-                            }));
-                          }
-                        );
-                      }}
-                    >
-                      {productCard}
-                    </ElementIntersectionObserver>
-                  ) : (
-                    productCard
-                  )}
-                </Container>
-              );
-            })}
+            {vehiclesResponse?.vehicles.map((product, index, allProducts) => (
+              <Container xs={12} lg={6} xl={4} key={product.id}>
+                <BoxAnimation
+                  onEnter={
+                    !loading && !isLastPage && index === allProducts.length - 1
+                      ? () =>
+                          sendSearchVehiclesRequest(
+                            filters,
+                            Number(vehiclesResponse.info?.pageNumber) + 1,
+                            pageSize,
+                            sortBy,
+                            (response) => {
+                              setVehiclesResponse((prev) => ({
+                                ...response,
+                                vehicles: [...(prev?.vehicles ?? []), ...response.vehicles],
+                              }));
+                            }
+                          )
+                      : undefined
+                  }
+                >
+                  <ShopProductCard
+                    key={product.id}
+                    onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
+                    fullwidth
+                    {...product}
+                  />
+                </BoxAnimation>
+              </Container>
+            ))}
             {loading && !!vehiclesResponse?.vehicles.length && (
               <Container xs={12} lg={6} xl={4}>
                 <Spinner centered />

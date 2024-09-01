@@ -17,9 +17,10 @@ type StyledButtonProps = {
 
 const StyledButton = styled(Button)<StyledButtonProps>`
   padding-bottom: 8px;
+
   border-bottom: 2px solid ${(props) => (props.active ? '#046af2' : 'transparent')};
   color: ${(props) => props.active && '#046af2'};
-  transition: all 200ms;
+
   &:hover {
     border-bottom: 2px solid #046af2;
   }
@@ -35,11 +36,15 @@ type Props = {
   onChange?: (button: ButtonProps) => void;
   buttons: ButtonProps[];
   active?: string;
+  className?: string;
 };
 
 const TabButtonsGroup: React.FC<Props> = (props) => {
   return (
-    <StyledContainer styleConfig={{ direction: 'row', alignItems: 'flex-start', gap: '1rem' }}>
+    <StyledContainer
+      className={props.className}
+      styleConfig={{ direction: 'row', alignItems: 'flex-start', gap: '1rem' }}
+    >
       {props.buttons.map((button) => (
         <StyledButton
           key={button.value}
