@@ -60,13 +60,7 @@ const ProductsSection: React.FC = () => {
 
       {exploreVehiclesActiveTab === tabs[0].value && (
         <BoxAnimation>
-          <HorizontalList
-            gap="1rem"
-            chunkSize={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-            infinite
-            slidesToShow={4}
-            slidesToScroll={1}
-          >
+          <HorizontalList gap="1rem" chunkSize={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
             {vehiclesResponse?.vehicles.map((product) => (
               <ProductCard
                 key={product.id}

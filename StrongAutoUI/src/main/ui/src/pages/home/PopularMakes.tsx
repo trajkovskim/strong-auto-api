@@ -80,7 +80,7 @@ const PopularMakes: React.FC = () => {
         {loading && <StyledSpinner centered />}
         {!loading && !!vehiclesByMake?.[activeTab]?.length && (
           <BoxAnimation>
-            <HorizontalList gap="2rem" chunkSize={{ xs: 1, md: 2, lg: 3, xl: 4 }} infinite slidesToShow={4}>
+            <HorizontalList gap="1rem" chunkSize={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
               {vehiclesByMake[activeTab].map((product) => (
                 <MiniProductCard
                   key={product.id}

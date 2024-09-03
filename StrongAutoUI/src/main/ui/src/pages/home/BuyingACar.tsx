@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { Routes } from 'routes';
 import styled from 'styled-components';
 
-const StyledBuyCarImage = styled(Image)`
+const StyledLeftImage = styled(Image)`
   border-bottom-right-radius: 150px;
+
   box-shadow: 0px 35px 5px -17px #a3a3a3, 18px 57px 16px -17px #b8b8b8;
 
   height: 100%;
@@ -22,7 +23,7 @@ const StyledRightImage = styled(Image)`
 
   height: 100%;
   max-height: 600px;
-  min-height: 400px;
+  min-height: 500px;
 `;
 
 const BuyingACar: React.FC = () => {
@@ -40,7 +41,7 @@ const BuyingACar: React.FC = () => {
             wrap: true,
             minHeight: '530px',
             padding: { bottom: 'lg', right: 'md', left: 'md' },
-            gap: '3.5rem',
+            gap: '4.5rem',
           }}
           lgStyle={{ textAlign: 'right' }}
         >
@@ -58,7 +59,7 @@ const BuyingACar: React.FC = () => {
             </Button>
           </Container>
           <Container xs={12} lg={7} xl={5.5} lgStyle={{ order: 1 }}>
-            <StyledBuyCarImage height="500px" objectFit="cover" shadow src={RentCarImage} />
+            <StyledLeftImage objectFit="cover" shadow src={RentCarImage} />
           </Container>
         </Container>
       </BoxAnimation>
@@ -70,7 +71,7 @@ const BuyingACar: React.FC = () => {
             wrap: true,
             minHeight: '530px',
             padding: { bottom: 'lg', right: 'md', left: 'md' },
-            gap: '3.5rem',
+            gap: '4.5rem',
           }}
         >
           <Container xs={12} lg={5} xl={5} styleConfig={{ gap: '1rem' }}>

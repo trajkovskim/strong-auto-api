@@ -33,7 +33,8 @@ type StyledCarouselProps = {
 
 const StyledCarousel = styled(CarouselAntd)<StyledCarouselProps>`
   & > .slick-list > * > .slick-slide {
-    padding: ${(props) => props.gap};
+    padding-left: ${(props) => `calc(${props.gap} / 2)`};
+    padding-right: ${(props) => `calc(${props.gap} / 2)`};
   }
 `;
 

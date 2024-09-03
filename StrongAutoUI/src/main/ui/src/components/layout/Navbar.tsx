@@ -1,11 +1,10 @@
 import React from 'react';
 import { styled } from 'styled-components';
 
-import { Button, Container, Line } from 'components/common';
+import { Container, Line } from 'components/common';
 import LogoImage from 'components/layout/LogoImage';
 import MobileNavigation from 'components/layout/MobileNavigation';
 import Navigation from 'components/layout/Navigation';
-import { MdArrowBackIos } from 'react-icons/md';
 
 type WrapperProps = {
   transparent?: boolean;
@@ -47,13 +46,7 @@ const Navbar: React.FC<Props> = (props) => {
           gap: '2rem',
         }}
       >
-        <Container xs={1} lg={0} styleConfig={{ direction: 'row', gap: '0.5rem', padding: 'md' }}>
-          <Button icon={<MdArrowBackIos />} size="md" themeType="link">
-            Back
-          </Button>
-          {/* <TelephoneButton />
-          <EmailButton /> */}
-        </Container>
+        <Container xs={1} lg={0} styleConfig={{ direction: 'row', gap: '0.5rem' }} />
         <LogoImage />
         <StyledLineContainer xs={0} lg="max-content" styleConfig={{ alignSelf: 'stretch' }}>
           <Line type="vertical" />

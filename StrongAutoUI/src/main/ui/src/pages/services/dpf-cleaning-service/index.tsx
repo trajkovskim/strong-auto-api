@@ -1,5 +1,5 @@
 import DpfCleaningImage from 'assets/dpf-cleaning.jpg';
-import { Accordion, BoxAnimation, Container, Image, Line, Text, Title } from 'components/common';
+import { BoxAnimation, Collapse, Container, Image, Text, Title } from 'components/common';
 import PageHeader from 'components/PageHeader';
 import { useTranslation } from 'hooks';
 import { DarkBackgroundContainer } from 'pages/common.styled';
@@ -72,32 +72,38 @@ const DpfCleaningService: React.FC = () => {
         xs={PAGE_MAX_WIDTH}
         styleConfig={{ padding: { left: 'md', right: 'md' }, centered: true, gap: '3rem' }}
       >
-        <BoxAnimation>
-          <Accordion header={<Text fontSize="xl">{t('howDoIKnowitNeedsCleaning.title')}</Text>} gap="1rem">
-            <Container styleConfig={{ gap: '1.2rem' }}>
-              <BoxAnimation>
-                <Text fontSize="lg">{howDoIKnowitNeedsCleaningList.title}</Text>
-              </BoxAnimation>
-              {createList(
-                howDoIKnowitNeedsCleaningList.items.map((item, index) => (
-                  <Text key={index} fontSize="md">
-                    {item}
-                  </Text>
-                ))
-              )}
-              <Text fontSize="lg">{t('howDoIKnowitNeedsCleaning.descriptionAfter')}</Text>
-            </Container>
-          </Accordion>
-        </BoxAnimation>
-        <Line />
-        <BoxAnimation>
-          <Accordion header={<Text fontSize="xl">{t('whatCausesDpfBlockage.title')}</Text>} gap="1rem">
-            <BoxAnimation>
-              <Text fontSize="lg">{t('whatCausesDpfBlockage.description')}</Text>
-            </BoxAnimation>
-          </Accordion>
-        </BoxAnimation>
-        <Line />
+        <Collapse
+          linesBetween
+          gap="3rem"
+          items={[
+            {
+              label: <Text fontSize="xl">{t('howDoIKnowitNeedsCleaning.title')}</Text>,
+              children: (
+                <Container styleConfig={{ gap: '1.2rem' }}>
+                  <BoxAnimation>
+                    <Text fontSize="lg">{howDoIKnowitNeedsCleaningList.title}</Text>
+                  </BoxAnimation>
+                  {createList(
+                    howDoIKnowitNeedsCleaningList.items.map((item, index) => (
+                      <Text key={index} fontSize="md">
+                        {item}
+                      </Text>
+                    ))
+                  )}
+                  <Text fontSize="lg">{t('howDoIKnowitNeedsCleaning.descriptionAfter')}</Text>
+                </Container>
+              ),
+            },
+            {
+              label: <Text fontSize="xl">{t('whatCausesDpfBlockage.title')}</Text>,
+              children: (
+                <BoxAnimation>
+                  <Text fontSize="lg">{t('whatCausesDpfBlockage.description')}</Text>
+                </BoxAnimation>
+              ),
+            },
+          ]}
+        />
       </Container>
       <ContactUs />
     </Container>

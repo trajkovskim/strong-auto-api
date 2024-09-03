@@ -12,7 +12,7 @@ import React, { useState } from 'react';
 import { BiMenu } from 'react-icons/bi';
 import { FaClock } from 'react-icons/fa';
 import styled from 'styled-components';
-import theme, { Breakpoints } from 'theme';
+import theme from 'theme';
 import { goto } from 'utils';
 
 const StyledInnerContainer = styled(Accordion)`
@@ -23,19 +23,24 @@ const StyledInnerContainer = styled(Accordion)`
   }
 `;
 
+const NavOptions = styled(Container)`
+  button {
+    height: 1.5rem;
+  }
+`;
+
 type NavigationOptionCreatorProps = {
   option: NavigationOption;
   close: () => void;
-  paddingBottom?: Breakpoints;
+  gap?: React.CSSProperties['gap'];
 };
 
 const NavigationOptionCreator: React.FC<NavigationOptionCreatorProps> = ({ option, ...props }) => {
   if (!option.options) {
     return (
       <StyledButton
-        padding={{ bottom: props.paddingBottom }}
         fullwidth
-        size="lg"
+        size="md"
         iconSize="lg"
         themeType="link"
         icon={option.icon}
@@ -56,16 +61,17 @@ const NavigationOptionCreator: React.FC<NavigationOptionCreatorProps> = ({ optio
       header={option.label}
       buttonProps={{
         onClick: () => undefined,
-        padding: { bottom: props.paddingBottom },
         icon: option.icon,
         fullwidth: true,
-        size: 'lg',
+        size: 'md',
         style: { color: option.active ? theme.navigation.activeColor : undefined },
       }}
     >
-      {Object.values(option.options).map((option) => (
-        <NavigationOptionCreator key={option.label} option={option} {...props} />
-      ))}
+      <NavOptions styleConfig={{ gap: props.gap, padding: { top: 'md' } }}>
+        {Object.values(option.options).map((option) => (
+          <NavigationOptionCreator key={option.label} option={option} {...props} />
+        ))}
+      </NavOptions>
     </StyledInnerContainer>
   );
 };
@@ -99,9 +105,11 @@ const MobileNavigation: React.FC = () => {
         <LanguageChanger />
         <Divider />
         <StyledNavigationWrapper>
-          {Object.values(navOptions).map((option) => (
-            <NavigationOptionCreator paddingBottom="lg" key={option.label} close={close} option={option} />
-          ))}
+          <NavOptions styleConfig={{ gap: '1.2rem' }}>
+            {Object.values(navOptions).map((option) => (
+              <NavigationOptionCreator gap="1.2rem" key={option.label} close={close} option={option} />
+            ))}
+          </NavOptions>
         </StyledNavigationWrapper>
         <Divider />
         <Container styleConfig={{ gap: '1.5rem' }}>

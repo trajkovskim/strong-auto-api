@@ -104,7 +104,7 @@ const ViewDetails: React.FC = () => {
   const featuresByGroup = getFeaturesByGroup(product?.features ?? []);
 
   return (
-    <Container styleConfig={{ gap: '2rem' }} lgStyle={{ gap: '3.5rem' }}>
+    <Container lgStyle={{ gap: '3.5rem' }}>
       <PageHeader
         xs={0}
         lg={12}
@@ -149,8 +149,11 @@ const ViewDetails: React.FC = () => {
           </Container>
         )}
       </PageHeader>
-
-      {loadingGetVehicleEntryRequest && <Spinner centered />}
+      {loadingGetVehicleEntryRequest && (
+        <Container styleConfig={{ padding: { top: 'md', bottom: 'md' } }}>
+          <Spinner centered />
+        </Container>
+      )}
       {!loadingGetVehicleEntryRequest && !!product && (
         <Container
           xs={PAGE_MAX_WIDTH}
@@ -208,8 +211,8 @@ const ViewDetails: React.FC = () => {
                 dots
                 arrows
                 initialSlide={0}
-                // height="350px"
-                adaptiveHeight
+                height="400px"
+                // adaptiveHeight
               />
             </BoxAnimation>
             {/* <Container xs={12} lg={0} styleConfig={{ padding: { left: 'md', right: 'md' } }}>
@@ -296,28 +299,36 @@ const ViewDetails: React.FC = () => {
               </Container>
             </BoxAnimation>
 
-            <Line />
+            {!!featuresByGroup.size && (
+              <>
+                <Line />
 
-            <BoxAnimation>
-              <Container styleConfig={{ gap: '1rem', padding: { left: 'md', right: 'md' } }}>
-                <Text fontSize="2xl">{t('features.title')}</Text>
-                <List gap="2rem" xs={1} sm={2} justifyContent="space-between">
-                  {Array.from(featuresByGroup).map(([featureTitleKey, featuresGroup]) => (
-                    <Container xs={12} key={featureTitleKey} styleConfig={{ gap: '0.5rem', alignItems: 'flex-start' }}>
-                      <Container styleConfig={{ gap: '0.3rem' }}>
-                        <Text fontSize="xl">{featuresGroup[0].groupName}</Text>
-                        {featuresGroup.map((feature) => (
-                          <div key={feature.featureName}>
-                            <Icon icon={<BiCheckCircle />} size="md" />
-                            <Text fontSize="md">{feature.featureName}</Text>
-                          </div>
-                        ))}
-                      </Container>
-                    </Container>
-                  ))}
-                </List>
-              </Container>
-            </BoxAnimation>
+                <BoxAnimation>
+                  <Container styleConfig={{ gap: '1rem', padding: { left: 'md', right: 'md' } }}>
+                    <Text fontSize="2xl">{t('features.title')}</Text>
+                    <List gap="2rem" xs={1} sm={2} justifyContent="space-between">
+                      {Array.from(featuresByGroup).map(([featureTitleKey, featuresGroup]) => (
+                        <Container
+                          xs={12}
+                          key={featureTitleKey}
+                          styleConfig={{ gap: '0.5rem', alignItems: 'flex-start' }}
+                        >
+                          <Container styleConfig={{ gap: '0.3rem' }}>
+                            <Text fontSize="xl">{featuresGroup[0].groupName}</Text>
+                            {featuresGroup.map((feature) => (
+                              <div key={feature.featureName}>
+                                <Icon icon={<BiCheckCircle />} size="md" />
+                                <Text fontSize="md">{feature.featureName}</Text>
+                              </div>
+                            ))}
+                          </Container>
+                        </Container>
+                      ))}
+                    </List>
+                  </Container>
+                </BoxAnimation>
+              </>
+            )}
           </Container>
           <Container
             xs={12}
@@ -378,29 +389,37 @@ const ViewDetails: React.FC = () => {
           </Container>
         </Container>
       )}
-      <Container
-        xs={PAGE_MAX_WIDTH}
-        styleConfig={{ centered: true, gap: '3rem', padding: { left: 'md', right: 'md', bottom: 'xl' } }}
-      >
-        <Divider />
-        <BoxAnimation>
-          <Title fontSize="xl" title={t('featuredProducts.title')} />
-        </BoxAnimation>
-        {loadingSearchVehiclesRequest && <Spinner centered />}
-        {!!vehiclesResponse && (
+      {!loadingGetVehicleEntryRequest && (
+        <Container
+          xs={PAGE_MAX_WIDTH}
+          styleConfig={{
+            textAlign: 'start',
+            centered: true,
+            gap: '3rem',
+            padding: { left: 'md', right: 'md', bottom: 'xl' },
+          }}
+          lgStyle={{ textAlign: 'start' }}
+        >
+          <Divider />
           <BoxAnimation>
-            <HorizontalList gap="2rem" chunkSize={{ xs: 1, md: 2, lg: 3 }} infinite>
-              {vehiclesResponse.vehicles.map((product) => (
-                <MiniProductCard
-                  key={product.id}
-                  {...product}
-                  onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
-                />
-              ))}
-            </HorizontalList>
+            <Title fontSize="xl" title={t('featuredProducts.title')} />
           </BoxAnimation>
-        )}
-      </Container>
+          {loadingSearchVehiclesRequest && <Spinner centered />}
+          {!!vehiclesResponse && (
+            <BoxAnimation>
+              <HorizontalList gap="1rem" chunkSize={{ xs: 12, md: 6, lg: 4, '2xl': 3 }}>
+                {vehiclesResponse.vehicles.map((product) => (
+                  <MiniProductCard
+                    key={product.id}
+                    {...product}
+                    onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
+                  />
+                ))}
+              </HorizontalList>
+            </BoxAnimation>
+          )}
+        </Container>
+      )}
     </Container>
   );
 };

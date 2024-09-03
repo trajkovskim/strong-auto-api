@@ -1,4 +1,4 @@
-import { HorizontalList } from 'components/common';
+import { HorizontalListCarousel } from 'components/common';
 import { setVehicleFiltersAction } from 'context/vehicles';
 import { VehicleBodyType } from 'generated';
 import { useApplicationContext } from 'hooks';
@@ -19,11 +19,11 @@ const BodyTypes: React.FC = () => {
   };
 
   return (
-    <HorizontalList chunkSize={{ xs: 1, sm: 2, lg: 3, xl: 4 }} rows={2} slidesToScroll={4} slidesToShow={4}>
+    <HorizontalListCarousel chunkSize={{ xs: 1, sm: 2, lg: 3, xl: 4 }} rows={2}>
       {bodyTypes.map((bodyType) => (
         <BodyTypeTile key={bodyType.bodyType} {...bodyType} onClick={() => handleClick(bodyType.bodyType)} />
       ))}
-    </HorizontalList>
+    </HorizontalListCarousel>
   );
 };
 

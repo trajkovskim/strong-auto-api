@@ -18,6 +18,10 @@ const StyledCollapse = styled(CollapseAntd)`
       padding: 0;
     }
 
+    .ant-collapse-header > .ant-collapse-header-text {
+      line-height: 0;
+    }
+
     > .ant-collapse-header > .ant-collapse-expand-icon {
       padding: 0 !important;
       padding-inline-end: 12px !important;
