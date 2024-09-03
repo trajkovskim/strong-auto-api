@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  title: "StrongAUTO Reviews API v1"
+  version: 1.0.0
+
+servers:
+  - url: localhost:3000/api/v1
+    description: Open API specification
+  - url: strongauto.mk/api/v1
+    description: Open API specification
+paths:
+  /reviews:
+    get:
+      operationId: getReviews
+      tags:
+        - reviews
+      description: Get reviews
+      responses:
+        200:
+          $ref: "#/components/responses/ReviewsResponse"
+components:
+  schemas:
+    StarRating:
+      type: integer
+      minimum: 0
+      maximum: 5
+      description: |
+        0 - Not specified
+        1 - One star
+        2 - Two stars
+        3 - Three stars
+        4 - Four stars
+        5 - Five stars
+
+    ReviewOwnerReply:
+      type: object
+      properties:
+        comment:
+          type: string
+          description: "Comment"
+        updateTime:
+          type: string
+          format: timestamp
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'id'
+        anonymous:
+          type: boolean
+          example: true
+        profilePhotoUrl:
+          type: string
+          example: "http://image.url"
+        reviewerName:
+          type: string
+          example: "Name"
+        starRating:
+          $ref: "#/components/schemas/StarRating"
+        comment:
+          type: string
+          description: "Comment"
+        createTime:
+          type: string
+          format: timestamp
+        updateTime:
+          type: string
+          format: timestamp
+        ownerReply:
+          $ref: "#/components/schemas/ReviewOwnerReply"
+    Reviews:
+      type: object
+      properties:
+        reviews:
+          type: array
+          items:
+            $ref: "#/components/schemas/Review"
+        averageRating:
+          type: number
+          description: "4.7"
+  responses:
+    ReviewsResponse:
+      description: Reviews list
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Reviews"
+
+
+

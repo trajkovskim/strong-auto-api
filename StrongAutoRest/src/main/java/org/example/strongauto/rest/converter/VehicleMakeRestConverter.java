@@ -1,8 +1,8 @@
 package org.example.strongauto.rest.converter;
 
-import com.example.rest.model.VehicleMakeEmbeddedResponse;
-import com.example.rest.model.VehicleMakeRequest;
-import com.example.rest.model.VehicleMakeResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleMakeEmbeddedResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleMakeRequest;
+import com.example.strongauto.rest.api.strongauto.model.VehicleMakeResponse;
 import org.example.strongauto.core.model.dto.VehicleMakeDto;
 import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;
 import org.mapstruct.Mapper;

@@ -1,5 +1,5 @@
 import { VehicleFiltersForm } from 'context/vehicles';
-import { SearchVehicleEntriesRequest, VehicleApi, VehicleFeaturesApi, VehicleMakeApi } from 'generated';
+import { SearchVehicleEntriesRequest, VehicleApi, VehicleFeaturesApi, VehicleMakeApi } from 'generated/strongauto';
 import { baseConfiguration } from 'services/api';
 
 const VEHICLE_API = new VehicleApi(baseConfiguration);

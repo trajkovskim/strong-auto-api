@@ -1,5 +1,5 @@
 import { Breadcrumb, Button, Container, Line, Text } from 'components/common';
-import { PageInfo } from 'generated';
+import { PageInfo } from 'generated/strongauto';
 import { useTranslation } from 'hooks';
 import SortAndSizeDropdowns from 'pages/shop/SortAndSizeDropdowns';
 import React from 'react';

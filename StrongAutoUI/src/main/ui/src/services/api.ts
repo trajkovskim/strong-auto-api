@@ -1,5 +1,5 @@
 import env from 'env';
-import { Configuration } from 'generated';
+import { Configuration } from 'generated/strongauto';
 
 export const baseConfiguration: Configuration = new Configuration({
   basePath: env.STRONG_AUTO_API_URL,

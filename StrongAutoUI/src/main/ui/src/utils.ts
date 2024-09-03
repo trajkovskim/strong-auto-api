@@ -1,4 +1,4 @@
-import { VehicleImage, VehicleImageEmbeddedResponse, VehicleImageLinks } from 'generated';
+import { VehicleImage, VehicleImageEmbeddedResponse, VehicleImageLinks } from 'generated/strongauto';
 import { TranslationFunction } from 'hooks';
 import { css } from 'styled-components';
 import theme, { Breakpoints, LARGEST_BREAKPOINT } from 'theme';

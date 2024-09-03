@@ -55,14 +55,36 @@
         <artifactId>openapi-generator-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>generate strongauto-api.v1</id>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/src/main/resources/strongauto-api-v1.yaml</inputSpec>
+              <inputSpec>${project.basedir}/src/main/resources/strongauto-api.v1.yaml</inputSpec>
               <generatorName>spring</generatorName>
-              <apiPackage>com.example.rest.api</apiPackage>
-              <modelPackage>com.example.rest.model</modelPackage>
+              <apiPackage>com.example.strongauto.rest.api.strongauto</apiPackage>
+              <modelPackage>com.example.strongauto.rest.api.strongauto.model</modelPackage>
+              <typeMappings>
+                <typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
+                <typeMapping>number=java.lang.Integer</typeMapping>
+              </typeMappings>
+              <configOptions>
+                <interfaceOnly>true</interfaceOnly>
+                <generateSupportingFiles>false</generateSupportingFiles>
+                <useSpringBoot3>true</useSpringBoot3>
+              </configOptions>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate strongauto-reviews-api.v1</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/strongauto-reviews-api.v1.yaml</inputSpec>
+              <generatorName>spring</generatorName>
+              <apiPackage>com.example.strongauto.rest.api.strongautoreviews</apiPackage>
+              <modelPackage>com.example.strongauto.rest.api.strongautoreviews.model</modelPackage>
               <typeMappings>
                 <typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
                 <typeMapping>number=java.lang.Integer</typeMapping>

@@ -1,8 +1,8 @@
 package org.example.strongauto.rest.factory;
 
-import com.example.rest.model.Link;
-import com.example.rest.model.PaginationLinks;
-import com.example.rest.model.SelfLink;
+import com.example.strongauto.rest.api.strongauto.model.Link;
+import com.example.strongauto.rest.api.strongauto.model.PaginationLinks;
+import com.example.strongauto.rest.api.strongauto.model.SelfLink;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.springframework.stereotype.Component;
 

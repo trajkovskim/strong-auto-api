@@ -1,10 +1,10 @@
 package org.example.strongauto.rest.controller;
 
-import com.example.rest.api.VehicleMakesApi;
-import com.example.rest.model.CreatedResponse;
-import com.example.rest.model.VehicleMakeRequest;
-import com.example.rest.model.VehicleMakeResponse;
-import com.example.rest.model.VehicleMakesResponse;
+import com.example.strongauto.rest.api.strongauto.VehicleMakesApi;
+import com.example.strongauto.rest.api.strongauto.model.CreatedResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleMakeRequest;
+import com.example.strongauto.rest.api.strongauto.model.VehicleMakeResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleMakesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.dto.VehicleMakeDto;
 import org.example.strongauto.core.model.dto.VehicleMakeEmbeddedDto;

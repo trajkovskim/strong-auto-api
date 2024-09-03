@@ -1,6 +1,6 @@
 package org.example.strongauto.rest.errorhandler;
 
-import com.example.rest.model.ErrorResponse;
+import com.example.strongauto.rest.api.strongauto.model.ErrorResponse;
 import org.example.strongauto.core.exception.AbstractException;
 import org.example.strongauto.core.exception.Error;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: "StrongAUTO api v1"
+  title: "StrongAUTO Vehicles API v1"
   version: 1.0.0
 
 servers:

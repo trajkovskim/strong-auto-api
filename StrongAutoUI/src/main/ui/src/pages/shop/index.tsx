@@ -1,7 +1,7 @@
 import ShopProductCard from 'components/card/ShopProductCard';
 import { BoxAnimation, Container, Spinner, Text } from 'components/common';
 import { setVehicleFiltersAction, VehicleFiltersForm } from 'context/vehicles';
-import { VehiclesResponse } from 'generated';
+import { VehiclesResponse } from 'generated/strongauto';
 import { useApplicationContext, useLanguage, useRequest, useTranslation } from 'hooks';
 import Filters, { FiltersHeader } from 'pages/shop/Filters';
 import ListHeader from 'pages/shop/ListHeader';

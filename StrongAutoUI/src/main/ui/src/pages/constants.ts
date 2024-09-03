@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable max-len */
 import SUVBodyTypeImage from 'assets/SUV.png';
-import { VehicleBodyType } from 'generated';
+import { VehicleBodyType } from 'generated/strongauto';
 
 export const PAGE_MAX_WIDTH = '1400px';
 

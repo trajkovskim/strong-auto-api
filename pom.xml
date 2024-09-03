@@ -22,6 +22,7 @@
     <module>StrongAutoCore</module>
     <module>StrongAutoPersistence</module>
     <module>StrongAutoUI</module>
+    <module>StrongAutoWebClient</module>
   </modules>
 
   <properties>
@@ -66,6 +67,11 @@
       <dependency>
         <groupId>org.example</groupId>
         <artifactId>StrongAutoCore</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.example</groupId>
+        <artifactId>StrongAutoWebClient</artifactId>
         <version>${project.version}</version>
       </dependency>
 

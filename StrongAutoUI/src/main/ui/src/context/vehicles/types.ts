@@ -1,5 +1,5 @@
 import { Action } from 'context/types';
-import { VehicleFeature, VehicleFilters, VehicleMake } from 'generated';
+import { VehicleFeature, VehicleFilters, VehicleMake } from 'generated/strongauto';
 
 export type VehicleFiltersForm = Omit<VehicleFilters, 'priceFrom' | 'priceTo' | 'features'> & {
   price?: string;

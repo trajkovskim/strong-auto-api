@@ -1,11 +1,10 @@
 package org.example.strongauto.rest.factory;
 
-import com.example.rest.model.Link;
-import com.example.rest.model.PaginationLinks;
-import com.example.rest.model.SelfLink;
-import com.example.rest.model.VehicleImageLinks;
-import com.example.rest.model.VehicleImageResponse;
-import com.example.rest.model.VehicleImagesResponse;
+import com.example.strongauto.rest.api.strongauto.model.Link;
+import com.example.strongauto.rest.api.strongauto.model.PaginationLinks;
+import com.example.strongauto.rest.api.strongauto.model.VehicleImageLinks;
+import com.example.strongauto.rest.api.strongauto.model.VehicleImageResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleImagesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleImageDto;

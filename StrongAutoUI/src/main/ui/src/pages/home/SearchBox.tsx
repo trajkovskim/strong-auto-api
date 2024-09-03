@@ -12,7 +12,7 @@ import {
   Title,
 } from 'components/common';
 import { setVehicleFiltersAction, VehicleFiltersForm } from 'context/vehicles';
-import { VehicleFilters } from 'generated';
+import { VehicleFilters } from 'generated/strongauto';
 import { useApplicationContext, useFetchMakes, useTranslation } from 'hooks';
 import { PAGE_MAX_WIDTH } from 'pages/constants';
 import { convertMakeModelsToOptions, convertMakesToOptions, convertPricesToOptions } from 'pages/utils';

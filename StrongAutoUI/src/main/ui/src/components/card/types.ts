@@ -1,4 +1,4 @@
-import { Vehicle, VehicleState } from 'generated';
+import { Vehicle, VehicleState } from 'generated/strongauto';
 
 export type RibbonType = VehicleState;
 

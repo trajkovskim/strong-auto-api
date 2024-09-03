@@ -1,5 +1,5 @@
 import { setVehicleMakesAction } from 'context/vehicles';
-import { VehicleMake } from 'generated';
+import { VehicleMake } from 'generated/strongauto';
 import useApplicationContext from 'hooks/useApplicationContext';
 import useRequest from 'hooks/useRequest';
 import { useEffect } from 'react';

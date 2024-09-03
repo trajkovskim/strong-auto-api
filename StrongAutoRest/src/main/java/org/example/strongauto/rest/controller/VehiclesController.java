@@ -1,13 +1,13 @@
 package org.example.strongauto.rest.controller;
 
-import com.example.rest.api.VehiclesApi;
-import com.example.rest.model.CreatedResponse;
-import com.example.rest.model.VehicleFilters;
-import com.example.rest.model.VehicleImageResponse;
-import com.example.rest.model.VehicleImagesResponse;
-import com.example.rest.model.VehicleRequest;
-import com.example.rest.model.VehicleResponse;
-import com.example.rest.model.VehiclesResponse;
+import com.example.strongauto.rest.api.strongauto.VehiclesApi;
+import com.example.strongauto.rest.api.strongauto.model.CreatedResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleFilters;
+import com.example.strongauto.rest.api.strongauto.model.VehicleImageResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleImagesResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleRequest;
+import com.example.strongauto.rest.api.strongauto.model.VehicleResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehiclesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleDto;
@@ -23,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
-import java.util.Base64;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -67,8 +66,7 @@ public class VehiclesController implements VehiclesApi {
 
     Long savedVehicleId = vehicleService.createVehicle(vehicleDto);
 
-    CreatedResponse createdResponse =
-        vehicleResponseFactory.createVehicleMakeCreatedResponse(savedVehicleId);
+    CreatedResponse createdResponse = vehicleResponseFactory.createVehicleMakeCreatedResponse(savedVehicleId);
 
     return ResponseEntity.created(URI.create(createdResponse.getLinks().getSelf().getHref())).body(createdResponse);
   }
@@ -96,8 +94,8 @@ public class VehiclesController implements VehiclesApi {
 
     VehicleImageDto vehicleImageDto = vehicleImageService.findById(imageId);
 
-    VehicleImageResponse vehicleImageResponse = vehicleImageResponseFactory.createVehicleImageResponse(
-        vehicleImageDto, id, imageId, acceptLanguage);
+    VehicleImageResponse vehicleImageResponse =
+        vehicleImageResponseFactory.createVehicleImageResponse(vehicleImageDto, id, imageId, acceptLanguage);
 
     return ResponseEntity.ok(vehicleImageResponse);
   }

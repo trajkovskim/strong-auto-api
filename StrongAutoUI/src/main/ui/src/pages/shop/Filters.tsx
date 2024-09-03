@@ -12,7 +12,7 @@ import {
   Text,
 } from 'components/common';
 import { VehicleFiltersForm } from 'context/vehicles';
-import { VehicleBodyType, VehicleState } from 'generated';
+import { VehicleBodyType, VehicleState } from 'generated/strongauto';
 import { useFetchMakes, useTranslation } from 'hooks';
 import useFetchFeatures from 'hooks/useFetchFeatures';
 import {

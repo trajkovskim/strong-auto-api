@@ -10,7 +10,7 @@ import {
   Text,
   Title,
 } from 'components/common';
-import { VehicleEmbedded } from 'generated';
+import { VehicleEmbedded } from 'generated/strongauto';
 import { useLanguage, useRequest, useTranslation } from 'hooks';
 import { DarkBackgroundContainer } from 'pages/common.styled';
 import { PAGE_MAX_WIDTH } from 'pages/constants';

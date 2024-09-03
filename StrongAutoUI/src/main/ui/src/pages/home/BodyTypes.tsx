@@ -1,6 +1,6 @@
 import { HorizontalListCarousel } from 'components/common';
 import { setVehicleFiltersAction } from 'context/vehicles';
-import { VehicleBodyType } from 'generated';
+import { VehicleBodyType } from 'generated/strongauto';
 import { useApplicationContext } from 'hooks';
 import { bodyTypes } from 'pages/constants';
 import BodyTypeTile from 'pages/home/BodyTypeTile';

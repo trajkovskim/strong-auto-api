@@ -1,6 +1,6 @@
 import { RibbonProps } from 'components/common/card/Ribbon';
 import type { RibbonType } from 'components/card/types';
-import { VehicleState } from 'generated';
+import { VehicleState } from 'generated/strongauto';
 
 export const ribbons: Record<RibbonType, RibbonProps> = {
   [VehicleState.Sold]: {

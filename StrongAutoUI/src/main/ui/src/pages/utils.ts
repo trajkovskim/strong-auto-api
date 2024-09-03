@@ -6,7 +6,7 @@ import {
   VehicleFeature,
   VehicleFuelType,
   VehicleTransmission,
-} from 'generated';
+} from 'generated/strongauto';
 import { TranslationFunction } from 'hooks/useTranslation';
 import { priceOptions } from 'pages/constants';
 import { pageSizes, SortBy, sortByToValue } from 'pages/shop/constants';

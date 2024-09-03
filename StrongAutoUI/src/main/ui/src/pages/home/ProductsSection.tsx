@@ -1,6 +1,6 @@
 import { ProductCard } from 'components/card';
 import { BoxAnimation, ButtonProps, ButtonsGroup, Container, HorizontalList, StyledSpinner } from 'components/common';
-import { VehiclesResponse, VehicleState } from 'generated';
+import { VehiclesResponse, VehicleState } from 'generated/strongauto';
 import { useLanguage, useRequest, useTranslation } from 'hooks';
 import { WhiteBackgroundContainer } from 'pages/common.styled';
 import BodyTypes from 'pages/home/BodyTypes';

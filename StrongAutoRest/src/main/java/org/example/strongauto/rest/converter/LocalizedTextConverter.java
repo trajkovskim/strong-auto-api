@@ -1,6 +1,6 @@
 package org.example.strongauto.rest.converter;
 
-import com.example.rest.model.LocalizedText;
+import com.example.strongauto.rest.api.strongauto.model.LocalizedText;
 import org.example.strongauto.core.model.dto.LocalizedTextDto;
 import org.example.strongauto.core.model.dto.LocalizedTextListDto;
 import org.example.strongauto.core.model.enums.LanguageEnum;

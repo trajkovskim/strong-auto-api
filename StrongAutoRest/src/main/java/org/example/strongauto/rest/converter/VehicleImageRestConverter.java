@@ -1,7 +1,7 @@
 package org.example.strongauto.rest.converter;
 
-import com.example.rest.model.VehicleImageResponse;
-import com.example.rest.model.VehicleImagesResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleImageResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleImagesResponse;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleImageDto;
 import org.mapstruct.Context;

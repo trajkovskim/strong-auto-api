@@ -1,9 +1,9 @@
 package org.example.strongauto.rest.controller;
 
-import com.example.rest.api.VehicleFeaturesApi;
-import com.example.rest.model.VehicleFeature;
-import com.example.rest.model.VehicleFeatureRequest;
-import com.example.rest.model.VehicleFeaturesResponse;
+import com.example.strongauto.rest.api.strongauto.VehicleFeaturesApi;
+import com.example.strongauto.rest.api.strongauto.model.VehicleFeature;
+import com.example.strongauto.rest.api.strongauto.model.VehicleFeatureRequest;
+import com.example.strongauto.rest.api.strongauto.model.VehicleFeaturesResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.dto.VehicleFeatureDto;
 import org.example.strongauto.core.service.VehicleFeatureService;

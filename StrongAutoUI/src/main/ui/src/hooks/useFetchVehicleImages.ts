@@ -1,4 +1,4 @@
-import { VehicleImageResponse } from 'generated';
+import { VehicleImageResponse } from 'generated/strongauto';
 import useLanguage from 'hooks/useLanguage';
 import { useCallback, useState } from 'react';
 import { getVehicleImageEntry } from 'services/VehicleService';

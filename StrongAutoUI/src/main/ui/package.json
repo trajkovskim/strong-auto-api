@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "lint": "npx eslint --ext .jsx,.tsx,.js,.ts src/",
-    "generate-types": "npx openapi-generator-cli generate -i docs/strongauto-api-v1.yaml -g typescript-fetch -o src/generated/",
+    "generate-types": "yarn run generate-types-strongauto & yarn run generate-types-strongauto-reviews",
+    "generate-types-strongauto": "npx openapi-generator-cli generate -i docs/strongauto-api.v1.yaml -g typescript-fetch -o src/generated/strongauto",
+    "generate-types-strongauto-reviews": "npx openapi-generator-cli generate -i docs/strongauto-reviews-api.v1.yaml -g typescript-fetch -o src/generated/strongauto-reviews",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

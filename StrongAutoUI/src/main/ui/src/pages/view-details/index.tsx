@@ -18,7 +18,7 @@ import {
   Title,
 } from 'components/common';
 import PageHeader from 'components/PageHeader';
-import { Vehicle, VehiclesResponse, VehicleState } from 'generated';
+import { Vehicle, VehiclesResponse, VehicleState } from 'generated/strongauto';
 import { useLanguage, useRequest, useTranslation } from 'hooks';
 import { EMAIL, PAGE_MAX_WIDTH, TELEPHONE } from 'pages/constants';
 import { getFeaturesByGroup } from 'pages/utils';

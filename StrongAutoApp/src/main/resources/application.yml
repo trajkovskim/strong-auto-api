@@ -2,3 +2,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+googleBuinessApi:
+  url: https://mybusiness.googleapis.com/v4

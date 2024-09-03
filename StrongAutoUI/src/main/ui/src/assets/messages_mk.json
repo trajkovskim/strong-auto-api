@@ -147,6 +147,7 @@
   "strongauto.inventory.filters.features.title": "Карактеристики",
   "strongauto.inventory.filters.searchButton": "Пребаруваат автомобили",
   "strongauto.inventory.filters.resetButton": "Ресетирање на пребарување",
+  "strongauto.inventory.pagination.title": "Пагинација",
   "strongauto.inventory.pagination.sortByInput.label": "Сортирај од",
   "strongauto.inventory.pagination.sortByInput.UNSORTED": "Стандардно",
   "strongauto.inventory.pagination.sortByInput.PRICE_ASC": "Цена (растечка)",

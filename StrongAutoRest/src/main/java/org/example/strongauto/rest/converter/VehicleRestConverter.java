@@ -1,10 +1,10 @@
 package org.example.strongauto.rest.converter;
 
-import com.example.rest.model.VehicleEmbeddedResponse;
-import com.example.rest.model.VehicleFilters;
-import com.example.rest.model.VehicleRequest;
-import com.example.rest.model.VehicleResponse;
-import com.example.rest.model.VehiclesResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleEmbeddedResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehicleFilters;
+import com.example.strongauto.rest.api.strongauto.model.VehicleRequest;
+import com.example.strongauto.rest.api.strongauto.model.VehicleResponse;
+import com.example.strongauto.rest.api.strongauto.model.VehiclesResponse;
 import org.example.strongauto.core.model.dto.PageInfoDto;
 import org.example.strongauto.core.model.dto.VehicleDto;
 import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
