@@ -2,9 +2,9 @@ import { ApplicationContext } from 'context';
 import { useContext } from 'react';
 
 const useApplicationContext = () => {
-  const { dispatch, getState } = useContext(ApplicationContext);
+  const { dispatch, state } = useContext(ApplicationContext);
 
-  return { dispatch, getState };
+  return { dispatch, state };
 };
 
 export default useApplicationContext;

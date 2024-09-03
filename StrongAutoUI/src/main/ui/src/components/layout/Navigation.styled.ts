@@ -4,6 +4,10 @@ import theme from 'theme';
 
 export const StyledNavigationWrapper = styled.nav`
   position: relative;
+
+  & > *:last-child {
+    padding-bottom: 0;
+  }
 `;
 
 // export const MobileContainer = styled(Container)`

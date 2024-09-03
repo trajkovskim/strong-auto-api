@@ -76,14 +76,14 @@ const Reviews: React.FC = () => {
       <WhiteBackgroundContainer>
         <Container
           xs={PAGE_MAX_WIDTH}
-          styleConfig={{ gap: '3rem', padding: { left: 'md', right: 'md' }, centered: true }}
+          styleConfig={{ gap: '3rem', padding: { left: 'md', right: 'md' }, centered: true, userSelect: 'none' }}
           lgStyle={{ gap: '6rem' }}
         >
           <BoxAnimation>
             <Title centered fontSize="2xl" title={t('title')} />
           </BoxAnimation>
           <BoxAnimation>
-            <Carousel noArrows noChangeOptions>
+            <Carousel draggable>
               {reviews.map((review) => {
                 return <Review key={review.id} review={review} />;
               })}

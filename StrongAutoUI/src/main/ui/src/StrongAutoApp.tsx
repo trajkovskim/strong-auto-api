@@ -1,4 +1,4 @@
-import { Button } from 'components/common';
+import { FloatButton } from 'antd';
 import { Footer } from 'components/layout';
 import ApplicationContextProvider from 'context';
 import React, { useEffect } from 'react';
@@ -14,19 +14,6 @@ const StyledLayout = styled.div`
     min-height: 100dvh;
   }
   background-color: white;
-`;
-
-const BackToTopButton = styled(Button)`
-  border-radius: 50%;
-  width: 55px;
-  height: 55px;
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 99;
 `;
 
 const StrongAutoApp: React.FC = () => {
@@ -45,7 +32,7 @@ const StrongAutoApp: React.FC = () => {
           </main>
           <Footer />
         </StyledLayout>
-        <BackToTopButton iconSize="md" icon={<BsArrowUp />} onClick={scrollToTop} />
+        <FloatButton icon={<BsArrowUp />} onClick={scrollToTop} type="primary" />
       </div>
     </ApplicationContextProvider>
   );

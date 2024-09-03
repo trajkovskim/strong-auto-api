@@ -1,14 +1,14 @@
+import { Divider } from 'antd';
 import { MiniProductCard } from 'components/card';
 import ProductCardPrice from 'components/card/ProductCardPrice';
+import CarouselLazyLoadImages from 'components/CarouselLazyLoadImages';
 import {
   BoxAnimation,
   Button,
-  Carousel,
-  CarouselHandle,
+  CarouselRef,
   Container,
   HorizontalList,
   Icon,
-  Image,
   Line,
   List,
   SimpleTable,
@@ -20,7 +20,6 @@ import {
 import PageHeader from 'components/PageHeader';
 import { Vehicle, VehiclesResponse, VehicleState } from 'generated';
 import { useLanguage, useRequest, useTranslation } from 'hooks';
-import useFetchVehicleImages from 'hooks/useFetchVehicleImages';
 import { EMAIL, PAGE_MAX_WIDTH, TELEPHONE } from 'pages/constants';
 import { getFeaturesByGroup } from 'pages/utils';
 import React, { useEffect, useRef, useState } from 'react';
@@ -35,15 +34,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Routes } from 'routes';
 import { getVehicleEntry, searchVehicles } from 'services/VehicleService';
 import styled from 'styled-components';
-import { call, formatNumber, mailTo, transformBase64Image } from 'utils';
+import { call, formatNumber, mailTo, mapProductImagesToBinaryLink } from 'utils';
 
 const StyledButton = styled(Button)`
   border-radius: 5px;
-`;
-
-const CarouselWrapper = styled(Container)`
-  border-radius: 5px;
-  overflow: hidden;
 `;
 
 const createTextIcon = (icon: React.ReactNode, text: string) => {
@@ -62,16 +56,12 @@ const ViewDetails: React.FC = () => {
   const tBase = useTranslation();
   const { language } = useLanguage();
 
-  const { fetch, imageLoading, images } = useFetchVehicleImages(Number(id));
-
   const { send: sendGetVehicleEntryRequest, loading: loadingGetVehicleEntryRequest } = useRequest();
   const [product, setProduct] = useState<Vehicle>();
 
   const { send: sendSearchVehiclesRequest, loading: loadingSearchVehiclesRequest } = useRequest();
   const [vehiclesResponse, setVehiclesResponse] = useState<VehiclesResponse>();
-
-  const carouselRef = useRef<CarouselHandle>(null);
-  const [isCarouselIntersecting, setIsCarouselIntersecting] = useState<boolean>(false);
+  const carouselRef = useRef<CarouselRef>(null);
 
   useEffect(() => {
     if (Number.isNaN(Number(id))) {
@@ -89,48 +79,39 @@ const ViewDetails: React.FC = () => {
     );
   }, [id, language, navigate, sendGetVehicleEntryRequest, sendSearchVehiclesRequest]);
 
-  useEffect(() => {
-    if (product?.images?.length) {
-      fetch(product?.images[0].id);
-    }
-  }, [fetch, product]);
-
-  const handleImageClick = (imageIndex: number) => carouselRef.current?.next(imageIndex);
+  const images = mapProductImagesToBinaryLink(product?.images);
 
   const imagesHorizontalList = (
-    <HorizontalList noAutoScroll gap="10px" chunkGap="1rem" chunkSize={{ xs: 6 }}>
-      {product?.images?.map((image, index) => (
-        <BoxAnimation key={image.id} onEnter={() => fetch(image.id)}>
-          {imageLoading[image.id] && <Spinner centered />}
-          {!imageLoading[image.id] && !!images[image.id] && (
-            <Image
-              onClick={() => handleImageClick(index)}
-              rounded
-              src={transformBase64Image(images[image.id])}
-              height="150px"
-              objectFit="cover"
-            />
-          )}
-        </BoxAnimation>
-      ))}
-    </HorizontalList>
+    <CarouselLazyLoadImages
+      initialSlide={0}
+      slidesToShow={2}
+      slidesToScroll={2}
+      lazyLoad="ondemand"
+      draggable
+      autoplay
+      dots
+      arrows
+      images={images}
+      height="200px"
+      gap="0.5rem"
+      onImageClick={carouselRef.current?.innerSlider.slickGoTo}
+    />
   );
 
   const telephone = tBase(TELEPHONE);
   const email = tBase(EMAIL);
-  const firstImageId = product?.images?.[0]?.id;
+  const firstImage = product?.images?.[0];
   const featuresByGroup = getFeaturesByGroup(product?.features ?? []);
 
   return (
-    <>
+    <Container styleConfig={{ gap: '2rem' }} lgStyle={{ gap: '3.5rem' }}>
       <PageHeader
+        xs={0}
+        lg={12}
         idLabel={product?.title ?? <StyledSpinner />}
-        imageSrc={!!firstImageId && images[firstImageId] ? transformBase64Image(images[firstImageId]) : ''}
-        loading={!!firstImageId && imageLoading[firstImageId]}
-        styleConfig={{ textAlign: 'center' }}
-        lgStyle={{ textAlign: 'left' }}
+        imageSrc={firstImage ? firstImage.links?.binary?.href : ''}
+        loading={!firstImage}
       >
-        {loadingGetVehicleEntryRequest && <Spinner centered />}
         {!!product && (
           <Container styleConfig={{ gap: '2rem' }}>
             <BoxAnimation>
@@ -188,44 +169,52 @@ const ViewDetails: React.FC = () => {
           }}
         >
           <Container xs={12} lg={8} styleConfig={{ gap: '2rem' }} lgStyle={{ padding: { left: 'md' } }}>
-            <BoxAnimation
-              onEnter={() => setIsCarouselIntersecting(true)}
-              onLeave={() => setIsCarouselIntersecting(false)}
-            >
-              <CarouselWrapper>
-                <Carousel
-                  minHeight="400px"
-                  maxHeight="400px"
-                  ref={carouselRef}
-                  onChange={
-                    isCarouselIntersecting
-                      ? (prev, next) => {
-                          if (product.images?.[next]?.id) {
-                            fetch(product.images[next].id);
-                          }
-                        }
-                      : undefined
-                  }
-                >
-                  {product?.images?.map((image) =>
-                    images[image.id] ? (
-                      <Image
-                        key={image.id}
-                        src={transformBase64Image(images[image.id])}
-                        height="100%"
-                        objectFit="cover"
-                      />
-                    ) : (
-                      <div key={image.id} />
-                    )
+            <Container xs={12} lg={0} styleConfig={{ gap: '2rem', padding: { left: 'md', right: 'md' } }}>
+              <BoxAnimation>
+                <Title title={product.title} fontSize={{ title: 'xl', description: 'md' }} bold={{ title: true }} />
+              </BoxAnimation>
+              <BoxAnimation>
+                <Container styleConfig={{ wrap: true, direction: 'row', gap: '1rem' }}>
+                  {product.year && (
+                    <Button maxContent size="md" themeType="link" icon={<BiCalendar />} iconSize="lg">
+                      {product.year}
+                    </Button>
                   )}
-                </Carousel>
-              </CarouselWrapper>
-            </BoxAnimation>
-
-            <Container xs={12} lg={0} styleConfig={{ padding: { left: 'md', right: 'md' } }}>
-              {imagesHorizontalList}
+                  {product.transmission && (
+                    <Button maxContent size="md" themeType="link" icon={<TbManualGearbox />} iconSize="lg">
+                      {tBase(`vehicleTransmission.${product.transmission}`)}
+                    </Button>
+                  )}
+                  {product.fuelType && (
+                    <Button maxContent size="md" themeType="link" icon={<BsFuelPump />} iconSize="lg">
+                      {tBase(`vehicleFuelType.${product.fuelType}`)}
+                    </Button>
+                  )}
+                  {product.mileage && (
+                    <Button maxContent size="md" themeType="link" icon={<SlSpeedometer />} iconSize="lg">
+                      {tBase('vehicleMileage', { mileage: formatNumber(product.mileage) })}
+                    </Button>
+                  )}
+                </Container>
+              </BoxAnimation>
             </Container>
+
+            <BoxAnimation>
+              <CarouselLazyLoadImages
+                preview
+                images={images}
+                draggable
+                swipeToSlide
+                dots
+                arrows
+                initialSlide={0}
+                // height="350px"
+                adaptiveHeight
+              />
+            </BoxAnimation>
+            {/* <Container xs={12} lg={0} styleConfig={{ padding: { left: 'md', right: 'md' } }}>
+              {imagesHorizontalList}
+            </Container> */}
 
             <BoxAnimation>
               <Container styleConfig={{ gap: '0.5rem', padding: { left: 'md', right: 'md' } }}>
@@ -345,7 +334,11 @@ const ViewDetails: React.FC = () => {
               <Container styleConfig={{ rounded: true, padding: 'md', gap: '1rem', bordered: true }}>
                 <Container styleConfig={{ gap: '0.3rem' }}>
                   <Text fontSize="lg">{t('offer')}</Text>
-                  <ProductCardPrice amount={product.amount} styleConfig={{ direction: 'row', gap: '0.5rem' }} />
+                  <ProductCardPrice
+                    amount={product.amount}
+                    fontSize={{ total: product.amount?.totalPromo ? 'sm' : 'lg', totalPromo: 'lg' }}
+                    styleConfig={{ direction: 'row', gap: '0.5rem' }}
+                  />
                   {!!product.amount?.saving && (
                     <div>
                       <Text fontSize="lg">{t('saving', { saving: formatNumber(product.amount.saving) })}</Text>
@@ -389,14 +382,14 @@ const ViewDetails: React.FC = () => {
         xs={PAGE_MAX_WIDTH}
         styleConfig={{ centered: true, gap: '3rem', padding: { left: 'md', right: 'md', bottom: 'xl' } }}
       >
-        <Line />
+        <Divider />
         <BoxAnimation>
           <Title fontSize="xl" title={t('featuredProducts.title')} />
         </BoxAnimation>
         {loadingSearchVehiclesRequest && <Spinner centered />}
         {!!vehiclesResponse && (
           <BoxAnimation>
-            <HorizontalList gap="2rem" chunkGap="1rem" chunkSize={{ xs: 12, md: 6, lg: 4, xl: 3 }} centered>
+            <HorizontalList gap="2rem" chunkSize={{ xs: 1, md: 2, lg: 3 }} infinite>
               {vehiclesResponse.vehicles.map((product) => (
                 <MiniProductCard
                   key={product.id}
@@ -408,7 +401,7 @@ const ViewDetails: React.FC = () => {
           </BoxAnimation>
         )}
       </Container>
-    </>
+    </Container>
   );
 };
 

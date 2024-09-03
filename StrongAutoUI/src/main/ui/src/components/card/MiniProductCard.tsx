@@ -10,13 +10,6 @@ import { OnImageContainer } from 'components/common/card/Card.styled';
 import React from 'react';
 
 const MiniProductCard: React.FC<ProductProps> = (props) => {
-  const productCardTitlePrice = (
-    <Container styleConfig={{ direction: 'row', gap: '1rem', justifyContent: 'space-between', alignItems: 'end' }}>
-      <ProductTitle title={props.title} onView={props.onView} />
-      <ProductCardPrice amount={props.amount} />
-    </Container>
-  );
-
   const onImageContainer = (
     <OnImageContainer styleConfig={{ justifyContent: 'space-between', padding: 'md' }}>
       <Container styleConfig={{ direction: 'row', justifyContent: 'space-between', gap: '1rem' }}>
@@ -28,7 +21,10 @@ const MiniProductCard: React.FC<ProductProps> = (props) => {
           }}
         />
       </Container>
-      {productCardTitlePrice}
+      <Container styleConfig={{ direction: 'row', gap: '1rem', justifyContent: 'space-between', alignItems: 'end' }}>
+        <ProductTitle title={props.title} onView={props.onView} />
+        <ProductCardPrice amount={props.amount} />
+      </Container>
     </OnImageContainer>
   );
   const image = <ProductCardImages id={props.id} images={props.images} height="350px" />;

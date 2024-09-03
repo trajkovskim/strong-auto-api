@@ -1,9 +1,10 @@
-export { default as Accordion, type AccordionHandle } from 'components/common/Accordion';
+export { default as Accordion } from 'components/common/Accordion';
+export { default as Collapse } from 'components/common/Collapse';
 export { default as BoxAnimation } from 'components/common/BoxAnimation';
 export { default as Breadcrumb } from 'components/common/Breadcrumb';
 export { default as Button } from 'components/common/Button';
 export { default as ButtonsGroup, type ButtonProps } from 'components/common/ButtonsGroup';
-export { default as Carousel, type CarouselHandle } from 'components/common/Carousel';
+export { default as Carousel, type CarouselRef } from 'components/common/Carousel';
 export { default as Container } from 'components/common/Container';
 export { default as Icon } from 'components/common/Icon';
 export { default as Image } from 'components/common/Image';
@@ -14,6 +15,7 @@ export { default as Spinner } from 'components/common/Spinner';
 export { default as Sticky } from 'components/common/Sticky';
 export { default as Transition, type TransitionHandle } from 'components/common/Transition';
 export { default as ElementIntersection } from 'components/common/ElementIntersection';
+export { default as SpinnerGIF } from 'assets/spinner.gif';
 
 // HorizontaList
 export * from 'components/common/horizontalList';

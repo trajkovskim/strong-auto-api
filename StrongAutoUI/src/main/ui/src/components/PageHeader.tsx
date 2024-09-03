@@ -48,22 +48,19 @@ type Props = React.PropsWithChildren &
 
 const PageHeader: React.FC<Props> = ({ children, imageSrc, loading, idLabel, ...props }) => {
   return (
-    <StyledPageHeader imageSrc={imageSrc}>
+    <StyledPageHeader imageSrc={imageSrc} {...props}>
       {loading && <StyledSpinner />}
       <Container
-        {...props}
         xs={PAGE_MAX_WIDTH}
         styleConfig={{
           gap: '3rem',
           padding: { left: 'md', right: 'md' },
           alignItems: 'center',
           centered: true,
-          ...props.styleConfig,
         }}
         lgStyle={{
           direction: 'row-reverse',
           justifyContent: 'space-between',
-          ...props.lgStyle,
         }}
       >
         <Breadcrumb idLabel={idLabel} />

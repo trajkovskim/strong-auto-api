@@ -4,7 +4,7 @@ import useApplicationContext from 'hooks/useApplicationContext';
 import { useCallback } from 'react';
 
 const useLanguage = () => {
-  const { dispatch, getState } = useApplicationContext();
+  const { dispatch, state } = useApplicationContext();
 
   const changeLanguage = useCallback(
     (language: Language) => {
@@ -13,7 +13,7 @@ const useLanguage = () => {
     [dispatch]
   );
 
-  const language = getState().base?.language;
+  const language = state.base?.language;
 
   return { changeLanguage, language };
 };

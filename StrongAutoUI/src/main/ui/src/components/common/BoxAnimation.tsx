@@ -15,9 +15,11 @@ const BoxAnimation: React.FC<Props> = ({ duration = '400ms', ...props }) => {
   return (
     <ElementIntersection
       {...props}
-      onEnter={() => {
-        transitionRef.current?.gotoFinalState();
-        props.onEnter?.();
+      onEnter={(ref) => {
+        if (transitionRef.current?.isInInitialState) {
+          transitionRef.current?.gotoFinalState();
+        }
+        props.onEnter?.(ref);
       }}
     >
       <Transition

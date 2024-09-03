@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import { Image as ImageAntd } from 'antd';
 
 type StyledImageProps = {
   centered?: boolean;
@@ -10,7 +11,7 @@ type StyledImageProps = {
   rounded?: boolean;
 };
 
-const StyledImage = styled.img<StyledImageProps & { pointer?: boolean }>`
+const StyledImage = styled(ImageAntd)<StyledImageProps & { pointer?: boolean }>`
   display: block;
   object-fit: ${(props) => props.objectFit};
   object-position: ${(props) => props.objectPosition};
@@ -34,10 +35,19 @@ const StyledImage = styled.img<StyledImageProps & { pointer?: boolean }>`
   transition: 0.25s;
 `;
 
-export type Props = React.ComponentProps<'img'> & StyledImageProps;
+export type Props = React.ComponentProps<typeof ImageAntd> & StyledImageProps;
 
-const Image: React.FC<Props> = (props) => {
-  return <StyledImage draggable="false" rounded={props.rounded} pointer={!!props.onClick} {...props} />;
+const Image: React.FC<Props> = ({ preview = false, width = '100%', ...props }) => {
+  return (
+    <StyledImage
+      preview={preview}
+      draggable="false"
+      rounded={props.rounded}
+      pointer={!!props.onClick}
+      width={width}
+      {...props}
+    />
+  );
 };
 
 export default Image;

@@ -1,25 +1,16 @@
-import { Accordion, BoxAnimation, Container, Line, Text, Title } from 'components/common';
+import { Collapse, Container, Text, Title } from 'components/common';
 import { useTranslation } from 'hooks';
 import { faqQuestions, PAGE_MAX_WIDTH } from 'pages/constants';
 import React from 'react';
 
-type FAQAccordionProps = {
-  question: React.ReactNode;
-  answer: React.ReactNode;
-};
-
-export const FAQAccordion: React.FC<FAQAccordionProps> = (props) => {
-  return (
-    <BoxAnimation>
-      <Accordion header={<Text fontSize="lg">{props.question}</Text>} gap="0.5rem">
-        <Text fontSize="lg">{props.answer}</Text>
-      </Accordion>
-    </BoxAnimation>
-  );
-};
-
 const FAQ: React.FC = () => {
   const t = useTranslation('home.generalFaq');
+
+  const createQAItem = (faq: (typeof faqQuestions)[number]) => ({
+    key: faq.id,
+    label: <Text fontSize="lg">{t(faq.question)}</Text>,
+    children: <Text fontSize="lg">{t(faq.answer)}</Text>,
+  });
 
   return (
     <Container
@@ -41,12 +32,7 @@ const FAQ: React.FC = () => {
         />
       </Container>
       <Container xs={12} lg={6} styleConfig={{ gap: '2rem' }}>
-        {faqQuestions.map((faq) => (
-          <>
-            <FAQAccordion question={t(faq.question)} answer={t(faq.answer)} />
-            <Line />
-          </>
-        ))}
+        <Collapse ghost items={faqQuestions.map(createQAItem)} gap="1.5rem" linesBetween />
       </Container>
     </Container>
   );

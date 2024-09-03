@@ -6,8 +6,8 @@ import { useEffect } from 'react';
 import { getVehicleMakeEntries, getVehicleMakeEntry } from 'services/VehicleService';
 
 const useFetchMakes = () => {
-  const { getState, dispatch } = useApplicationContext();
-  const makes = getState().vehicles.makes;
+  const { state, dispatch } = useApplicationContext();
+  const makes = state.vehicles.makes;
 
   const { send: sendGetVehicleMakesEntriesRequest, loading: loadingGetVehicleMakesEntriesRequest } = useRequest();
   const { send: sendGetVehicleMakeEntryRequest, loading: loadingGetVehicleMakeEntryRequest } = useRequest();
@@ -35,7 +35,7 @@ const useFetchMakes = () => {
   };
 
   return {
-    makes: getState().vehicles.makes,
+    makes: state.vehicles.makes,
     fetchModels,
     loadingGetVehicleMakesEntriesRequest,
     loadingGetVehicleMakeEntryRequest,

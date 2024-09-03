@@ -53,9 +53,8 @@ public class VehicleResponseFactory {
 
       vehicle.getImages()
           .forEach(vehicleImage -> vehicleImage.links(
-              vehicleImageResponseFactory.createVehicleImageSelfLink(vehicle.getId(),
-                  vehicleImage.getId(),
-                  acceptLanguage)));
+              vehicleImageResponseFactory.createVehicleImageLinks(
+                  vehicle.getId(), vehicleImage.getId(), acceptLanguage)));
 
       vehicle.links(createVehicleSelfLink(vehicle.getId(), acceptLanguage));
     });
@@ -69,7 +68,14 @@ public class VehicleResponseFactory {
 
   public VehicleResponse createVehicleResponse(VehicleDto vehicleDto, String acceptLanguage) {
 
-    return vehicleRestConverter.convertVehicle(vehicleDto, acceptLanguage)
+    VehicleResponse vehicleResponse = vehicleRestConverter.convertVehicle(vehicleDto, acceptLanguage);
+
+    vehicleResponse.getImages()
+        .forEach(vehicleImage -> vehicleImage.links(
+            vehicleImageResponseFactory.createVehicleImageLinks(
+                vehicleResponse.getId(), vehicleImage.getId(), acceptLanguage)));
+
+    return vehicleResponse
         .links(createVehicleSelfLink(vehicleDto.getId(), acceptLanguage));
   }
 }

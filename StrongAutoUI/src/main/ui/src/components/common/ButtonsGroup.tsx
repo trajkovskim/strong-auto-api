@@ -22,7 +22,7 @@ const StyledButton = styled(Button)<StyledButtonProps>`
   color: ${(props) => props.active && '#046af2'};
 
   &:hover {
-    border-bottom: 2px solid #046af2;
+    border-bottom: 2px solid #4096ff;
   }
 `;
 

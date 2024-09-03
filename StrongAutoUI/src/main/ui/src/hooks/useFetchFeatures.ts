@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { getVehicleFeatureEntries } from 'services/VehicleService';
 
 const useFetchFeatures = () => {
-  const { getState, dispatch } = useApplicationContext();
+  const { state, dispatch } = useApplicationContext();
 
   const { language } = useLanguage();
   const { send: fetchVehicleFeatureEntries, loading: loadingGetVehicleFeatureEntriesRequest } = useRequest();
@@ -19,7 +19,7 @@ const useFetchFeatures = () => {
     );
   }, [dispatch, fetchVehicleFeatureEntries, language]);
 
-  return { loadingGetVehicleFeatureEntriesRequest, features: getState().vehicles.features };
+  return { loadingGetVehicleFeatureEntriesRequest, features: state.vehicles.features };
 };
 
 export default useFetchFeatures;

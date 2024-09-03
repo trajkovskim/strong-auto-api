@@ -1,4 +1,5 @@
-import { Accordion, Button, Container, Line, Text } from 'components/common';
+import { Divider } from 'antd';
+import { Accordion, Button, Container, Text } from 'components/common';
 import LanguageChanger from 'components/LanguageChanger';
 import EmailButton from 'components/layout/EmailButton';
 import LogoImage from 'components/layout/LogoImage';
@@ -10,72 +11,78 @@ import Sidebar from 'pages/shop/Sidebar';
 import React, { useState } from 'react';
 import { BiMenu } from 'react-icons/bi';
 import { FaClock } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
-import theme from 'theme';
+import theme, { Breakpoints } from 'theme';
 import { goto } from 'utils';
 
-const StyledContainer = styled(Container)`
-  background-color: ${theme.navigation.mobile.backgroundColor};
-  color: ${theme.navigation.mobile.color};
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+const StyledInnerContainer = styled(Accordion)`
+  transition: all 200ms;
+
+  button {
+    justify-content: start;
+  }
 `;
 
-const StyledInnerContainer = styled(Accordion)<{ opened?: boolean }>`
-  background-color: ${(props) =>
-    props.opened
-      ? theme.navigation.mobile.innerOptionsBackgroundColorOpened
-      : theme.navigation.mobile.innerOptionsBackgroundColor};
-`;
-
-type InnerOptionsProps = {
+type NavigationOptionCreatorProps = {
   option: NavigationOption;
   close: () => void;
+  paddingBottom?: Breakpoints;
 };
 
-const NavigationOptionCreator: React.FC<InnerOptionsProps> = (props) => {
-  const [open, setOpen] = useState<boolean>(false);
-
-  if (!props.option.options) {
+const NavigationOptionCreator: React.FC<NavigationOptionCreatorProps> = ({ option, ...props }) => {
+  if (!option.options) {
     return (
       <StyledButton
-        padding="sm"
+        padding={{ bottom: props.paddingBottom }}
         fullwidth
         size="lg"
         iconSize="lg"
         themeType="link"
-        icon={props.option.icon}
-        active={props.option.active}
+        icon={option.icon}
+        active={option.active}
+        {...props}
         onClick={() => {
-          props.option.navigate?.();
+          option.navigate?.();
           props.close();
         }}
       >
-        {props.option.label}
+        {option.label}
       </StyledButton>
     );
   }
 
   return (
     <StyledInnerContainer
-      opened={open}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
-      header={props.option.label}
+      header={option.label}
       buttonProps={{
-        padding: { left: 'sm', right: 'sm', top: 'sm', bottom: 'sm' },
-        icon: props.option.icon,
+        onClick: () => undefined,
+        padding: { bottom: props.paddingBottom },
+        icon: option.icon,
+        fullwidth: true,
         size: 'lg',
-        style: { color: props.option.active ? theme.navigation.activeColor : undefined },
+        style: { color: option.active ? theme.navigation.activeColor : undefined },
       }}
-      gap="0.5rem"
     >
-      {Object.values(props.option.options).map((option) => (
-        <NavigationOptionCreator key={option.label} close={props.close} option={option} />
+      {Object.values(option.options).map((option) => (
+        <NavigationOptionCreator key={option.label} option={option} {...props} />
       ))}
     </StyledInnerContainer>
   );
 };
+
+const StyledSidebar = styled(Sidebar)`
+  .ant-drawer-header {
+    background-color: #232323;
+
+    svg {
+      color: #fff !important;
+    }
+  }
+
+  .ant-drawer-header-title {
+    flex-direction: row-reverse;
+  }
+`;
 
 const MobileNavigation: React.FC = () => {
   const t = useTranslation();
@@ -88,75 +95,48 @@ const MobileNavigation: React.FC = () => {
 
   return (
     <>
-      <Sidebar xs="330px" open={open} onClose={() => setOpen(false)}>
-        <StyledContainer
+      <StyledSidebar placement="left" open={open} onClose={() => setOpen(false)} title={<LogoImage />}>
+        <LanguageChanger />
+        <Divider />
+        <StyledNavigationWrapper>
+          {Object.values(navOptions).map((option) => (
+            <NavigationOptionCreator paddingBottom="lg" key={option.label} close={close} option={option} />
+          ))}
+        </StyledNavigationWrapper>
+        <Divider />
+        <Container styleConfig={{ gap: '1.5rem' }}>
+          <TelephoneButton label size="md" iconSize="lg" />
+          <EmailButton label size="md" iconSize="lg" />
+          <Button maxContent themeType="link" size="md" iconSize="lg" icon={<FaClock />}>
+            {t(OPEN_HOURS)}
+          </Button>
+        </Container>
+        <Divider />
+        <Container
           styleConfig={{
-            minHeight: '100%',
             padding: { top: 'sm', bottom: 'sm' },
-            justifyContent: 'space-between',
           }}
         >
-          <Container styleConfig={{ gap: '1rem' }}>
-            <Container
-              styleConfig={{
-                direction: 'row',
-                padding: { left: 'sm', right: 'md' },
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Container />
-              <LogoImage />
-              <Button size="lg" themeType="link" icon={<MdClose />} maxContent onClick={close} />
-            </Container>
-            <Line />
-            <Container styleConfig={{ padding: { left: 'sm', right: 'sm' } }}>
-              <LanguageChanger />
-            </Container>
-            <Line />
-            <StyledNavigationWrapper>
-              <Container styleConfig={{ gap: '1rem' }}>
-                {Object.values(navOptions).map((option) => (
-                  <Container key={option.label}>
-                    <NavigationOptionCreator close={close} option={option} />
-                  </Container>
-                ))}
-              </Container>
-            </StyledNavigationWrapper>
-            <Line />
-            <Container styleConfig={{ gap: '1.5rem', padding: { left: 'sm', right: 'sm' } }}>
-              <TelephoneButton label size="md" />
-              <EmailButton label size="md" />
-              <Button maxContent themeType="link" size="md" icon={<FaClock />}>
-                {t(OPEN_HOURS)}
-              </Button>
-            </Container>
+          <Container
+            styleConfig={{
+              gap: '1.2rem',
+              direction: 'row',
+            }}
+          >
+            <Text fontSize="sm">{t('followUs')}</Text>
+            {socialMedias.map((socialMedia, index) => (
+              <Button
+                key={index}
+                themeType="link"
+                maxContent
+                icon={socialMedia.icon}
+                size="xl"
+                onClick={() => goto(socialMedia.href)}
+              />
+            ))}
           </Container>
-          <Container styleConfig={{ gap: '1rem' }}>
-            <Line />
-            <Container
-              styleConfig={{
-                gap: '1.2rem',
-                direction: 'row',
-                padding: { left: 'sm', right: 'sm' },
-                alignItems: 'center',
-              }}
-            >
-              <Text fontSize="sm">{t('followUs')}</Text>
-              {socialMedias.map((socialMedia, index) => (
-                <Button
-                  key={index}
-                  themeType="link"
-                  maxContent
-                  icon={socialMedia.icon}
-                  size="xl"
-                  onClick={() => goto(socialMedia.href)}
-                />
-              ))}
-            </Container>
-          </Container>
-        </StyledContainer>
-      </Sidebar>
+        </Container>
+      </StyledSidebar>
 
       <Button maxContent themeType="link" icon={<BiMenu />} iconSize="3xl" onClick={() => setOpen(true)} />
     </>

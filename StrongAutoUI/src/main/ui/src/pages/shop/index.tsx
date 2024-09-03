@@ -1,35 +1,38 @@
 import ShopProductCard from 'components/card/ShopProductCard';
-import { BoxAnimation, Button, Container, Spinner, Text } from 'components/common';
+import { BoxAnimation, Container, Spinner, Text } from 'components/common';
 import { setVehicleFiltersAction, VehicleFiltersForm } from 'context/vehicles';
 import { VehiclesResponse } from 'generated';
 import { useApplicationContext, useLanguage, useRequest, useTranslation } from 'hooks';
-import Filters from 'pages/shop/Filters';
+import Filters, { FiltersHeader } from 'pages/shop/Filters';
 import ListHeader from 'pages/shop/ListHeader';
 import Sidebar from 'pages/shop/Sidebar';
 import SortAndSizeDropdowns from 'pages/shop/SortAndSizeDropdowns';
 import React, { useCallback, useEffect, useState } from 'react';
-import { MdClose } from 'react-icons/md';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Routes } from 'routes';
 import { searchVehicles } from 'services/VehicleService';
 import styled from 'styled-components';
 
 const ListActionsMobileWrapper = styled(Container)`
-  /* position: sticky; */
   top: 0;
   background-color: inherit;
   background-color: white;
   box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.2);
 `;
 
-const PaginationHeader = styled(Container)`
-  background-color: #075ebb;
-  color: white;
-`;
+const StyledSidebar = styled(Sidebar)`
+  .ant-drawer-header {
+    background-color: #075ebb;
+    color: #fff;
+  }
 
-const FiltersContainer = styled(Container)`
-  /* position: sticky;
-  top: 80px; */
+  .ant-drawer-close svg {
+    color: #fff !important;
+  }
+
+  .ant-drawer-header-title {
+    flex-direction: row-reverse;
+  }
 `;
 
 const Shop: React.FC = () => {
@@ -46,11 +49,11 @@ const Shop: React.FC = () => {
   const [vehiclesResponse, setVehiclesResponse] = useState<VehiclesResponse>();
   const isLastPage = vehiclesResponse?.info?.totalPages === Number(vehiclesResponse?.info?.pageNumber) + 1;
 
-  const { getState, dispatch } = useApplicationContext();
+  const { state, dispatch } = useApplicationContext();
   const { language } = useLanguage();
   const t = useTranslation('inventory');
 
-  const filters = getState().vehicles.filters;
+  const filters = state.vehicles.filters;
   const setFilters = useCallback(
     (filters: VehicleFiltersForm) => {
       dispatch(setVehicleFiltersAction(filters));
@@ -111,36 +114,54 @@ const Shop: React.FC = () => {
 
   return (
     <>
-      <Sidebar xs="350px" sm="400px" open={sortAndSizeSidebarShow} onClose={handleCloseSortAndSizeSidebar}>
-        <Container styleConfig={{ gap: '0.5rem', alignItems: 'end', minHeight: '100dvh' }}>
-          <PaginationHeader xs={12} styleConfig={{ direction: 'row', justifyContent: 'space-between', padding: 'md' }}>
-            <Text fontSize="md">{t('pagination.title')}</Text>
-            <Button size="md" themeType="link" icon={<MdClose />} maxContent onClick={handleCloseSortAndSizeSidebar} />
-          </PaginationHeader>
-          <Container xs={12} styleConfig={{ padding: 'md' }}>
-            <SortAndSizeDropdowns
-              fullwidth
-              pageSize={pageSize}
-              sortBy={sortBy}
-              onPageSizeChange={setPageSize}
-              onSortByChange={setSortBy}
-            />
-          </Container>
+      <StyledSidebar
+        placement="left"
+        open={sortAndSizeSidebarShow}
+        onClose={handleCloseSortAndSizeSidebar}
+        title={<Text fontSize="md">{t('pagination.title')}</Text>}
+      >
+        <Container styleConfig={{ gap: '0.5rem', alignItems: 'end' }}>
+          <SortAndSizeDropdowns
+            fullwidth
+            pageSize={pageSize}
+            sortBy={sortBy}
+            onPageSizeChange={setPageSize}
+            onSortByChange={setSortBy}
+          />
         </Container>
-      </Sidebar>
+      </StyledSidebar>
 
-      <Sidebar xs="350px" sm="400px" open={filtersSidebarShow} onClose={handleCloseFiltersSidebar}>
-        <Filters filters={filters} onSubmit={setFilters} onClose={handleCloseFiltersSidebar} onReset={clearFilters} />
-      </Sidebar>
+      <StyledSidebar
+        placement="left"
+        open={filtersSidebarShow}
+        onClose={handleCloseFiltersSidebar}
+        title={<FiltersHeader onReset={clearFilters} headerProps={{ styleConfig: { padding: { right: 'sm' } } }} />}
+      >
+        <Filters
+          filters={filters}
+          onSubmit={setFilters}
+          onClose={handleCloseFiltersSidebar}
+          onReset={clearFilters}
+          noHeader
+          innerContainerProps={{ styleConfig: { gap: '1rem', padding: { bottom: 'md' } } }}
+        />
+      </StyledSidebar>
 
       <ListActionsMobileWrapper xs={12} lg={0}>
         {listHeaderComponent}
       </ListActionsMobileWrapper>
 
       <Container xs={12} styleConfig={{ direction: 'row', alignItems: 'flex-start', padding: { bottom: 'xl' } }}>
-        <FiltersContainer xs={0} lg={3} xl={2.5}>
-          <Filters noCloseButton filters={filters} onSubmit={setFilters} onReset={clearFilters} />
-        </FiltersContainer>
+        <Container xs={0} lg={3} xl={2.5}>
+          <Filters
+            noCloseButton
+            filters={filters}
+            onSubmit={setFilters}
+            onReset={clearFilters}
+            innerContainerProps={{ styleConfig: { gap: '1rem', padding: { left: 'md', right: 'md' } } }}
+            headerProps={{ styleConfig: { padding: 'md' } }}
+          />
+        </Container>
         <Container
           xs={12}
           lg={9}

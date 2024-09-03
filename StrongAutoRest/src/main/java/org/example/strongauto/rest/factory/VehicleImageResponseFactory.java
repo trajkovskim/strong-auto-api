@@ -1,7 +1,9 @@
 package org.example.strongauto.rest.factory;
 
+import com.example.rest.model.Link;
 import com.example.rest.model.PaginationLinks;
 import com.example.rest.model.SelfLink;
+import com.example.rest.model.VehicleImageLinks;
 import com.example.rest.model.VehicleImageResponse;
 import com.example.rest.model.VehicleImagesResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +25,23 @@ public class VehicleImageResponseFactory {
 
   private final LinksFactory linksFactory;
 
-  public SelfLink createVehicleImageSelfLink(Long vehicleId, Long imageId, String acceptLanguage) {
+  public Link createVehicleImageLink(Long vehicleId, Long imageId, String acceptLanguage) {
 
-    return linksFactory.createSelfLink(
-        methodOn(VehiclesController.class)
-            .getVehicleImageEntry(vehicleId, imageId, acceptLanguage));
+    return linksFactory.getSelfRelLink(
+        methodOn(VehiclesController.class).getVehicleImageEntry(vehicleId, imageId, acceptLanguage));
+  }
+
+  public Link createVehicleImageBinaryLink(Long vehicleId, Long imageId, String acceptLanguage) {
+
+    return linksFactory.getSelfRelLink(
+        methodOn(VehiclesController.class).getVehicleImageBinaryEntry(vehicleId, imageId, acceptLanguage));
+  }
+
+  public VehicleImageLinks createVehicleImageLinks(Long vehicleId, Long imageId, String acceptLanguage) {
+
+    return new VehicleImageLinks()
+        .self(createVehicleImageLink(vehicleId, imageId, acceptLanguage))
+        .binary(createVehicleImageBinaryLink(vehicleId, imageId, acceptLanguage));
   }
 
   public VehicleImagesResponse createVehicleImagesResponse(
@@ -40,7 +54,7 @@ public class VehicleImageResponseFactory {
         vehicleImageRestConverter.convertVehicleImagePage(vehicleImagesPage, acceptLanguage);
 
     vehiclesResponse.getImages().forEach(vehicleImage -> vehicleImage
-        .links(createVehicleImageSelfLink(vehicleId, vehicleImage.getId(), acceptLanguage)));
+        .links(createVehicleImageLinks(vehicleId, vehicleImage.getId(), acceptLanguage)));
 
     PaginationLinks paginationLinks = linksFactory.createPaginationLinks(vehicleImagesPage,
         (pageNumber, pageSize) -> methodOn(VehiclesController.class)
@@ -53,6 +67,6 @@ public class VehicleImageResponseFactory {
       VehicleImageDto vehicleImageDto, Long id, Long imageId, String acceptLanguage) {
 
     return vehicleImageRestConverter.convertVehicleImage(vehicleImageDto)
-        .links(createVehicleImageSelfLink(id, imageId, acceptLanguage));
+        .links(createVehicleImageLinks(id, imageId, acceptLanguage));
   }
 }

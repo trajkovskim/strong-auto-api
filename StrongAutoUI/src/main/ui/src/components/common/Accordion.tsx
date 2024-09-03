@@ -1,108 +1,55 @@
-import { css } from '@emotion/css';
+import { Collapse as CollapseAntd } from 'antd';
 import Button from 'components/common/Button';
-import Container from 'components/common/Container';
-import Transition, { TransitionHandle } from 'components/common/Transition';
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { BiPlus } from 'react-icons/bi';
+import React from 'react';
 import styled from 'styled-components';
 
-const StyledButton = styled(Button)`
-  *:last-child {
-    margin-left: auto;
-  }
-`;
-
-type Props = Omit<React.ComponentProps<typeof Container>, 'children'> &
-  React.PropsWithChildren & {
-    buttonProps?: React.ComponentProps<typeof StyledButton>;
-    containerProps?: Omit<React.ComponentProps<typeof Container>, 'children'>;
+type Props = React.PropsWithChildren &
+  React.ComponentProps<typeof CollapseAntd> & {
+    buttonProps?: React.ComponentProps<typeof Button>;
     header: React.ReactNode;
     defaultState?: 'open' | 'closed';
-    gap?: React.CSSProperties['gap'];
     onOpen?: () => void;
     onClose?: () => void;
   };
 
-export type AccordionHandle = {
-  transition: TransitionHandle | null;
-  container: HTMLDivElement | null;
-  toggle: () => void;
-  isOpened: () => boolean;
-};
+const StyledCollapse = styled(CollapseAntd)`
+  > .ant-collapse-item {
+    > .ant-collapse-header {
+      padding: 0;
+    }
 
-const Accordion = React.forwardRef<AccordionHandle, Props>(
-  ({ defaultState = 'closed', children, buttonProps, containerProps, header, gap, onOpen, onClose, ...props }, ref) => {
-    const transitionRef = useRef<TransitionHandle>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [maxHeight, setMaxHeight] = useState<number>();
+    > .ant-collapse-header > .ant-collapse-expand-icon {
+      padding: 0 !important;
+      padding-inline-end: 12px !important;
+    }
 
-    useEffect(() => {
-      if (defaultState === 'open') {
-        transitionRef.current?.gotoFinalState();
-      }
+    > .ant-collapse-content > * {
+      padding: 0 !important;
+    }
+  }
+`;
 
-      setMaxHeight(containerRef.current?.scrollHeight);
-      const resizeHandler = () => {
-        setMaxHeight(containerRef.current?.scrollHeight);
-      };
-
-      window.addEventListener('resize', resizeHandler);
-
-      return () => {
-        window.removeEventListener('resize', resizeHandler);
-      };
-    }, [defaultState]);
-
-    const toggle = () => {
-      if (transitionRef.current?.isInFinalState()) {
-        containerRef.current?.style.setProperty('overflow', 'hidden');
-        containerRef.current?.style.removeProperty('max-height');
-      }
-      transitionRef.current?.toggle();
-    };
-
-    useImperativeHandle(ref, () => ({
-      container: containerRef.current,
-      transition: transitionRef.current,
-      toggle,
-      isOpened: () => !!transitionRef.current?.isInFinalState(),
-    }));
-
+const Accordion = React.forwardRef<HTMLDivElement, Props>(
+  ({ defaultState = 'closed', buttonProps, header, ...props }, ref) => {
     return (
-      <Container {...props}>
-        <StyledButton themeType="link" iconRight={<BiPlus />} size="lg" fullwidth onClick={toggle} {...buttonProps}>
-          {header}
-        </StyledButton>
-        <Transition
-          ref={transitionRef}
-          duration="200ms"
-          timingFunction="ease-in-out"
-          transition={{
-            initial: css`
-              overflow: hidden;
-              max-height: 0;
-            `,
-            final: css`
-              padding-top: ${gap};
-              max-height: ${Math.max(
-                containerRef.current?.scrollHeight ?? 0,
-                containerRef.current?.children.item(0)?.scrollHeight ?? 0,
-                maxHeight ?? 0
-              ) + 10}px;
-            `,
-          }}
-          onInitalEnd={() => onClose?.()}
-          onFinalEnd={() => {
-            containerRef.current?.style.setProperty('overflow', 'visible');
-            // containerRef.current?.style.setProperty('max-height', '100%');
-            onOpen?.();
-          }}
-        >
-          <Container {...containerProps} ref={containerRef}>
-            {children}
-          </Container>
-        </Transition>
-      </Container>
+      <StyledCollapse
+        ref={ref}
+        {...props}
+        defaultActiveKey={defaultState === 'open' ? '1' : undefined}
+        expandIconPosition="end"
+        ghost
+        items={[
+          {
+            key: '1',
+            label: (
+              <Button themeType="link" size="lg" maxContent {...buttonProps}>
+                {header}
+              </Button>
+            ),
+            children: props.children,
+          },
+        ]}
+      />
     );
   }
 );

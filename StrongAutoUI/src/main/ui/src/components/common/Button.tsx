@@ -22,8 +22,8 @@ type StyledProps = {
 
 const themes: Record<ThemeType, Record<string, string>> = {
   default: {
-    'background-color': '#046af2',
-    'background-color-hover': '#075ebb',
+    'background-color': '#1677ff',
+    'background-color-hover': '#4096ff',
     'background-color-active': '#255b9475',
     'box-shadow-focus': '#046bf257 0 0 0 3px',
     'box-shadow-active': 'rgba(20, 70, 32, 0.2) 0 1px 0 inset',
@@ -46,8 +46,8 @@ const themes: Record<ThemeType, Record<string, string>> = {
   },
   link: {
     'background-color': 'transparent',
-    'color-hover': '#075ebb',
-    'color-active': '#046af2',
+    'color-hover': '#4096ff',
+    'color-active': '#1677ff',
     border: '0px',
   },
   delete: {
@@ -68,8 +68,8 @@ const themes: Record<ThemeType, Record<string, string>> = {
   },
   'link-colored': {
     'background-color': 'transparent',
-    color: '#046af2',
-    'color-hover': '#075ebb',
+    color: '#1677ff',
+    'color-hover': '#4096ff',
     'color-active': '#255b9475',
     border: '0px',
   },

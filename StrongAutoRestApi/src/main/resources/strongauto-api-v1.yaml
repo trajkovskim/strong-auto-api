@@ -149,6 +149,29 @@ paths:
           $ref: "#/components/responses/VehicleImageResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
+  /vehicles/{id}/images/{imageId}/binary:
+    get:
+      operationId: getVehicleImageBinaryEntry
+      tags:
+        - vehicle
+      description: Get vehicle image binary entry
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+        - name: imageId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleImageBinResponse"
+        404:
+          $ref: "#/components/responses/NotFoundResponse"
   /vehicle-makes:
     get:
       operationId: getVehicleMakeEntries
@@ -318,7 +341,17 @@ components:
         - MKD
         - EUR
       example: "MKD"
+    Byte:
+      type: string
+      format: byte
 
+    VehicleImageLinks:
+      type: object
+      properties:
+        self:
+          $ref: "#/components/schemas/Link"
+        binary:
+          $ref: "#/components/schemas/Link"
     VehicleImageEmbedded:
       type: object
       required:
@@ -341,7 +374,7 @@ components:
         - type: object
           properties:
             links:
-              $ref: "#/components/schemas/SelfLink"
+              $ref: "#/components/schemas/VehicleImageLinks"
     VehicleImage:
       allOf:
         - $ref: "#/components/schemas/VehicleImageEmbedded"
@@ -350,15 +383,14 @@ components:
             - data
           properties:
             data:
-              type: string
-              format: byte
+              $ref: "#/components/schemas/Byte"
     VehicleImageResponse:
       allOf:
         - $ref: "#/components/schemas/VehicleImage"
         - type: object
           properties:
             links:
-              $ref: "#/components/schemas/SelfLink"
+              $ref: "#/components/schemas/VehicleImageLinks"
     VehicleImagesResponse:
       type: object
       properties:
@@ -380,8 +412,7 @@ components:
           type: string
           example: "image/png"
         data:
-          type: string
-          format: byte
+          $ref: "#/components/schemas/Byte"
 
     Amount:
       type: object
@@ -637,7 +668,7 @@ components:
         images:
           type: array
           items:
-           $ref: "#/components/schemas/VehicleImageEmbeddedResponse"
+            $ref: "#/components/schemas/VehicleImageEmbeddedResponse"
         make:
           type: string
           example: "Audi"
@@ -866,17 +897,17 @@ components:
         - totalElements
       properties:
         totalElements:
-          type: number
+          type: integer
           format: int64
           example: 1000
         totalPages:
-          type: number
+          type: integer
           example: 5
         pageSize:
-          type: number
+          type: integer
           example: 10
         pageNumber:
-          type: number
+          type: integer
           example: 10
 
     ErrorResponse:
@@ -918,6 +949,15 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/VehicleImageResponse"
+    VehicleImageBinResponse:
+      description: Vehicle image binary data
+      content:
+        image/jpeg:
+          schema:
+            $ref: "#/components/schemas/Byte"
+        image/png:
+          schema:
+            $ref: "#/components/schemas/Byte"
     VehicleFeaturesResponse:
       description: List of vehicle features entries
       content:
@@ -976,7 +1016,7 @@ components:
       description: Page number
       required: false
       schema:
-        type: number
+        type: integer
         example: 1
         default: 1
     Size:
@@ -985,7 +1025,7 @@ components:
       description: Page size
       required: false
       schema:
-        type: number
+        type: integer
         default: 10
         example: 10
     Sort:

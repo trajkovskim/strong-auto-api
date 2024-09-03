@@ -19,9 +19,11 @@ import org.example.strongauto.core.service.VehicleService;
 import org.example.strongauto.rest.converter.VehicleRestConverter;
 import org.example.strongauto.rest.factory.VehicleImageResponseFactory;
 import org.example.strongauto.rest.factory.VehicleResponseFactory;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
+import java.util.Base64;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -110,5 +112,15 @@ public class VehiclesController implements VehiclesApi {
         vehicleImageResponseFactory.createVehicleImagesResponse(id, pageInfoDto, acceptLanguage, sortBy);
 
     return ResponseEntity.ok(vehicleImagesResponse);
+  }
+
+  @Override
+  public ResponseEntity<byte[]> getVehicleImageBinaryEntry(Long id, Long imageId, String acceptLanguage) {
+
+    VehicleImageDto vehicleImageDto = vehicleImageService.findById(imageId);
+
+    byte[] imageData = vehicleImageDto.getData();
+
+    return ResponseEntity.ok().contentType(MediaType.parseMediaType(vehicleImageDto.getContentType())).body(imageData);
   }
 }

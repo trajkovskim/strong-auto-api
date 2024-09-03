@@ -3,37 +3,27 @@
 import SUVBodyTypeImage from 'assets/SUV.png';
 import { VehicleBodyType } from 'generated';
 
-export const PAGE_MAX_WIDTH = "1400px";
+export const PAGE_MAX_WIDTH = '1400px';
 
 export const TELEPHONE = 'strongauto.telephone';
 export const EMAIL = 'strongauto.email';
 export const OPEN_HOURS = 'strongauto.openHours';
 
-export const priceOptions = ['0-3000', '3000-10000','10000-20000','20000-50000','100000-any']
+export const priceOptions = ['0-3000', '3000-10000', '10000-20000', '20000-50000', '100000-any'];
 
 type BodyType = {
-  id: number;
   bodyType: VehicleBodyType;
   inStock: number;
   label: string;
   imageSrc: string;
-}
+};
 
-export const bodyTypes: BodyType[] = [
-  { id: 0, bodyType: VehicleBodyType.Suv, inStock: 24, label: 'strongauto.vehicleBodyType.SUV', imageSrc: SUVBodyTypeImage },
-  { id: 1, bodyType: VehicleBodyType.Sedan, inStock: 24, label: 'strongauto.vehicleBodyType.SEDAN', imageSrc: SUVBodyTypeImage },
-  { id: 2, bodyType: VehicleBodyType.Convertible, inStock: 24, label: 'strongauto.vehicleBodyType.CONVERTIBLE', imageSrc: SUVBodyTypeImage },
-  { id: 3, bodyType: VehicleBodyType.Limousine, inStock: 24, label: 'strongauto.vehicleBodyType.LIMOUSINE', imageSrc: SUVBodyTypeImage },
-  { id: 4, bodyType: VehicleBodyType.Suv, inStock: 24, label: 'strongauto.vehicleBodyType.SUV', imageSrc: SUVBodyTypeImage },
-  { id: 5, bodyType: VehicleBodyType.Sedan, inStock: 24, label: 'strongauto.vehicleBodyType.SEDAN', imageSrc: SUVBodyTypeImage },
-  { id: 6, bodyType: VehicleBodyType.Convertible, inStock: 24, label: 'strongauto.vehicleBodyType.CONVERTIBLE', imageSrc: SUVBodyTypeImage },
-  { id: 7, bodyType: VehicleBodyType.Limousine, inStock: 24, label: 'strongauto.vehicleBodyType.LIMOUSINE', imageSrc: SUVBodyTypeImage },
-  { id: 8, bodyType: VehicleBodyType.Suv, inStock: 24, label: 'strongauto.vehicleBodyType.SUV', imageSrc: SUVBodyTypeImage },
-  { id: 9, bodyType: VehicleBodyType.Sedan, inStock: 24, label: 'strongauto.vehicleBodyType.SEDAN', imageSrc: SUVBodyTypeImage },
-  { id: 10, bodyType: VehicleBodyType.Convertible, inStock: 24, label: 'strongauto.vehicleBodyType.CONVERTIBLE', imageSrc: SUVBodyTypeImage },
-  { id: 11, bodyType: VehicleBodyType.Limousine, inStock: 24, label: 'strongauto.vehicleBodyType.LIMOUSINE', imageSrc: SUVBodyTypeImage },
-  { id: 12, bodyType: VehicleBodyType.Coupe, inStock: 24, label: 'strongauto.vehicleBodyType.LIMOUSINE', imageSrc: SUVBodyTypeImage },
-];
+export const bodyTypes: BodyType[] = Object.values(VehicleBodyType).map((bodyType) => ({
+  bodyType,
+  inStock: 24,
+  label: `strongauto.vehicleBodyType.${bodyType}`,
+  imageSrc: SUVBodyTypeImage,
+}));
 
 export const faqQuestions = [
   {

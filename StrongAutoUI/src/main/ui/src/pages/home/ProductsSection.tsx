@@ -2,8 +2,8 @@ import { ProductCard } from 'components/card';
 import { BoxAnimation, ButtonProps, ButtonsGroup, Container, HorizontalList, StyledSpinner } from 'components/common';
 import { VehiclesResponse, VehicleState } from 'generated';
 import { useLanguage, useRequest, useTranslation } from 'hooks';
-import BodyTypes from 'pages/home/BodyTypes';
 import { WhiteBackgroundContainer } from 'pages/common.styled';
+import BodyTypes from 'pages/home/BodyTypes';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Routes } from 'routes';
@@ -46,38 +46,38 @@ const ProductsSection: React.FC = () => {
   return (
     <WhiteBackgroundContainer
       xs={12}
-      styleConfig={{
-        gap: '3rem',
-        relative: true,
-        centered: true,
-        alignItems: 'center',
-        padding: { left: 'md', right: 'md' },
-      }}
+      styleConfig={{ gap: '3rem', centered: true, padding: { left: 'md', right: 'md' } }}
     >
       <BoxAnimation>
-        <ButtonsGroup
-          buttons={tabs}
-          onChange={(tab) => setExploreVehiclesActiveTab(tab.value)}
-          active={exploreVehiclesActiveTab}
-        />
-      </BoxAnimation>
-
-      <BoxAnimation fullwidth>
-        <Container styleConfig={{ direction: 'row', relative: true }} xs={12}>
-          {exploreVehiclesActiveTab === tabs[0].value && (
-            <HorizontalList chunkGap="1rem" chunkSize={{ xs: 12, md: 6, lg: 4, xl: 3 }} centered circular>
-              {vehiclesResponse?.vehicles.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
-                  {...product}
-                />
-              ))}
-            </HorizontalList>
-          )}
-          {exploreVehiclesActiveTab === tabs[1].value && <BodyTypes />}
+        <Container styleConfig={{ alignItems: 'center' }}>
+          <ButtonsGroup
+            buttons={tabs}
+            onChange={(tab) => setExploreVehiclesActiveTab(tab.value)}
+            active={exploreVehiclesActiveTab}
+          />
         </Container>
       </BoxAnimation>
+
+      {exploreVehiclesActiveTab === tabs[0].value && (
+        <BoxAnimation>
+          <HorizontalList
+            gap="1rem"
+            chunkSize={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+            infinite
+            slidesToShow={4}
+            slidesToScroll={1}
+          >
+            {vehiclesResponse?.vehicles.map((product) => (
+              <ProductCard
+                key={product.id}
+                {...product}
+                onView={() => navigate(Routes.SHOP_VIEW_DETAILS.replace(':id', product.id.toString()))}
+              />
+            ))}
+          </HorizontalList>
+        </BoxAnimation>
+      )}
+      <BoxAnimation>{exploreVehiclesActiveTab === tabs[1].value && <BodyTypes />}</BoxAnimation>
     </WhiteBackgroundContainer>
   );
 };

@@ -1,4 +1,6 @@
 :root {
+  --border-line-color: #bdb9b976;
+
   --title-fs-0: clamp(0.6875rem, 0.6337rem + 0.2532vi, 0.9375rem);
   --title-fs-1: clamp(1rem, calc(0.8rem + 1vw), 2rem);
   --title-fs-2: clamp(1.5rem, calc(1.3rem + 1vw), 2.5rem);

@@ -6,6 +6,8 @@ export type BreakpointsProps = {
 
 export const LARGEST_BREAKPOINT: Breakpoints = '3xl';
 
+export const bodyFontSize = window.getComputedStyle(document.body, null).getPropertyValue('font-size');
+
 export default {
   padding: {
     xs: '0.2rem',
@@ -63,7 +65,6 @@ export default {
       color: '#fff',
       activeColor: '#075ebb',
       backgroundColor: '#2b2f31',
-      innerOptionsBackgroundColor: '#2b2f31',
       innerOptionsBackgroundColorOpened: 'hsl(200, calc(6.521739130434781% + 10%), 18.039215686274513%)',
     },
   },

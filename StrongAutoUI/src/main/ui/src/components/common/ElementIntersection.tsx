@@ -13,8 +13,8 @@ const StyledContainer = styled.div<StyledContainerProps>`
 
 export type Props = React.PropsWithChildren &
   StyledContainerProps & {
-    onEnter: () => void;
-    onLeave?: () => void;
+    onEnter: (ref: HTMLDivElement | null) => void;
+    onLeave?: (ref1: HTMLDivElement | null) => void;
     threshold?: number;
   };
 
@@ -31,9 +31,9 @@ const ElementIntersection: React.FC<Props> = ({ threshold = 0.2, ...props }) => 
       const [entry] = entries;
 
       if (entry.isIntersecting) {
-        props.onEnter();
+        props.onEnter(elementRef.current);
       } else {
-        props.onLeave?.();
+        props.onLeave?.(elementRef.current);
       }
     };
 

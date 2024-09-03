@@ -10,7 +10,6 @@ import styled from 'styled-components';
 const StyledBuyCarImage = styled(Image)`
   border-bottom-right-radius: 150px;
   box-shadow: 0px 35px 5px -17px #a3a3a3, 18px 57px 16px -17px #b8b8b8;
-  /* clip-path: ellipse(67% 75% at 75% 66%); */
 
   height: 100%;
   max-height: 600px;
@@ -18,10 +17,8 @@ const StyledBuyCarImage = styled(Image)`
 `;
 
 const StyledRightImage = styled(Image)`
-  border-bottom-left-radius: 150px;
   border-top-left-radius: 150px;
-  box-shadow: 0px 35px 5px -17px #a3a3a3, 18px 57px 16px -17px #b8b8b8;
-  /* clip-path: ellipse(67% 75% at 75% 66%); */
+  box-shadow: 0px -35px 5px -17px #a3a3a3, 18px -57px 16px -17px #b8b8b8;
 
   height: 100%;
   max-height: 600px;

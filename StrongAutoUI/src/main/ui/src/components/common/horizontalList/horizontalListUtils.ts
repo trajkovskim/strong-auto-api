@@ -219,14 +219,6 @@ export class HorizontalListHandlers {
     this.horizontalList.mouseOver = false;
   }
 
-  // wheelHandler(event: React.WheelEvent<HTMLElement>) {
-  //   if (event.deltaX <= -5) {
-  //     this.horizontalListService.moveBackward();
-  //   } else if (event.deltaX >= 5) {
-  //     this.horizontalListService.moveForward();
-  //   }
-  // }
-
   mouseUpHandler() {
     this.horizontalList.mouseDown = false;
     this.horizontalList.moving = false;

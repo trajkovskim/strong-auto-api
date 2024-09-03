@@ -1,4 +1,4 @@
-import { VehicleImage } from 'generated';
+import { VehicleImage, VehicleImageEmbeddedResponse, VehicleImageLinks } from 'generated';
 import { TranslationFunction } from 'hooks';
 import { css } from 'styled-components';
 import theme, { Breakpoints, LARGEST_BREAKPOINT } from 'theme';
@@ -156,3 +156,6 @@ export const createMatrixFromTranslations = (prefixKey: string, t: TranslationFu
 export const transformBase64Image = (image: VehicleImage) => {
   return `data:${image.contentType};base64,${image.data}`;
 };
+
+export const mapProductImagesToBinaryLink = (images: VehicleImageEmbeddedResponse[] | undefined) =>
+  (images?.map((image) => image.links?.binary?.href).filter(Boolean) as string[]) ?? [];

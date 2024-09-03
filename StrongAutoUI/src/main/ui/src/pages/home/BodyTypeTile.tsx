@@ -37,7 +37,7 @@ const BodyTypeTile: React.FC<Props> = (props) => {
       styleConfig={{ textCentered: true, padding: 'md', gap: '0.5rem', alignItems: 'center' }}
       onClick={props.onClick}
     >
-      <Image src={props.imageSrc} alt={label} objectFit="contain" centered />
+      <Image src={props.imageSrc} alt={label} objectFit="contain" centered height="150px" />
       <Container>
         <Text fontSize="md">{label}</Text>
         <Text fontSize="sm" type="sub">

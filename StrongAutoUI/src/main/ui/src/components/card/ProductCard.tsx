@@ -5,9 +5,8 @@ import ProductCardImages from 'components/card/ProductCardImages';
 import ProductCardPrice from 'components/card/ProductCardPrice';
 import ProductTitle from 'components/card/ProductTitle';
 import { ProductProps } from 'components/card/types';
-import { Container } from 'components/common';
+import { Container, Ribbon } from 'components/common';
 import { OnImageContainer } from 'components/common/card/Card.styled';
-import Ribbon from 'components/common/card/Ribbon';
 import React from 'react';
 
 const ProductCard: React.FC<ProductProps> = (props) => {
@@ -22,13 +21,12 @@ const ProductCard: React.FC<ProductProps> = (props) => {
           }}
         />
       </Container>
-      <Container styleConfig={{ gap: '1rem', direction: 'row', justifyContent: 'space-between', alignItems: 'end' }}>
+      <Container styleConfig={{ direction: 'row', gap: '1rem', justifyContent: 'space-between', alignItems: 'end' }}>
         <ProductTitle title={props.title} summary={props.summary} onView={props.onView} />
         <ProductCardPrice amount={props.amount} />
       </Container>
     </OnImageContainer>
   );
-
   const image = <ProductCardImages id={props.id} images={props.images} height="450px" />;
 
   return (
