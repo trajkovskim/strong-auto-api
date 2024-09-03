@@ -1,4 +1,4 @@
-package com.example.strongauto.webclient.configuration;
+package org.example.strongauto.webclient.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ public class WebClientConfiguration {
   @Value("${googleBuinessApi.url}")
   private String googleBusinessApiUrl;
 
-  @Bean(name = "googleBusinessApiWebClient")
+  @Bean(name = "googleBusinessApiWebClientConfigured")
   public WebClient googleBusinessApiWebClient() {
 
     return WebClient.builder().baseUrl(googleBusinessApiUrl).build();

@@ -1,6 +1,6 @@
-package com.example.strongauto.webclient.model.reviews;
+package org.example.strongauto.webclient.model.reviews;
 
-import com.example.strongauto.webclient.model.reviews.enums.StarRating;
+import org.example.strongauto.webclient.model.reviews.enums.StarRating;
 import lombok.Builder;
 import lombok.Getter;
 
