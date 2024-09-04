@@ -5,7 +5,7 @@ ENV PROFILE docker
 ENV JAVA_OPTIONS ''
 ENV JAVA_PROPERTIES ''
 
-WORKDIR /strong-auto
+WORKDIR /strongauto
 
 COPY $JAR_PATH strong-auto-app.jar
 

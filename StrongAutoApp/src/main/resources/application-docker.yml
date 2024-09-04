@@ -5,8 +5,8 @@ mock-db: true
 
 spring:
   datasource:
-    url: jdbc:h2:mem:strongauto-db
-#    url: jdbc:h2:file:./strongauto-db
+#    url: jdbc:h2:mem:strongauto-db
+    url: jdbc:h2:file:./h2/strongauto-db
     username: sa
     password: password
     driver-class-name: org.h2.Driver
@@ -15,21 +15,7 @@ spring:
       ddl-auto: validate
       dialect: org.hibernate.dialect.H2Dialect
     show-sql: true
-  h2:
-    console:
-      enabled: true
 #    url: jdbc:postgresql://localhost:5432/
 #    username: postgres
 #    password: postgres
 #    driver-class-name: org.postgresql.Driver
-#  jpa:
-#    hibernate:
-#      ddl-auto: validate
-#      dialect: org.hibernate.dialect.ProgressDialect
-
-springdoc:
-  swagger-ui:
-    enabled: true
-  api-docs:
-    enabled: true
-  show-actuator: true

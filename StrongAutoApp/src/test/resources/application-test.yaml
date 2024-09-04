@@ -1,10 +1,11 @@
 server:
   port: 3000
 
-  servlet:
-    context-path: /api/v1
-
 spring:
+  security:
+    user:
+      name: user
+      password: password
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
@@ -21,6 +22,14 @@ springdoc:
   api-docs:
     enabled: true
   show-actuator: true
+
+google:
+  businessApi:
+    uri: https://mybusiness.googleapis.com/v4
+  placesApi:
+    apiKey: apiKey
+    defaultPlaceId: ChIJ8SSGZkn_qRQR0O1XSyLI_s8
+    uri: https://places.googleapis.com/v1
 
 logging:
   level:
