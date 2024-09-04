@@ -1,5 +1,5 @@
 import Logo from 'assets/logo.png';
-import { Button, Container, Form, Image, Input, Line, Text, Title } from 'components/common';
+import { Button, Container, Image, Line, Text, Title } from 'components/common';
 import { useSocialMedias, useTranslation } from 'hooks';
 import { EMAIL, OPEN_HOURS, PAGE_MAX_WIDTH, TELEPHONE } from 'pages/constants';
 import React from 'react';
@@ -24,20 +24,42 @@ const SocialMedias = styled(Container)`
   }
 `;
 
-const StyledNewsLetterFormContainer = styled(Container)`
-  background-color: #fff;
-  border-radius: 5px;
-`;
+// const StyledNewsLetterFormContainer = styled(Container)`
+//   background-color: #fff;
+//   border-radius: 5px;
+// `;
+
+// const NewsletterForm: React.FC = () => {
+//   const t = useTranslation('footer');
+
+//   const handleSubmit = (values: unknown) => {
+//     console.log(values);
+//   };
+
+//   return (
+//     <Form onSubmit={handleSubmit}>
+//       <StyledNewsLetterFormContainer
+//         styleConfig={{
+//           padding: 'sm',
+//           direction: 'row',
+//           alignItems: 'center',
+//           gap: '0.5rem',
+//         }}
+//       >
+//         <Input fullwidth size="sm" type="email" placeholder={t('newsLetter.emailInput.placeholder')} noBorder />
+//         <Button type="submit" size="sm" maxContent>
+//           {t('newsLetter.subscribeButton')}
+//         </Button>
+//       </StyledNewsLetterFormContainer>
+//     </Form>
+//   );
+// };
 
 const Footer: React.FC = () => {
   const t = useTranslation('footer');
   const tBase = useTranslation();
   const navigate = useNavigate();
   const socialMedias = useSocialMedias();
-
-  const handleSubmit = (values: unknown) => {
-    console.log(values);
-  };
 
   const telephone = tBase(TELEPHONE);
   const email = tBase(EMAIL);
@@ -62,23 +84,9 @@ const Footer: React.FC = () => {
           <Container xs={12} lg="max-content">
             <Title title={t('newsLetter.title')} description={t('newsLetter.description')} fontSize="md" />
           </Container>
-          <Container xs={12} lg="max-content">
-            <Form onSubmit={handleSubmit}>
-              <StyledNewsLetterFormContainer
-                styleConfig={{
-                  padding: 'sm',
-                  direction: 'row',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                }}
-              >
-                <Input fullwidth size="sm" type="email" placeholder={t('newsLetter.emailInput.placeholder')} noBorder />
-                <Button type="submit" size="sm" maxContent>
-                  {t('newsLetter.subscribeButton')}
-                </Button>
-              </StyledNewsLetterFormContainer>
-            </Form>
-          </Container>
+          {/* <Container xs={12} lg="max-content">
+            <NewsletterForm />
+          </Container> */}
         </Container>
         <Line />
         <Container styleConfig={{ gap: '3rem', wrap: true, direction: 'row' }}>

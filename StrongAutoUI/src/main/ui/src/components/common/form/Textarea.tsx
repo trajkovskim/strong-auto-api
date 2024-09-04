@@ -9,7 +9,7 @@ import {
   StyledTextarea,
   TextareaWrapper,
 } from 'components/common/form/Input.styled';
-import { useInput } from 'components/common/hooks';
+import { useForm, useInput } from 'components/common/hooks';
 import React, { useRef } from 'react';
 import { Validator } from 'validators';
 
@@ -24,6 +24,10 @@ type Props = Omit<React.ComponentProps<'textarea'>, keyof StyledInputProps> &
 const Textarea: React.FC<Props> = ({ label, fullwidth, rightContainer, validate, ...props }) => {
   const rightContainerRef = useRef<HTMLDivElement>(null);
 
+  const { change, getValue } = useForm();
+  const name = props.name as string;
+  const value = getValue(name);
+
   const { state, onChange, onBlur, onFocus } = useInput(
     props.defaultValue,
     props.onChange,
@@ -32,12 +36,28 @@ const Textarea: React.FC<Props> = ({ label, fullwidth, rightContainer, validate,
     validate
   );
 
-  const events = { onChange, onBlur, onFocus };
+  const events: {
+    onChange: typeof onChange;
+    onBlur: typeof onBlur;
+    onFocus: typeof onFocus;
+  } = {
+    onChange: (event) => {
+      change(name, event.target.value);
+      onChange(event);
+    },
+    onBlur,
+    onFocus,
+  };
 
   return (
     <StyledContainer fullwidth={fullwidth}>
       <TextareaWrapper label={label} size={props.size}>
-        <StyledTextarea {...props} {...events} rightcontainerwidth={rightContainerRef.current?.offsetWidth} />
+        <StyledTextarea
+          {...props}
+          {...events}
+          value={value ? value.toString() : ''}
+          rightcontainerwidth={rightContainerRef.current?.offsetWidth}
+        />
         <StyledRightContainer ref={rightContainerRef}>
           {state.dirty && validate && (
             <span>

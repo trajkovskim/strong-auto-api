@@ -53,25 +53,6 @@ export const faqQuestions = [
   },
 ];
 
-export const reviews = [
-  {
-    id: 0,
-    username: 'userName 1',
-    creationDate: new Date(),
-    rating: 4.5,
-    comment: undefined,
-    platform: 'Google',
-  },
-  {
-    id: 1,
-    username: 'userName 2',
-    creationDate: new Date(),
-    rating: 4,
-    comment: undefined,
-    platform: 'Google',
-  },
-];
-
 // export const blogPosts = [
 //   {
 //     id: 0,

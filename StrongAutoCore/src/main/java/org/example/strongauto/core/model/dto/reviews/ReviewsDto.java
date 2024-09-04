@@ -5,13 +5,9 @@ import lombok.Getter;
 
 import java.util.List;
 
-/**
- * Reviews dto.
- */
 @Getter
 @Builder
 public class ReviewsDto {
 
-  private double averageRating;
   private List<ReviewDto> reviews;
 }

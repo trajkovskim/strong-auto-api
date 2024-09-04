@@ -15,6 +15,8 @@ paths:
       tags:
         - reviews
       description: Get reviews
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
       responses:
         200:
           $ref: "#/components/responses/ReviewsResponse"
@@ -32,43 +34,58 @@ components:
         4 - Four stars
         5 - Five stars
 
-    ReviewOwnerReply:
+    #    ReviewOwnerReply:
+    #      type: object
+    #      properties:
+    #        comment:
+    #          type: string
+    #          description: "Comment"
+    #        updateTime:
+    #          type: string
+    #          format: timestamp
+    LocalizedText:
       type: object
       properties:
-        comment:
+        text:
           type: string
-          description: "Comment"
-        updateTime:
+          example: "Добра услуга"
+        languageCode:
           type: string
-          format: timestamp
-    Review:
+          example: "mk"
+    Reviewer:
       type: object
       properties:
-        id:
-          type: string
-          example: 'id'
-        anonymous:
-          type: boolean
-          example: true
-        profilePhotoUrl:
-          type: string
-          example: "http://image.url"
-        reviewerName:
+        displayName:
           type: string
           example: "Name"
-        starRating:
+        photoUri:
+          type: string
+          example: "http://image.uri"
+        uri:
+          type: string
+          example: "https://www.google.com/maps/contrib/contribId/reviews"
+    Review:
+      type: object
+      required:
+        - platform
+        - publishTime
+      properties:
+        reviewer:
+          $ref: "#/components/schemas/Reviewer"
+        platform:
+          type: string
+          example: "Google"
+        rating:
           $ref: "#/components/schemas/StarRating"
-        comment:
+        text:
           type: string
-          description: "Comment"
-        createTime:
+          example: "Great service"
+        originalText:
+          $ref: "#/components/schemas/LocalizedText"
+        publishTime:
           type: string
           format: timestamp
-        updateTime:
-          type: string
-          format: timestamp
-        ownerReply:
-          $ref: "#/components/schemas/ReviewOwnerReply"
+          example: "2024-09-04T08:34:07Z"
     Reviews:
       type: object
       properties:
@@ -76,9 +93,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Review"
-        averageRating:
-          type: number
-          description: "4.7"
   responses:
     ReviewsResponse:
       description: Reviews list
@@ -86,6 +100,15 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Reviews"
+  parameters:
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      description: Accept language header
+      example: "en"
+      required: false
+      schema:
+        type: string
 
 
 

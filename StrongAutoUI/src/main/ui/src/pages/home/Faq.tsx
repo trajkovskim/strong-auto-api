@@ -1,15 +1,18 @@
 import { Collapse, Container, Text, Title } from 'components/common';
 import { useTranslation } from 'hooks';
-import { faqQuestions, PAGE_MAX_WIDTH } from 'pages/constants';
+import { PAGE_MAX_WIDTH } from 'pages/constants';
 import React from 'react';
+import { createKeyValueListFromTranslations } from 'utils';
 
 const FAQ: React.FC = () => {
   const t = useTranslation('home.generalFaq');
 
-  const createQAItem = (faq: (typeof faqQuestions)[number]) => ({
-    key: faq.id,
-    label: <Text fontSize="lg">{t(faq.question)}</Text>,
-    children: <Text fontSize="lg">{t(faq.answer)}</Text>,
+  const questionAnswerList = createKeyValueListFromTranslations('questions', t, 'question', 'answer');
+
+  const createQAItem = (qa: (typeof questionAnswerList)[number]) => ({
+    key: qa.key,
+    label: <Text fontSize="lg">{t(qa.key)}</Text>,
+    children: <Text fontSize="lg">{t(qa.value)}</Text>,
   });
 
   return (
@@ -32,7 +35,7 @@ const FAQ: React.FC = () => {
         />
       </Container>
       <Container xs={12} lg={6} styleConfig={{ gap: '2rem' }}>
-        <Collapse ghost items={faqQuestions.map(createQAItem)} gap="1.5rem" linesBetween />
+        <Collapse ghost items={questionAnswerList.map(createQAItem)} gap="1.5rem" linesBetween />
       </Container>
     </Container>
   );

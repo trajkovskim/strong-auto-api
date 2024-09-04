@@ -3,6 +3,7 @@
     <option name="ACTIVE_PROFILES" value="local" />
     <module name="StrongAutoApp" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.strongauto.StrongAutoApplication" />
+    <option name="VM_PARAMETERS" value="-Dgoogle.placesApi.apiKey=&quot;AIzaSyDjQW0-4gbvTySGwL2Ri__YtJL0ld93ICw&quot;" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

@@ -16,9 +16,9 @@ public class ReviewsController implements ReviewsApi {
   private final ReviewsRestConverter reviewsRestConverter;
 
   @Override
-  public ResponseEntity<Reviews> getReviews() {
+  public ResponseEntity<Reviews> getReviews(String acceptLanguage) {
 
-    ReviewsDto reviewsDto = reviewsService.getReviews();
+    ReviewsDto reviewsDto = reviewsService.getReviews(acceptLanguage);
 
     Reviews reviews = reviewsRestConverter.convertReviews(reviewsDto);
 

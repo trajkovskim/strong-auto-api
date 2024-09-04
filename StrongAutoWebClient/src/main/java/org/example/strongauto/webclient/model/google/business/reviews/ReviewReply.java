@@ -1,4 +1,4 @@
-package org.example.strongauto.webclient.model.reviews;
+package org.example.strongauto.webclient.model.google.business.reviews;
 
 import lombok.Builder;
 import lombok.Getter;

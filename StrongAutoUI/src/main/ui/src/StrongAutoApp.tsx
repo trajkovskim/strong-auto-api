@@ -1,11 +1,9 @@
-import { FloatButton } from 'antd';
 import { Footer } from 'components/layout';
+import { BackToTopButton } from 'components/layout/BackToTopButton';
 import ApplicationContextProvider from 'context';
-import React, { useEffect } from 'react';
-import { BsArrowUp } from 'react-icons/bs';
-import { Outlet, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { scrollToTop } from 'utils';
 
 const StyledLayout = styled.div`
   min-height: 100dvh;
@@ -17,12 +15,6 @@ const StyledLayout = styled.div`
 `;
 
 const StrongAutoApp: React.FC = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    setTimeout(scrollToTop, 0);
-  }, [location]);
-
   return (
     <ApplicationContextProvider>
       <div>
@@ -32,7 +24,7 @@ const StrongAutoApp: React.FC = () => {
           </main>
           <Footer />
         </StyledLayout>
-        <FloatButton icon={<BsArrowUp />} onClick={scrollToTop} type="primary" />
+        <BackToTopButton />
       </div>
     </ApplicationContextProvider>
   );

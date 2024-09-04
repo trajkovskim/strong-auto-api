@@ -19,18 +19,48 @@ import { BiPhoneCall } from 'react-icons/bi';
 import { MdEmail } from 'react-icons/md';
 import { call, goto, mailTo } from 'utils';
 
+type ContactForm = {
+  name?: string;
+  subject?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+};
+
 const Contact: React.FC = () => {
   const t = useTranslation('contact');
   const tBase = useTranslation();
   const socialMedias = useSocialMedias();
 
-  const handleSend = (values: unknown) => {
-    console.log(values);
-  };
-
   const telephone = tBase('telephone');
   const email = tBase('email');
   const openHours = tBase('openHours');
+
+  const handleSend = (values: ContactForm) => {
+    if (!values.subject || !values.message) {
+      return;
+    }
+
+    let body = '';
+
+    if (values.name) {
+      body += `${t('giveUsAMessage.nameInput.placeholder')}: ${values.name}\n\r`;
+    }
+
+    if (values.email) {
+      body += `${t('giveUsAMessage.emailInput.placeholder')}: ${values.email}\n\r`;
+    }
+
+    if (values.phone) {
+      body += `${t('giveUsAMessage.phoneInput.placeholder')}: ${values.phone}\n\r`;
+    }
+
+    if (values.message) {
+      body += `${t('giveUsAMessage.messageInput.placeholder')}: ${values.message}\n\r`;
+    }
+
+    mailTo(email, { subject: values.subject, body: encodeURIComponent(body) });
+  };
 
   return (
     <Container styleConfig={{ gap: '2rem' }} lgStyle={{ gap: '10rem' }}>

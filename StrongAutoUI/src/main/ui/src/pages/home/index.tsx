@@ -7,7 +7,6 @@ import { useTranslation } from 'hooks';
 import { WhiteBackgroundContainer } from 'pages/common.styled';
 import BuyingACar from 'pages/home/BuyingACar';
 import FAQ from 'pages/home/Faq';
-import NewsLetterSubscription from 'pages/home/NewsLetterSubscription';
 import PopularMakes from 'pages/home/PopularMakes';
 import ProductsSection from 'pages/home/ProductsSection';
 import Reviews from 'pages/home/Reviews';
@@ -86,11 +85,11 @@ const Home: React.FC = () => {
 
       <WhyChooseUs />
       <Reviews />
-      <WhiteBackgroundContainer>
+      {/* <WhiteBackgroundContainer>
         <BoxAnimation>
           <NewsLetterSubscription />
         </BoxAnimation>
-      </WhiteBackgroundContainer>
+      </WhiteBackgroundContainer> */}
       <WhiteBackgroundContainer>
         <BoxAnimation>
           <FAQ />

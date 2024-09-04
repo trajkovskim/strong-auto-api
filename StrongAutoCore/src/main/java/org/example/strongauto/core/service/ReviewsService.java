@@ -1,10 +1,10 @@
 package org.example.strongauto.core.service;
 
-import org.example.strongauto.webclient.GoogleBusinessApiWebClient;
-import org.example.strongauto.webclient.model.reviews.Reviews;
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.converter.reviews.ReviewsConverter;
 import org.example.strongauto.core.model.dto.reviews.ReviewsDto;
+import org.example.strongauto.webclient.GooglePlacesApiWebClient;
+import org.example.strongauto.webclient.model.google.place.PlaceData;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 public class ReviewsService {
 
   private final ReviewsConverter reviewsConverter;
-  private final GoogleBusinessApiWebClient googleBusinessApiWebClient;
+  private final GooglePlacesApiWebClient googlePlacesApiWebClient;
 
-  public ReviewsDto getReviews() {
+  public ReviewsDto getReviews(String acceptLanguage) {
 
-    Reviews reviews = googleBusinessApiWebClient.getReviews().block();
+    PlaceData reviews = googlePlacesApiWebClient.getPlaceDataReviews(acceptLanguage).block();
 
     return reviewsConverter.convertReviews(reviews);
   }

@@ -3,5 +3,9 @@ spring:
     hibernate:
       ddl-auto: validate
 
-googleBuinessApi:
-  url: https://mybusiness.googleapis.com/v4
+google:
+  businessApi:
+    uri: https://mybusiness.googleapis.com/v4
+  placesApi:
+    defaultPlaceId: ChIJ8SSGZkn_qRQR0O1XSyLI_s8
+    uri: https://places.googleapis.com/v1

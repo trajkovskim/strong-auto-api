@@ -1,4 +1,4 @@
-import { VehicleImage, VehicleImageEmbeddedResponse, VehicleImageLinks } from 'generated/strongauto';
+import { VehicleImage, VehicleImageEmbeddedResponse } from 'generated/strongauto';
 import { TranslationFunction } from 'hooks';
 import { css } from 'styled-components';
 import theme, { Breakpoints, LARGEST_BREAKPOINT } from 'theme';
@@ -11,8 +11,18 @@ export const call = (tel: string) => {
   window.open(`tel:${tel}`);
 };
 
-export const mailTo = (emailTo: string) => {
-  window.open(`mailto:${emailTo}`, '_self');
+export const mailTo = (emailTo: string, otherParameters?: Record<string, string>) => {
+  if (!otherParameters) {
+    window.open(`mailto:${emailTo}`, '_self');
+    return;
+  }
+
+  window.open(
+    `mailto:${emailTo}?${Object.entries(otherParameters)
+      .map((entry) => entry.join('='))
+      .join('&')}`,
+    '_self'
+  );
 };
 
 export const formatNumber = (num: string | number, separator = ',') => {
@@ -102,6 +112,23 @@ export const getCssPropertyAsNumber = (el: HTMLElement | null, property: string)
 
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+};
+
+export const createKeyValueListFromTranslations = (
+  prefixKey: string,
+  t: TranslationFunction,
+  key = 'key',
+  value = 'value'
+) => {
+  const items: { key: string; value: string }[] = [];
+  const listPrefix = `${prefixKey}`;
+
+  const itemsPrefix = `${listPrefix}`;
+  for (let i = 0; !t(`${itemsPrefix}.${i}.${key}`).toString().endsWith(`${itemsPrefix}.${i}.${key}`); i++) {
+    items.push({ key: `${itemsPrefix}.${i}.${key}`, value: `${itemsPrefix}.${i}.${value}` });
+  }
+
+  return items;
 };
 
 export const createListFromTranslations = (prefixKey: string, t: TranslationFunction) => {

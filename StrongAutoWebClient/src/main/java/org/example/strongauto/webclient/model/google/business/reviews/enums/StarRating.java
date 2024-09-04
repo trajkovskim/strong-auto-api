@@ -1,4 +1,4 @@
-package org.example.strongauto.webclient.model.reviews.enums;
+package org.example.strongauto.webclient.model.google.business.reviews.enums;
 
 /**
  * Star rating.

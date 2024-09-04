@@ -1,6 +1,6 @@
 package org.example.strongauto.webclient;
 
-import org.example.strongauto.webclient.model.reviews.Reviews;
+import org.example.strongauto.webclient.model.google.business.reviews.Reviews;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;

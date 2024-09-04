@@ -116,7 +116,6 @@ const Filters: React.FC<Props> = (props) => {
     <Form
       initValues={props.filters}
       onSubmit={(values) => {
-        console.log(values);
         props.onClose && props.onClose();
         props.onSubmit && props.onSubmit(values);
       }}
