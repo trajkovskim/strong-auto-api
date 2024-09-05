@@ -1,4 +1,4 @@
-package org.example.strongauto.core.converter.reviews;
+package org.example.strongauto.webclient.converter;
 
 import org.example.strongauto.core.model.dto.reviews.ReviewDto;
 import org.example.strongauto.core.model.dto.reviews.ReviewsDto;

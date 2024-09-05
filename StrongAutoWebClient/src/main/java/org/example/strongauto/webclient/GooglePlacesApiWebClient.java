@@ -27,7 +27,6 @@ public class GooglePlacesApiWebClient {
     this.client = client;
   }
 
-  @Cacheable("reviews")
   public Mono<PlaceData> getPlaceDataReviews(String acceptLanguage) {
 
     return client.get()

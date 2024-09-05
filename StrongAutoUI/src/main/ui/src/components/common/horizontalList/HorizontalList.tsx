@@ -1,5 +1,11 @@
-import Button from 'components/common/Button';
 import Container, { ContainerBreakpointsProps } from 'components/common/Container';
+import {
+  HorizontalListChildrenWrapper,
+  HorizontalListWrapper,
+  HorizontalListWrapperProps,
+  StyledLeftArrowButton,
+  StyledRightArrowButton,
+} from 'components/common/horizontalList/HorizontalList.styled';
 import {
   HorizontalListModel,
   createHorizontalListHandlers,
@@ -7,96 +13,18 @@ import {
 } from 'components/common/horizontalList/horizontalListUtils';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
-import styled, { css } from 'styled-components';
-import theme from 'theme';
-
-type HorizontalListWrapperProps = {
-  className?: string;
-  centered?: boolean;
-  maxWidth?: string;
-};
-
-const arrowCss = css`
-  min-height: 5.25rem;
-  min-width: 2.125rem;
-  justify-content: center;
-  position: absolute;
-
-  top: 50%;
-  transform: translateY(-50%);
-
-  margin: auto;
-
-  display: none;
-
-  color: #fff;
-  :active,
-  :hover {
-    color: #fff;
-  }
-
-  @media (min-width: ${theme.breakpoints.minWidth.lg}) {
-    display: flex;
-  }
-`;
-
-const StyledLeftArrowButton = styled(Button)`
-  ${arrowCss};
-  left: 0;
-
-  border-top-right-radius: 7px;
-  border-bottom-right-radius: 7px;
-`;
-
-const StyledRightArrowButton = styled(Button)`
-  ${arrowCss};
-  right: 0;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-`;
-
-const HorizontalListWrapper = styled(Container)<HorizontalListWrapperProps>`
-  margin-left: ${(props) => props.maxWidth && `calc((100% - ${props.maxWidth}) / 2)`};
-  max-width: ${(props) => props.maxWidth && `calc(${props.maxWidth} + (100% - ${props.maxWidth}) / 2)`};
-  width: 100%;
-
-  @media (max-width: ${(props) => props.maxWidth}) {
-    margin-left: 0;
-  }
-
-  position: relative;
-
-  & > ${StyledLeftArrowButton}, & > ${StyledRightArrowButton} {
-    opacity: 0;
-  }
-
-  &:hover > ${StyledLeftArrowButton}, &:hover > ${StyledRightArrowButton} {
-    opacity: 1;
-  }
-`;
-
-const HorizontalListChildrenWrapper = styled(Container)`
-  & > * {
-    flex: 1 0 100%;
-    min-height: 100%;
-    width: 100%;
-
-    user-select: none;
-    transition: 200ms all;
-  }
-  overflow-x: hidden;
-`;
 
 type Props = React.PropsWithChildren &
   HorizontalListWrapperProps & {
-    noAutoScroll?: boolean;
+    autoScroll?: boolean;
     intervalMs?: number;
     chunkSize?: ContainerBreakpointsProps;
     gap?: React.CSSProperties['gap'];
     circular?: boolean;
+    arrows?: boolean;
   };
 
-const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, noAutoScroll: autoScroll, ...props }) => {
+const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, autoScroll, arrows, ...props }) => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null);
   const interval = useRef<number>();
   const horizontalList = useRef<HorizontalListModel>();
@@ -184,6 +112,8 @@ const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, noAutoScroll: aut
   return (
     <HorizontalListWrapper className={props.className} centered={props.centered} maxWidth={props.maxWidth}>
       <HorizontalListChildrenWrapper
+        ref={setRef}
+        styleConfig={{ direction: 'row', gap: props.gap, alignItems: 'center' }}
         onMouseUp={handleMouseUp}
         onMouseDown={() => horizontalListHandlers?.mouseDownHandler()}
         onTouchStart={(event) => horizontalListHandlers?.touchStartHandler(event)}
@@ -193,8 +123,6 @@ const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, noAutoScroll: aut
         onMouseEnter={() => horizontalListHandlers?.mouseEnterHandler()}
         onMouseLeave={() => horizontalListHandlers?.mouseLeaveHandler()}
         // onWheel={(event) => horizontalListHandlers?.wheelHandler(event)}
-        ref={setRef}
-        styleConfig={{ direction: 'row', gap: props.gap, alignItems: 'center' }}
       >
         {React.Children.map(props.children, (child, index) => {
           return (
@@ -207,20 +135,24 @@ const HorizontalList: React.FC<Props> = ({ intervalMs = 10000, noAutoScroll: aut
           );
         })}
       </HorizontalListChildrenWrapper>
-      <StyledLeftArrowButton
-        icon={<MdArrowBackIos />}
-        maxContent
-        iconSize="md"
-        themeType="link"
-        onClick={onBackButtonClick}
-      />
-      <StyledRightArrowButton
-        icon={<MdArrowForwardIos />}
-        maxContent
-        iconSize="md"
-        themeType="link"
-        onClick={onForwardButtonClick}
-      />
+      {arrows && (
+        <>
+          <StyledLeftArrowButton
+            icon={<MdArrowBackIos />}
+            maxContent
+            size="md"
+            themeType="link"
+            onClick={onBackButtonClick}
+          />
+          <StyledRightArrowButton
+            icon={<MdArrowForwardIos />}
+            maxContent
+            size="md"
+            themeType="link"
+            onClick={onForwardButtonClick}
+          />
+        </>
+      )}
     </HorizontalListWrapper>
   );
 };

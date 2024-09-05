@@ -24,12 +24,6 @@
       <artifactId>StrongAutoPersistence</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.example</groupId>
-      <artifactId>StrongAutoWebClient</artifactId>
-    </dependency>
-
-
     <!-- Utilities -->
     <dependency>
       <groupId>org.mapstruct</groupId>

@@ -25,6 +25,7 @@ const Home: React.FC = () => {
     <Container styleConfig={{ gap: '4rem', padding: { bottom: 'xl' } }} lgStyle={{ gap: '9rem' }}>
       <Container>
         <Carousel
+          arrows
           dots={false}
           onImageContainer={
             <Container styleConfig={{ gap: '3rem', padding: { top: 'xl', bottom: 'xl', left: 'md', right: 'md' } }}>

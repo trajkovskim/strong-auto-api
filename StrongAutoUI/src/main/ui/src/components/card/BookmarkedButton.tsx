@@ -8,6 +8,7 @@ type Props = {
 };
 
 const BookmarkedButton: React.FC<Props> = (props) => {
+  return null;
   return (
     <Button
       maxContent

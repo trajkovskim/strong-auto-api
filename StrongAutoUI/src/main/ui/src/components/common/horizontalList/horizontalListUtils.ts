@@ -5,7 +5,7 @@ enum DragDirection {
   RIGHT = 'right',
 }
 
-const overlapPercentToNextItem = 0.1;
+const overlapPercentToNextItem = 0.2;
 
 const percentByDirection = {
   [DragDirection.LEFT]: overlapPercentToNextItem,

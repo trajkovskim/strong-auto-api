@@ -23,7 +23,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.example</groupId>
       <artifactId>StrongAutoRest</artifactId>
@@ -39,6 +38,10 @@
     <dependency>
       <groupId>org.example</groupId>
       <artifactId>StrongAutoUI</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.example</groupId>
+      <artifactId>StrongAutoWebClient</artifactId>
     </dependency>
 
     <dependency>

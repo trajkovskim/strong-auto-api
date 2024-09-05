@@ -102,6 +102,10 @@ const Reviews: React.FC = () => {
   const t = useTranslation('home.reviews');
   const { fetch, reviews, loading } = useFetchReviews();
 
+  if (!reviews?.reviews) {
+    return null;
+  }
+
   return (
     <>
       <ElementIntersection onEnter={fetch}>

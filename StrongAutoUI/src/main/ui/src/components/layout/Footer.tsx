@@ -1,5 +1,5 @@
 import Logo from 'assets/logo.png';
-import { Button, Container, Image, Line, Text, Title } from 'components/common';
+import { Button, Container, Image, Text } from 'components/common';
 import { useSocialMedias, useTranslation } from 'hooks';
 import { EMAIL, OPEN_HOURS, PAGE_MAX_WIDTH, TELEPHONE } from 'pages/constants';
 import React from 'react';
@@ -38,19 +38,35 @@ const SocialMedias = styled(Container)`
 
 //   return (
 //     <Form onSubmit={handleSubmit}>
-//       <StyledNewsLetterFormContainer
+//       <Container
+//         xs={12}
 //         styleConfig={{
-//           padding: 'sm',
 //           direction: 'row',
+//           wrap: true,
+//           justifyContent: 'space-between',
 //           alignItems: 'center',
-//           gap: '0.5rem',
+//           gap: '2rem',
 //         }}
 //       >
-//         <Input fullwidth size="sm" type="email" placeholder={t('newsLetter.emailInput.placeholder')} noBorder />
-//         <Button type="submit" size="sm" maxContent>
-//           {t('newsLetter.subscribeButton')}
-//         </Button>
-//       </StyledNewsLetterFormContainer>
+//         <Container xs={12} lg="max-content">
+//           <Title title={t('newsLetter.title')} description={t('newsLetter.description')} fontSize="md" />
+//         </Container>
+//         <Container xs={12} lg="max-content">
+//           <StyledNewsLetterFormContainer
+//             styleConfig={{
+//               padding: 'sm',
+//               direction: 'row',
+//               alignItems: 'center',
+//               gap: '0.5rem',
+//             }}
+//           >
+//             <Input fullwidth size="sm" type="email" placeholder={t('newsLetter.emailInput.placeholder')} noBorder />
+//             <Button type="submit" size="sm" maxContent>
+//               {t('newsLetter.subscribeButton')}
+//             </Button>
+//           </StyledNewsLetterFormContainer>
+//         </Container>
+//       </Container>
 //     </Form>
 //   );
 // };
@@ -71,24 +87,6 @@ const Footer: React.FC = () => {
         xs={PAGE_MAX_WIDTH}
         styleConfig={{ centered: true, gap: '2rem', padding: { left: 'md', right: 'md', top: 'lg', bottom: 'lg' } }}
       >
-        <Container
-          xs={12}
-          styleConfig={{
-            direction: 'row',
-            wrap: true,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '2rem',
-          }}
-        >
-          <Container xs={12} lg="max-content">
-            <Title title={t('newsLetter.title')} description={t('newsLetter.description')} fontSize="md" />
-          </Container>
-          {/* <Container xs={12} lg="max-content">
-            <NewsletterForm />
-          </Container> */}
-        </Container>
-        <Line />
         <Container styleConfig={{ gap: '3rem', wrap: true, direction: 'row' }}>
           <Container xs={12} lg={3.5} styleConfig={{ gap: '2rem', itemsCentered: true }}>
             <Image alt="Logo" shadow objectFit="contain" width="200px" src={Logo} />
