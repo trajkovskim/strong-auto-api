@@ -2,7 +2,7 @@ package org.example.strongauto.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.strongauto.core.model.dto.reviews.ReviewsDto;
-import org.example.strongauto.core.spi.GoogleService;
+import org.example.strongauto.core.spi.GooglePlacesIntegrationService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ReviewsService {
 
-  private final GoogleService googleService;
+  private final GooglePlacesIntegrationService googleService;
 
   public ReviewsDto getReviews(String acceptLanguage) {
 

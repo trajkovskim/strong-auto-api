@@ -25,16 +25,16 @@ import org.example.strongauto.persistence.model.enums.Language;
 @NoArgsConstructor
 public class LocalizedText extends BaseEntity<Long> {
 
-  public static final String LOCALIZED_TEXT_TABLE_SEQUENCE = "localized_text_sequence_generator";
-  public static final String LOCALIZED_TEXT_TABLE_SEQUENCE_NAME = "localized_text_sequence";
+  public static final String TABLE_SEQUENCE = "localized_text_sequence_generator";
+  public static final String TABLE_SEQUENCE_NAME = "localized_text_sequence";
 
   @Id
   @SequenceGenerator(
-      name = LOCALIZED_TEXT_TABLE_SEQUENCE,
-      sequenceName = LOCALIZED_TEXT_TABLE_SEQUENCE_NAME,
+      name = TABLE_SEQUENCE,
+      sequenceName = TABLE_SEQUENCE_NAME,
       schema = RepositoryConstants.SCHEMA,
       allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = LOCALIZED_TEXT_TABLE_SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = TABLE_SEQUENCE)
   @Column(name = "id")
   private Long id;
 

@@ -27,7 +27,7 @@ public class VehicleResponseFactory {
 
   private final VehicleRestConverter vehicleRestConverter;
   private final LinksFactory linksFactory;
-  private final VehicleImageResponseFactory vehicleImageResponseFactory;
+  private final ImageResponseFactory imageResponseFactory;
 
   private SelfLink createVehicleSelfLink(Long id, String acceptLanguage) {
 
@@ -47,14 +47,14 @@ public class VehicleResponseFactory {
       String acceptLanguage,
       List<String> sortBy) {
 
-    VehiclesResponse vehiclesResponse = vehicleRestConverter.convertVehiclePage(vehicleEmbeddedPage, acceptLanguage);
+    VehiclesResponse vehiclesResponse = vehicleRestConverter.convertVehiclePage(vehicleEmbeddedPage);
 
     vehiclesResponse.getVehicles().forEach(vehicle -> {
 
       vehicle.getImages()
           .forEach(vehicleImage -> vehicleImage.links(
-              vehicleImageResponseFactory.createVehicleImageLinks(
-                  vehicle.getId(), vehicleImage.getId(), acceptLanguage)));
+              imageResponseFactory.createVehicleImageLinks(
+                  vehicle.getId(), vehicleImage.getId())));
 
       vehicle.links(createVehicleSelfLink(vehicle.getId(), acceptLanguage));
     });
@@ -68,12 +68,12 @@ public class VehicleResponseFactory {
 
   public VehicleResponse createVehicleResponse(VehicleDto vehicleDto, String acceptLanguage) {
 
-    VehicleResponse vehicleResponse = vehicleRestConverter.convertVehicle(vehicleDto, acceptLanguage);
+    VehicleResponse vehicleResponse = vehicleRestConverter.convertVehicle(vehicleDto);
 
     vehicleResponse.getImages()
         .forEach(vehicleImage -> vehicleImage.links(
-            vehicleImageResponseFactory.createVehicleImageLinks(
-                vehicleResponse.getId(), vehicleImage.getId(), acceptLanguage)));
+            imageResponseFactory.createVehicleImageLinks(
+                vehicleResponse.getId(), vehicleImage.getId())));
 
     return vehicleResponse
         .links(createVehicleSelfLink(vehicleDto.getId(), acceptLanguage));

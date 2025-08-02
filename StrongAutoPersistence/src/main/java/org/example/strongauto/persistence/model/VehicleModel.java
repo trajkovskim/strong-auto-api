@@ -1,16 +1,13 @@
 package org.example.strongauto.persistence.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.strongauto.persistence.model.constants.RepositoryConstants;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,4 +31,11 @@ public class VehicleModel extends BaseEntity<Long> {
 
   @Column(name = "model", nullable = false)
   private String model;
+
+  @JoinColumn(name = "make_id", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  private VehicleMake make;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "model")
+  private Set<VehicleVariant> variants = new HashSet<>();
 }

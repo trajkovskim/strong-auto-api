@@ -39,10 +39,6 @@
       <groupId>org.example</groupId>
       <artifactId>StrongAutoUI</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.example</groupId>
-      <artifactId>StrongAutoWebClient</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>

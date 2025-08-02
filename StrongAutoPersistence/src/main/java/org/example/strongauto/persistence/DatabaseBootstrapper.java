@@ -3,13 +3,7 @@ package org.example.strongauto.persistence;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.example.strongauto.persistence.model.LocalizedText;
-import org.example.strongauto.persistence.model.LocalizedTextList;
-import org.example.strongauto.persistence.model.Vehicle;
-import org.example.strongauto.persistence.model.VehicleFeature;
-import org.example.strongauto.persistence.model.VehicleImage;
-import org.example.strongauto.persistence.model.VehicleMake;
-import org.example.strongauto.persistence.model.VehicleModel;
+import org.example.strongauto.persistence.model.*;
 import org.example.strongauto.persistence.model.enums.Color;
 import org.example.strongauto.persistence.model.enums.Currency;
 import org.example.strongauto.persistence.model.enums.Language;
@@ -52,7 +46,7 @@ public class DatabaseBootstrapper {
   }
 
   @SneakyThrows
-  private Vehicle createVehicle(VehicleMake make, VehicleModel model, Set<VehicleFeature> features) {
+  private Vehicle createVehicle(VehicleVariant variant, Set<VehicleFeature> features) {
 
     LocalizedTextList title = new LocalizedTextList();
     title.setTextList(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK),
@@ -64,19 +58,14 @@ public class DatabaseBootstrapper {
     description.setTextList(Set.of(createLocalizedText("Опис", Language.MK),
         createLocalizedText("Description", Language.EN)));
 
+
     Vehicle vehicle = new Vehicle();
     vehicle.setTitle(title);
     vehicle.setSummary(summary);
     vehicle.setDescription(description);
-    vehicle.setMake(make);
-    vehicle.setModel(model);
+    vehicle.setVariant(variant);
     vehicle.setState(VehicleState.SOLD);
     vehicle.setCondition(VehicleCondition.NEW);
-    vehicle.setTransmission(VehicleTransmission.AUTOMATIC);
-    vehicle.setBodyType(VehicleBodyType.SEDAN);
-    vehicle.setDriveType(VehicleDriveType._2WD_FWD);
-    vehicle.setFuelType(VehicleFuelType.DIESEL);
-    vehicle.setEngineSize("2.0");
     vehicle.setYear(2010);
     vehicle.setMileage(150000);
     vehicle.setDoors(4);
@@ -140,6 +129,20 @@ public class DatabaseBootstrapper {
     vehicleFeature.setFeatureName(featureName);
 
     return vehicleFeature;
+  }
+
+  private VehicleVariant createVehicleVariant(VehicleMake make, VehicleModel model) {
+
+    VehicleVariant variant = new  VehicleVariant();
+    variant.setBodyType(VehicleBodyType.SEDAN);
+    variant.setDriveType(VehicleDriveType._2WD_FWD);
+    variant.setFuelType(VehicleFuelType.DIESEL);
+    variant.setEngineSize("2.0");
+    variant.setTransmission(VehicleTransmission.AUTOMATIC);
+    variant.setMake(make);
+    variant.setModel(model);
+
+    return variant;
   }
 
   @PostConstruct
@@ -220,19 +223,29 @@ public class DatabaseBootstrapper {
     VehicleFeature feature2 = createVehicleFeature("groupKey1", "featureKey2");
     VehicleFeature feature3 = createVehicleFeature("groupKey2", "featureKey1");
 
-    Vehicle vehicle1 = createVehicle(make.get("AUDI"), audiA4, Set.of(feature3));
+    VehicleVariant variant = new  VehicleVariant();
+    variant.setBodyType(VehicleBodyType.SEDAN);
+    variant.setDriveType(VehicleDriveType._2WD_FWD);
+    variant.setFuelType(VehicleFuelType.DIESEL);
+    variant.setEngineSize("2.0");
+    variant.setTransmission(VehicleTransmission.AUTOMATIC);
+    variant.setMake(make.get("AUDI"));
+    variant.setModel(audiA4);
 
-    Vehicle vehicle2 = createVehicle(make.get("AUDI"), audiA5, Set.of(feature1, feature2));
+    VehicleVariant variant1 = createVehicleVariant(make.get("AUDI"), audiA4);
+    Vehicle vehicle1 = createVehicle(variant1, Set.of(feature3));
+
+    VehicleVariant variant2 = createVehicleVariant(make.get("AUDI"), audiA5);
+    Vehicle vehicle2 = createVehicle(variant2, Set.of(feature1, feature2));
     vehicle2.setYear(2014);
 
-    Vehicle vehicle3 = createVehicle(make.get("BMW"), bmwX1, null);
+    VehicleVariant variant3 = createVehicleVariant(make.get("BMW"), bmwX1);
+    Vehicle vehicle3 = createVehicle(variant3, null);
     vehicle3.setState(VehicleState.FEATURED);
-    vehicle3.setBodyType(VehicleBodyType.SUV);
     vehicle3.setYear(2023);
 
-    Vehicle vehicle4 = createVehicle(null, null, null);
+    Vehicle vehicle4 = createVehicle(null, null);
     vehicle4.setState(VehicleState.FEATURED);
-    vehicle4.setBodyType(VehicleBodyType.TRUCK);
     vehicle4.setYear(2023);
 
     vehicleRepository.saveAllAndFlush(List.of(vehicle1, vehicle2, vehicle3, vehicle4));

@@ -25,16 +25,16 @@ import org.example.strongauto.persistence.model.constants.RepositoryConstants;
 @NoArgsConstructor
 public class VehicleFeature extends BaseEntity<Long> {
 
-  public static final String VEHICLE_FEATURE_TABLE_SEQUENCE = "vehicle_feature_sequence_generator";
-  public static final String VEHICLE_FEATURE_TABLE_SEQUENCE_NAME = "vehicle_feature_sequence";
+  public static final String TABLE_SEQUENCE = "vehicle_feature_sequence_generator";
+  public static final String TABLE_SEQUENCE_NAME = "vehicle_feature_sequence";
 
   @Id
   @SequenceGenerator(
-      name = VEHICLE_FEATURE_TABLE_SEQUENCE,
-      sequenceName = VEHICLE_FEATURE_TABLE_SEQUENCE_NAME,
+      name = TABLE_SEQUENCE,
+      sequenceName = TABLE_SEQUENCE_NAME,
       schema = RepositoryConstants.SCHEMA,
       allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = VEHICLE_FEATURE_TABLE_SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = TABLE_SEQUENCE)
   @Column(name = "id")
   private Long id;
 

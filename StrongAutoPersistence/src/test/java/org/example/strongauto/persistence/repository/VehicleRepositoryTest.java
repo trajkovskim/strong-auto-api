@@ -1,13 +1,7 @@
 package org.example.strongauto.persistence.repository;
 
 import lombok.SneakyThrows;
-import org.example.strongauto.persistence.model.LocalizedText;
-import org.example.strongauto.persistence.model.LocalizedTextList;
-import org.example.strongauto.persistence.model.Vehicle;
-import org.example.strongauto.persistence.model.VehicleFeature;
-import org.example.strongauto.persistence.model.VehicleImage;
-import org.example.strongauto.persistence.model.VehicleMake;
-import org.example.strongauto.persistence.model.VehicleModel;
+import org.example.strongauto.persistence.model.*;
 import org.example.strongauto.persistence.model.enums.Color;
 import org.example.strongauto.persistence.model.enums.Currency;
 import org.example.strongauto.persistence.model.enums.Language;
@@ -67,20 +61,30 @@ public class VehicleRepositoryTest {
   @Autowired
   private VehicleFeatureRefRepository vehicleFeatureRefRepository;
 
-  private Vehicle createVehicle(
-      LocalizedTextList title, VehicleMake make, VehicleModel model, Set<VehicleFeature> features) {
+  @Autowired
+  private VehicleVariantRepository vehicleVariantRepository;
+
+  private VehicleVariant createVehicleVariant(VehicleMake make, VehicleModel model) {
+
+    VehicleVariant variant = new VehicleVariant();
+    variant.setBodyType(VehicleBodyType.SEDAN);
+    variant.setDriveType(VehicleDriveType._2WD_FWD);
+    variant.setFuelType(VehicleFuelType.DIESEL);
+    variant.setEngineSize("2.0");
+    variant.setMake(make);
+    variant.setModel(model);
+    variant.setTransmission(VehicleTransmission.AUTOMATIC);
+
+    return variant;
+  }
+
+  private Vehicle createVehicle(LocalizedTextList title, VehicleVariant variant, Set<VehicleFeature> features) {
 
     Vehicle vehicle = new Vehicle();
     vehicle.setTitle(title);
-    vehicle.setMake(make);
-    vehicle.setModel(model);
+    vehicle.setVariant(variant);
     vehicle.setState(VehicleState.SOLD);
     vehicle.setCondition(VehicleCondition.NEW);
-    vehicle.setTransmission(VehicleTransmission.AUTOMATIC);
-    vehicle.setBodyType(VehicleBodyType.SEDAN);
-    vehicle.setDriveType(VehicleDriveType._2WD_FWD);
-    vehicle.setFuelType(VehicleFuelType.DIESEL);
-    vehicle.setEngineSize("2.0");
     vehicle.setYear(2010);
     vehicle.setMileage(150000);
     vehicle.setDoors(4);
@@ -168,9 +172,10 @@ public class VehicleRepositoryTest {
     vehicleFeatures.add(vehicleFeature1);
     vehicleFeatures.add(vehicleFeature2);
 
-    Vehicle saved = vehicleRepository.saveAndFlush(createVehicle(title, audi, audiB8, vehicleFeatures));
+    VehicleVariant variant = createVehicleVariant(audi, audiB8);
+    Vehicle saved = vehicleRepository.saveAndFlush(createVehicle(title, variant, vehicleFeatures));
 
-    Vehicle updateModel = createVehicle(title, audi, audiB8, new HashSet<>(Set.of(vehicleFeature2)));
+    Vehicle updateModel = createVehicle(title, variant, new HashSet<>(Set.of(vehicleFeature2)));
     updateModel.setId(saved.getId());
 
     // When
@@ -229,7 +234,8 @@ public class VehicleRepositoryTest {
     vehicleFeature2.setGroupName(feature1LocalizedTextList);
     vehicleFeature2.setFeatureName(feature1LocalizedTextList);
 
-    Vehicle vehicle = createVehicle(title, audi, audiB8, Set.of(vehicleFeature1, vehicleFeature2));
+    VehicleVariant variant1 = createVehicleVariant(audi, audiB8);
+    Vehicle vehicle = createVehicle(title, variant1, Set.of(vehicleFeature1, vehicleFeature2));
     vehicle.setDescription(title);
     vehicle.setSummary(title);
 
@@ -252,16 +258,17 @@ public class VehicleRepositoryTest {
         .first()
         .returns(titleMK.getText(), LocalizedText::getText);
 
-    assertThat(saved.getMake()).isNotNull().returns(audi.getMake(), VehicleMake::getMake);
+    assertThat(saved.getVariant().getMake()).isNotNull().returns(audi.getMake(), VehicleMake::getMake);
 
-    assertThat(saved.getModel()).isNotNull().returns(audiB8.getModel(), VehicleModel::getModel);
+    assertThat(saved.getVariant().getModel()).isNotNull().returns(audiB8.getModel(), VehicleModel::getModel);
+
+    assertThat(saved.getVariant()).returns(vehicle.getVariant().getBodyType(), VehicleVariant::getBodyType)
+        .returns(vehicle.getVariant().getFuelType(), VehicleVariant::getFuelType)
+        .returns(vehicle.getVariant().getEngineSize(), VehicleVariant::getEngineSize)
+        .returns(vehicle.getVariant().getTransmission(), VehicleVariant::getTransmission);
 
     assertThat(saved).returns(vehicle.getState(), Vehicle::getState)
         .returns(vehicle.getCondition(), Vehicle::getCondition)
-        .returns(vehicle.getTransmission(), Vehicle::getTransmission)
-        .returns(vehicle.getBodyType(), Vehicle::getBodyType)
-        .returns(vehicle.getFuelType(), Vehicle::getFuelType)
-        .returns(vehicle.getEngineSize(), Vehicle::getEngineSize)
         .returns(vehicle.getYear(), Vehicle::getYear)
         .returns(vehicle.getMileage(), Vehicle::getMileage)
         .returns(vehicle.getDoors(), Vehicle::getDoors)
@@ -359,23 +366,28 @@ public class VehicleRepositoryTest {
     VehicleFeature feature3 = createVehicleFeature("groupKey2", "featureKey1");
     vehicleFeatureRepository.saveAllAndFlush(Set.of(feature1, feature2, feature3));
 
-    Vehicle vehicle1 = createVehicle(title, audi, audiB8, Set.of(feature1, feature2));
+    VehicleVariant variant1 = createVehicleVariant(audi, audiB8);
+    Vehicle vehicle1 = createVehicle(title, variant1, Set.of(feature1, feature2));
 
-    Vehicle vehicle2 = createVehicle(title, audi, audiB9, Set.of(feature3));
-    vehicle2.setTransmission(VehicleTransmission.MANUAL);
+    VehicleVariant variant2 = createVehicleVariant(audi, audiB9);
+    variant2.setBodyType(VehicleBodyType.SUV);
+    variant2.setTransmission(VehicleTransmission.MANUAL);
+
+    Vehicle vehicle2 = createVehicle(title, variant2, Set.of(feature3));
     vehicle2.setYear(2014);
     vehicle2.setTotalAmount(13000.0);
 
-    Vehicle vehicle3 = createVehicle(title, bmw, bmwX1, Set.of(feature1));
+    VehicleVariant variant3 = createVehicleVariant(bmw, bmwX1);
+    variant3.setBodyType(VehicleBodyType.SUV);
+
+    Vehicle vehicle3 = createVehicle(title, variant3, Set.of(feature1));
     vehicle3.setState(VehicleState.FEATURED);
-    vehicle3.setBodyType(VehicleBodyType.SUV);
     vehicle3.setYear(2023);
     vehicle3.setTotalAmount(15000.0);
     vehicle3.setTotalPromoAmount(9000.0);
 
-    Vehicle vehicle4 = createVehicle(title, null, null, null);
+    Vehicle vehicle4 = createVehicle(title, null, null);
     vehicle4.setState(VehicleState.FEATURED);
-    vehicle4.setBodyType(VehicleBodyType.TRUCK);
     vehicle4.setYear(2023);
 
     vehicleRepository.saveAllAndFlush(Set.of(vehicle1, vehicle2, vehicle3, vehicle4));
@@ -407,7 +419,7 @@ public class VehicleRepositoryTest {
     LocalizedTextList title1 = new LocalizedTextList();
     title1.setTextList(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK)));
 
-    Vehicle vehicle1 = createVehicle(title1, null, null, null);
+    Vehicle vehicle1 = createVehicle(title1, null, null);
 
     VehicleImage vehicleImage1 = new VehicleImage();
     vehicleImage1.setName("name1");
@@ -419,7 +431,7 @@ public class VehicleRepositoryTest {
     LocalizedTextList title2 = new LocalizedTextList();
     title2.setTextList(Set.of(createLocalizedText("Audi B8 2.0 TDI", Language.MK)));
 
-    Vehicle vehicle2 = createVehicle(title2, null, null, null);
+    Vehicle vehicle2 = createVehicle(title2, null, null);
 
     VehicleImage vehicleImage2 = new VehicleImage();
     vehicleImage2.setName("name2");

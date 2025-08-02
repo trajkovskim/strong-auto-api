@@ -37,6 +37,16 @@ databaseChangeLog:
             incrementBy: 1
             startValue: 1
         - createSequence:
+            sequenceName: vehicle_variant_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
+            sequenceName: vehicle_variant_image_sequence
+            schemaName: strongauto
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
             sequenceName: vehicle_feature_sequence
             schemaName: strongauto
             incrementBy: 1
@@ -171,6 +181,8 @@ databaseChangeLog:
             onDelete: CASCADE
             onUpdate: CASCADE
         - createTable:
+            schemaName: strongauto
+            tableName: vehicle_variant
             columns:
               - column:
                   name: id
@@ -185,6 +197,67 @@ databaseChangeLog:
                   name: model_id
                   type: bigint
               - column:
+                  name: image_id
+                  type: bigint
+              - column:
+                  name: transmission
+                  type: varchar(255)
+              - column:
+                  name: body_type
+                  type: varchar(255)
+              - column:
+                  name: drive_type
+                  type: varchar(255)
+              - column:
+                  name: fuel_type
+                  type: varchar(255)
+              - column:
+                  name: engine_size
+                  type: varchar(255)
+              - column:
+                  name: engine_code
+                  type: varchar(255)
+              - column:
+                  name: kW
+                  type: integer
+              - column:
+                  name: year_from
+                  type: integer
+              - column:
+                  name: year_to
+                  type: integer
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_variant_vehicle_model
+            baseColumnNames: model_id
+            baseTableName: vehicle_variant
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: vehicle_model
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_variant_vehicle_make
+            baseColumnNames: make_id
+            baseTableName: vehicle_variant
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: vehicle_make
+            referencedTableSchemaName: strongauto
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: variant_id
+                  type: bigint
+              - column:
                   name: localized_title_ref_id
                   type: bigint
               - column:
@@ -197,19 +270,7 @@ databaseChangeLog:
                   name: state
                   type: varchar(255)
               - column:
-                  name: body_type
-                  type: varchar(255)
-              - column:
                   name: condition
-                  type: varchar(255)
-              - column:
-                  name: drive_type
-                  type: varchar(255)
-              - column:
-                  name: fuel_type
-                  type: varchar(255)
-              - column:
-                  name: transmission
                   type: varchar(255)
               - column:
                   name: color
@@ -223,9 +284,6 @@ databaseChangeLog:
               - column:
                   name: doors
                   type: integer
-              - column:
-                  name: engine_size
-                  type: varchar(255)
               - column:
                   name: total_amount
                   type: float(53)
@@ -268,21 +326,11 @@ databaseChangeLog:
             onDelete: CASCADE
             onUpdate: CASCADE
         - addForeignKeyConstraint:
-            constraintName: fk_vehicle_vehicle_make
-            baseColumnNames: make_id
+            constraintName: fk_vehicle_vehicle_variant
+            baseColumnNames: variant_id
             baseTableName: vehicle
             baseTableSchemaName: strongauto
-            referencedTableName: vehicle_make
-            referencedColumnNames: id
-            referencedTableSchemaName: strongauto
-            onDelete: SET NULL
-            onUpdate: CASCADE
-        - addForeignKeyConstraint:
-            constraintName: fk_vehicle_vehicle_model
-            baseColumnNames: model_id
-            baseTableName: vehicle
-            baseTableSchemaName: strongauto
-            referencedTableName: vehicle_model
+            referencedTableName: vehicle_variant
             referencedColumnNames: id
             referencedTableSchemaName: strongauto
             onDelete: SET NULL
@@ -361,6 +409,44 @@ databaseChangeLog:
             baseTableSchemaName: strongauto
             referencedColumnNames: id
             referencedTableName: vehicle
+            referencedTableSchemaName: strongauto
+            onUpdate: CASCADE
+            onDelete: CASCADE
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: blob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vehicle_variant_id
+                  type: bigint
+            schemaName: strongauto
+            tableName: vehicle_variant_image
+        - addForeignKeyConstraint:
+            constraintName: fk_vehicle_variant_image_vehicle
+            baseColumnNames: vehicle_variant_id
+            baseTableName: vehicle_variant_image
+            baseTableSchemaName: strongauto
+            referencedColumnNames: id
+            referencedTableName: vehicle_variant
             referencedTableSchemaName: strongauto
             onUpdate: CASCADE
             onDelete: CASCADE

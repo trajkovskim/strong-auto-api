@@ -26,17 +26,21 @@
         <module name="StrongAutoRest" />
         <module name="StrongAutoUI" />
         <module name="StrongAutoApp" />
-        <module name="StrongAutoWebClient" />
         <module name="StrongAutoPersistence" />
         <module name="StrongAutoRestApi" />
+        <module name="StrongAutoGooglePlacesIntegration" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="StrongAutoWebClient" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="StrongAuto" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="StrongAutoApp" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="StrongAutoCore" options="-parameters -Amapstruct.defaultComponentModel=spring" />
+      <module name="StrongAutoGooglePlacesIntegration" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="StrongAutoPersistence" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="StrongAutoRest" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="StrongAutoRestApi" options="-parameters -Amapstruct.defaultComponentModel=spring" />

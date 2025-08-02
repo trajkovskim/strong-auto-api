@@ -125,7 +125,7 @@ paths:
             $ref: '#/components/schemas/Id'
       responses:
         200:
-          $ref: "#/components/responses/VehicleImagesResponse"
+          $ref: "#/components/responses/ImagesResponse"
   /vehicles/{id}/images/{imageId}:
     get:
       operationId: getVehicleImageEntry
@@ -146,7 +146,7 @@ paths:
             $ref: "#/components/schemas/Id"
       responses:
         200:
-          $ref: "#/components/responses/VehicleImageResponse"
+          $ref: "#/components/responses/ImageResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
   /vehicles/{id}/images/{imageId}/binary:
@@ -169,7 +169,7 @@ paths:
             $ref: "#/components/schemas/Id"
       responses:
         200:
-          $ref: "#/components/responses/VehicleImageBinResponse"
+          $ref: "#/components/responses/ImageBinResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
   /vehicle-makes:
@@ -255,6 +255,23 @@ paths:
           $ref: "#/components/responses/NoContentResponse"
         404:
           $ref: "#/components/responses/NotFoundResponse"
+  /vehicle-variants:
+    get:
+      operationId: getVehicleVariantEntries
+      tags:
+        - vehicle-variant
+      parameters:
+        - $ref: "#/components/parameters/Accept-Language"
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleVariantsResponse"
+    post:
+      operationId: createVehicleVariantEntry
+      tags:
+        - vehicle-variant
+      responses:
+        200:
+          $ref: "#/components/responses/VehicleVariantRequest"
   /vehicle-features:
     get:
       operationId: getVehicleFeatureEntries
@@ -345,14 +362,14 @@ components:
       type: string
       format: byte
 
-    VehicleImageLinks:
+    ImageLinks:
       type: object
       properties:
         self:
           $ref: "#/components/schemas/Link"
         binary:
           $ref: "#/components/schemas/Link"
-    VehicleImageEmbedded:
+    ImageEmbedded:
       type: object
       required:
         - id
@@ -368,30 +385,30 @@ components:
         contentType:
           type: string
           example: "image/png"
-    VehicleImageEmbeddedResponse:
+    ImageEmbeddedResponse:
       allOf:
-        - $ref: "#/components/schemas/VehicleImageEmbedded"
+        - $ref: "#/components/schemas/ImageEmbedded"
         - type: object
           properties:
             links:
-              $ref: "#/components/schemas/VehicleImageLinks"
-    VehicleImage:
+              $ref: "#/components/schemas/ImageLinks"
+    Image:
       allOf:
-        - $ref: "#/components/schemas/VehicleImageEmbedded"
+        - $ref: "#/components/schemas/ImageEmbedded"
         - type: object
           required:
             - data
           properties:
             data:
               $ref: "#/components/schemas/Byte"
-    VehicleImageResponse:
+    ImageResponse:
       allOf:
-        - $ref: "#/components/schemas/VehicleImage"
+        - $ref: "#/components/schemas/Image"
         - type: object
           properties:
             links:
-              $ref: "#/components/schemas/VehicleImageLinks"
-    VehicleImagesResponse:
+              $ref: "#/components/schemas/ImageLinks"
+    ImagesResponse:
       type: object
       properties:
         info:
@@ -399,10 +416,10 @@ components:
         images:
           type: array
           items:
-            $ref: "#/components/schemas/VehicleImageResponse"
+            $ref: "#/components/schemas/ImageResponse"
         links:
           $ref: "#/components/schemas/PaginationLinks"
-    VehicleImageRequest:
+    ImageRequest:
       type: object
       properties:
         name:
@@ -425,7 +442,6 @@ components:
       format: int64
       description: Primary key
       example: 0
-
     VehicleState:
       type: string
       enum:
@@ -579,6 +595,51 @@ components:
             saving:
               $ref: "#/components/schemas/Decimal"
 
+    VehicleVariantRequest:
+      allOf:
+        - $ref: "#/components/schemas/VehicleVariant"
+    VehicleVariant:
+      type: object
+      properties:
+        make:
+          type: string
+          example: "Audi"
+        model:
+          type: string
+          example: "B8"
+        transmission:
+          $ref: "#/components/schemas/VehicleTransmission"
+        fuelType:
+          $ref: "#/components/schemas/VehicleFuelType"
+        driveType:
+          $ref: "#/components/schemas/VehicleDriveType"
+        kW:
+          type: integer
+          example: 105
+        horsePower:
+          type: integer
+          example: 143
+        engineSize:
+          type: string
+          example: "2.0"
+        engineCode:
+          type: string
+          example: "CAGA"
+        yearFrom:
+          $ref: "#/components/schemas/Year"
+        yearTo:
+          $ref: "#/components/schemas/Year"
+    VehicleVariantsResponse:
+      allOf:
+        - $ref: "#/components/schemas/PaginationLinks"
+        - $ref: "#/components/schemas/PageInfo"
+        - type: object
+          properties:
+            variants:
+              type: array
+              items:
+                $ref: "#/components/schemas/VehicleVariant"
+
     VehicleRequest:
       type: object
       required:
@@ -589,7 +650,7 @@ components:
         images:
           type: array
           items:
-            $ref: "#/components/schemas/VehicleImageRequest"
+            $ref: "#/components/schemas/ImageRequest"
         make:
           type: string
           example: "Audi"
@@ -602,22 +663,13 @@ components:
           $ref: "#/components/schemas/LocalizedTextList"
         summary:
           $ref: "#/components/schemas/LocalizedTextList"
-        transmission:
-          $ref: "#/components/schemas/VehicleTransmission"
-        fuelType:
-          $ref: "#/components/schemas/VehicleFuelType"
         mileage:
           type: integer
           example: 250000
         year:
           $ref: "#/components/schemas/Year"
-        driveType:
-          $ref: "#/components/schemas/VehicleDriveType"
         description:
           $ref: "#/components/schemas/LocalizedTextList"
-        engineSize:
-          type: string
-          example: "2.0"
         doors:
           type: integer
           example: 4
@@ -668,7 +720,7 @@ components:
         images:
           type: array
           items:
-            $ref: "#/components/schemas/VehicleImageEmbeddedResponse"
+            $ref: "#/components/schemas/ImageEmbeddedResponse"
         make:
           type: string
           example: "Audi"
@@ -937,19 +989,19 @@ components:
         links:
           $ref: "#/components/schemas/SelfLink"
   responses:
-    VehicleImagesResponse:
+    ImagesResponse:
       description: Vehicle image data
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/VehicleImagesResponse"
-    VehicleImageResponse:
+            $ref: "#/components/schemas/ImagesResponse"
+    ImageResponse:
       description: Vehicle image data
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/VehicleImageResponse"
-    VehicleImageBinResponse:
+            $ref: "#/components/schemas/ImageResponse"
+    ImageBinResponse:
       description: Vehicle image binary data
       content:
         image/jpeg:
@@ -958,6 +1010,12 @@ components:
         image/png:
           schema:
             $ref: "#/components/schemas/Byte"
+    VehicleVariantsResponse:
+      description: List of vehicle variant entries
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/VehicleVariantsResponse"
     VehicleFeaturesResponse:
       description: List of vehicle features entries
       content:

@@ -1,19 +1,11 @@
 package org.example.strongauto.rest.converter;
 
-import com.example.strongauto.rest.api.strongauto.model.VehicleEmbeddedResponse;
-import com.example.strongauto.rest.api.strongauto.model.VehicleFilters;
-import com.example.strongauto.rest.api.strongauto.model.VehicleRequest;
-import com.example.strongauto.rest.api.strongauto.model.VehicleResponse;
-import com.example.strongauto.rest.api.strongauto.model.VehiclesResponse;
-import org.example.strongauto.core.model.dto.PageInfoDto;
-import org.example.strongauto.core.model.dto.VehicleDto;
-import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
-import org.example.strongauto.core.model.dto.VehicleFiltersDto;
-import org.example.strongauto.core.model.dto.VehicleMakeDto;
-import org.example.strongauto.core.model.dto.VehicleModelDto;
-import org.mapstruct.Context;
+import com.example.strongauto.rest.api.strongauto.model.*;
+import org.example.strongauto.core.model.dto.*;
+import org.example.strongauto.core.model.enums.VehicleDriveTypeEnum;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ValueMapping;
 
 @Mapper(uses = LocalizedTextConverter.class)
 public interface VehicleRestConverter {
@@ -28,18 +20,28 @@ public interface VehicleRestConverter {
 
   @Mapping(target = "vehicles", source = "pageInfoDto.items")
   @Mapping(target = "info", source = ".")
-  VehiclesResponse convertVehiclePage(PageInfoDto<VehicleEmbeddedDto> pageInfoDto, @Context String language);
+  VehiclesResponse convertVehiclePage(PageInfoDto<VehicleEmbeddedDto> pageInfoDto);
+
+  @ValueMapping(target = "AWD_4_WD", source = "AWD_4WD")
+  @ValueMapping(target = "_2_WD_FWD", source = "_2WD_FWD")
+  @ValueMapping(target = "_2_WD_RWD", source = "_2WD_RWD")
+  VehicleDriveType convert(VehicleDriveTypeEnum vehicleDriveType);
+
+  @ValueMapping(target = "AWD_4WD", source = "AWD_4_WD")
+  @ValueMapping(target = "_2WD_FWD", source = "_2_WD_FWD")
+  @ValueMapping(target = "_2WD_RWD", source = "_2_WD_RWD")
+  VehicleDriveTypeEnum convert(VehicleDriveType vehicleDriveType);
 
   @Mapping(target = "make", source = "make.make")
   @Mapping(target = "model", source = "model.model")
-  VehicleEmbeddedResponse convertVehicle(VehicleEmbeddedDto vehicle, @Context String language);
+  VehicleEmbeddedResponse convertVehicle(VehicleEmbeddedDto vehicle);
 
-  @Mapping(target = "make", source = "make.make")
-  @Mapping(target = "model", source = "model.model")
-  VehicleResponse convertVehicle(VehicleDto vehicle, @Context String language);
+  @Mapping(target = "make", source = "variant.make.make")
+  @Mapping(target = "model", source = "variant.model.model")
+  VehicleResponse convertVehicle(VehicleDto vehicle);
 
-  @Mapping(target = "make", source = "make")
-  @Mapping(target = "model", source = "model")
+  @Mapping(target = "variant.make", source = "make")
+  @Mapping(target = "variant.model", source = "model")
   VehicleDto convertVehicle(VehicleRequest vehicleRequest);
 
   default VehicleMakeDto mapVehicleMake(String make) {

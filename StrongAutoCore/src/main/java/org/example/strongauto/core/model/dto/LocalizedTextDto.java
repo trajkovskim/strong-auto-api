@@ -11,7 +11,6 @@ import org.example.strongauto.core.model.enums.LanguageEnum;
 @Builder
 public class LocalizedTextDto {
 
-  private Long id;
   private LanguageEnum language;
   private String text;
 }

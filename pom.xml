@@ -22,7 +22,7 @@
     <module>StrongAutoCore</module>
     <module>StrongAutoPersistence</module>
     <module>StrongAutoUI</module>
-    <module>StrongAutoWebClient</module>
+    <module>StrongAutoGooglePlacesIntegration</module>
   </modules>
 
   <properties>
@@ -37,12 +37,22 @@
     <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 
+    <google-maps-places-bom.version>0.39.0</google-maps-places-bom.version>
+
     <!-- Plugins -->
     <frontend-maven-plugin.version>1.15.0</frontend-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.google.maps</groupId>
+        <artifactId>google-maps-places-bom</artifactId>
+        <version>${google-maps-places-bom.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
       <!-- Project dependencies -->
       <dependency>
         <groupId>org.example</groupId>
@@ -67,11 +77,6 @@
       <dependency>
         <groupId>org.example</groupId>
         <artifactId>StrongAutoCore</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.example</groupId>
-        <artifactId>StrongAutoWebClient</artifactId>
         <version>${project.version}</version>
       </dependency>
 

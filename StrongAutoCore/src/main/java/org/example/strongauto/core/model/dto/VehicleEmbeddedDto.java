@@ -19,8 +19,8 @@ public class VehicleEmbeddedDto {
 
   private Long id;
   private VehicleStateEnum state;
-  private LocalizedTextListDto title;
-  private LocalizedTextListDto summary;
+  private List<LocalizedTextDto> title;
+  private List<LocalizedTextDto> summary;
   private VehicleMakeDto make;
   private VehicleModelDto model;
   private VehicleTransmissionEnum transmission;
@@ -29,5 +29,5 @@ public class VehicleEmbeddedDto {
   private Integer mileage;
   private Integer year;
   private VehicleAmount amount;
-  private List<VehicleImageEmbeddedDto> images;
+  private List<ImageEmbeddedDto> images;
 }

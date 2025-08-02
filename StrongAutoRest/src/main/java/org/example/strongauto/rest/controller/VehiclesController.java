@@ -1,23 +1,14 @@
 package org.example.strongauto.rest.controller;
 
 import com.example.strongauto.rest.api.strongauto.VehiclesApi;
-import com.example.strongauto.rest.api.strongauto.model.CreatedResponse;
-import com.example.strongauto.rest.api.strongauto.model.VehicleFilters;
-import com.example.strongauto.rest.api.strongauto.model.VehicleImageResponse;
-import com.example.strongauto.rest.api.strongauto.model.VehicleImagesResponse;
-import com.example.strongauto.rest.api.strongauto.model.VehicleRequest;
-import com.example.strongauto.rest.api.strongauto.model.VehicleResponse;
-import com.example.strongauto.rest.api.strongauto.model.VehiclesResponse;
+import com.example.strongauto.rest.api.strongauto.model.*;
 import lombok.RequiredArgsConstructor;
-import org.example.strongauto.core.model.dto.PageInfoDto;
-import org.example.strongauto.core.model.dto.VehicleDto;
-import org.example.strongauto.core.model.dto.VehicleEmbeddedDto;
-import org.example.strongauto.core.model.dto.VehicleFiltersDto;
-import org.example.strongauto.core.model.dto.VehicleImageDto;
+import org.example.strongauto.core.model.dto.*;
+import org.example.strongauto.core.model.dto.ImageDto;
 import org.example.strongauto.core.service.VehicleImageService;
 import org.example.strongauto.core.service.VehicleService;
 import org.example.strongauto.rest.converter.VehicleRestConverter;
-import org.example.strongauto.rest.factory.VehicleImageResponseFactory;
+import org.example.strongauto.rest.factory.ImageResponseFactory;
 import org.example.strongauto.rest.factory.VehicleResponseFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +24,7 @@ public class VehiclesController implements VehiclesApi {
   private final VehicleRestConverter vehicleRestConverter;
   private final VehicleResponseFactory vehicleResponseFactory;
   private final VehicleImageService vehicleImageService;
-  private final VehicleImageResponseFactory vehicleImageResponseFactory;
+  private final ImageResponseFactory imageResponseFactory;
 
   @Override
   public ResponseEntity<VehicleResponse> getVehicleEntry(Long id, String acceptLanguage) {
@@ -90,24 +81,24 @@ public class VehiclesController implements VehiclesApi {
   }
 
   @Override
-  public ResponseEntity<VehicleImageResponse> getVehicleImageEntry(Long id, Long imageId, String acceptLanguage) {
+  public ResponseEntity<ImageResponse> getVehicleImageEntry(Long id, Long imageId, String acceptLanguage) {
 
-    VehicleImageDto vehicleImageDto = vehicleImageService.findById(imageId);
+    ImageDto imageDto = vehicleImageService.findById(imageId);
 
-    VehicleImageResponse vehicleImageResponse =
-        vehicleImageResponseFactory.createVehicleImageResponse(vehicleImageDto, id, imageId, acceptLanguage);
+    ImageResponse vehicleImageResponse =
+        imageResponseFactory.createImageResponse(imageDto, id, imageId);
 
     return ResponseEntity.ok(vehicleImageResponse);
   }
 
   @Override
-  public ResponseEntity<VehicleImagesResponse> getVehicleImageEntries(
+  public ResponseEntity<ImagesResponse> getVehicleImageEntries(
       Long id, String acceptLanguage, Integer page, Integer size, List<String> sortBy) {
 
-    PageInfoDto<VehicleImageDto> pageInfoDto = vehicleImageService.findAllPageable(id, page, size, sortBy);
+    PageInfoDto<ImageDto> pageInfoDto = vehicleImageService.findAllPageable(id, page, size, sortBy);
 
-    VehicleImagesResponse vehicleImagesResponse =
-        vehicleImageResponseFactory.createVehicleImagesResponse(id, pageInfoDto, acceptLanguage, sortBy);
+    ImagesResponse vehicleImagesResponse =
+        imageResponseFactory.createImagesResponse(id, pageInfoDto, sortBy);
 
     return ResponseEntity.ok(vehicleImagesResponse);
   }
@@ -115,10 +106,10 @@ public class VehiclesController implements VehiclesApi {
   @Override
   public ResponseEntity<byte[]> getVehicleImageBinaryEntry(Long id, Long imageId, String acceptLanguage) {
 
-    VehicleImageDto vehicleImageDto = vehicleImageService.findById(imageId);
+    ImageDto imageDto = vehicleImageService.findById(imageId);
 
-    byte[] imageData = vehicleImageDto.getData();
+    byte[] imageData = imageDto.getData();
 
-    return ResponseEntity.ok().contentType(MediaType.parseMediaType(vehicleImageDto.getContentType())).body(imageData);
+    return ResponseEntity.ok().contentType(MediaType.parseMediaType(imageDto.getContentType())).body(imageData);
   }
 }

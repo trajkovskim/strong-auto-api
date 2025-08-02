@@ -18,16 +18,17 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
   @Query("""
       select vehicle from Vehicle vehicle
-      left join vehicle.make vehicleMake
-      left join vehicle.model vehicleModel
+      left join vehicle.variant vehicleVariant
+      left join vehicle.variant.make vehicleMake
+      left join vehicle.variant.model vehicleModel
       where
-        (:#{#filters.make} is null or (vehicle.make is not null and vehicle.make.make = :#{#filters.make})) and
-        (:#{#filters.model} is null or (vehicle.model is not null and vehicle.model.model = :#{#filters.model})) and
-        (:#{#filters.fuelTypeAsList} is null or (vehicle.fuelType is not null and vehicle.fuelType in (:#{#filters.fuelTypeAsList}))) and
+        (:#{#filters.make} is null or (vehicle.variant.make is not null and vehicle.variant.make.make = :#{#filters.make})) and
+        (:#{#filters.model} is null or (vehicle.variant.model is not null and vehicle.variant.model.model = :#{#filters.model})) and
+        (:#{#filters.fuelTypeAsList} is null or (vehicleVariant.fuelType is not null and vehicleVariant.fuelType in (:#{#filters.fuelTypeAsList}))) and
         (:#{#filters.conditionAsList} is null or (vehicle.condition is not null and vehicle.condition in (:#{#filters.conditionAsList}))) and
-        (:#{#filters.transmissionAsList} is null or (vehicle.transmission is not null and vehicle.transmission in (:#{#filters.transmissionAsList}))) and
+        (:#{#filters.transmissionAsList} is null or (vehicle.variant.transmission is not null and vehicle.variant.transmission in (:#{#filters.transmissionAsList}))) and
         (:#{#filters.colorAsList} is null or (vehicle.color is not null and vehicle.color in (:#{#filters.colorAsList}))) and
-        (:#{#filters.bodyTypes} is null or (vehicle.bodyType is not null and vehicle.bodyType in (:#{#filters.bodyTypes}))) and
+        (:#{#filters.bodyTypes} is null or (vehicleVariant.bodyType is not null and vehicleVariant.bodyType in (:#{#filters.bodyTypes}))) and
         (:#{#filters.states} is null or (vehicle.state is not null and vehicle.state in (:#{#filters.states}))) and
         (:#{#filters.mileageFrom} is null or (vehicle.mileage is not null and vehicle.mileage >= :#{#filters.mileageFrom})) and
         (:#{#filters.mileageTo} is null or (vehicle.mileage is not null and vehicle.mileage <= :#{#filters.mileageTo})) and
